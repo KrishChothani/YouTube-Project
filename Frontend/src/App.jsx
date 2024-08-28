@@ -3,13 +3,14 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import axios from 'axios'
 import './App.css'
+import EmptyVideoPage from './Components/EmptyVideoPage'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <h1>Connect Frontend + Backend</h1>
+      <EmptyVideoPage/>
     </>
   )
 }
