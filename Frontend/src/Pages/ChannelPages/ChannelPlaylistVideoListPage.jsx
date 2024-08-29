@@ -1,17 +1,20 @@
-import React, { useEffect, useState } from "react";
-import Header from "../Components/Header/Header";
-import Left_Header from "../Components/Left_Header/Left_Header";
-import axios from 'axios';
-import AllVideoMiddleSection from "../Components/allVideoMiddleSection";
+import React from 'react'
+import Header from '../../Components/Header/Header';
+import Left_Header from '../../Components/Left_Header/Left_Header';
+import ChannelPlayListVideo from '../../Components/ChannelPlayListVideo';
 
-function HomePage() {
-  
+function ChannelPlaylistVideoListPage() {
   return (
     <>
       <link
         rel="preload"
         as="image"
         href="https://images.pexels.com/photos/3561339/pexels-photo-3561339.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+      />
+      <link
+        rel="preload"
+        as="image"
+        href="https://images.pexels.com/photos/18264716/pexels-photo-18264716/free-photo-of-man-people-laptop-internet.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
       />
       <link
         rel="preload"
@@ -96,11 +99,6 @@ function HomePage() {
       <link
         rel="preload"
         as="image"
-        href="https://images.pexels.com/photos/18264716/pexels-photo-18264716/free-photo-of-man-people-laptop-internet.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-      />
-      <link
-        rel="preload"
-        as="image"
         href="https://images.pexels.com/photos/1144250/pexels-photo-1144250.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
       />
       <link
@@ -113,16 +111,15 @@ function HomePage() {
         as="image"
         href="https://images.pexels.com/photos/1115808/pexels-photo-1115808.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
       />
-      <div className="h-screen overflow-y-auto bg-[#121212] text-white">
-        <Header />
-        
-        <div className="flex min-h-[calc(100vh-66px)] sm:min-h-[calc(100vh-82px)]">
+      <div class="h-screen overflow-y-auto bg-[#121212] text-white">
+       <Header />
+        <div class="flex min-h-[calc(100vh-66px)] sm:min-h-[calc(100vh-82px)]">
           <Left_Header />
-          <AllVideoMiddleSection />
+          <ChannelPlayListVideo />
         </div>
       </div>
     </>
   );
 }
 
-export default HomePage;
+export default ChannelPlaylistVideoListPage
