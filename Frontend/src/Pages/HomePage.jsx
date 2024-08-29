@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Header from "./Header/Header";
-import Left_Header from "./Left_Header/Left_Header";
+import Header from "../Components/Header/Header";
+import Left_Header from "../Components/Left_Header/Left_Header";
 
 function HomePage() {
   const [video, setvideo] = useState([])

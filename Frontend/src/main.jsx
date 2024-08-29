@@ -2,8 +2,8 @@ import React from 'react'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ReactDom from 'react-dom/client';
-import HomePage from "./Components/HomePage.jsx";
-import VideoDetailPage from './Components/VideoDetailPage.jsx'
+import HomePage from "./Pages/HomePage.jsx";
+import VideoDetailPage from './Pages/VideoDetailPage.jsx'
 
 const router = createBrowserRouter([
   {
