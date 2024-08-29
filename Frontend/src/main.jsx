@@ -9,6 +9,8 @@ import ChannelVideoListPage from './Pages/ChannelPages/ChannelVideoListPage.jsx'
 import ChannelPlaylistListPage from './Pages/ChannelPages/ChannelPlaylistListPage.jsx';
 import ChannelPlaylistVideoListPage from './Pages/ChannelPages/ChannelPlaylistVideoListPage.jsx';
 import ChannelTweetsListPage from './Pages/ChannelPages/ChannelTweetsListPage.jsx';
+import LoginPage from './Pages/LoginPage.jsx';
+import RegistrationPage from './Pages/RegistrationPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -39,6 +41,14 @@ const router = createBrowserRouter([
     path: "/channeltweet",
     element: <ChannelTweetsListPage />,
   },
+  {
+    path: "/login",
+    element: <LoginPage />,
+  },
+  {
+    path: "/register",
+    element: <RegistrationPage />
+  }
 ]);
 
 ReactDom.createRoot(document.getElementById("root")).render(

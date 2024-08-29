@@ -1,6 +1,32 @@
 import React from 'react'
-
+import { useState } from 'react';
+import { useEffect } from 'react';
+import axios from 'axios';
 function AllVideoMiddleSection() {
+    //   const [videos, setVideos] = useState([]);
+    //   const [loading, setLoading] = useState(true);
+    //   const [error, setError] = useState(null);
+
+    //   useEffect(() => {
+    //     const fetchVideos = async () => {
+    //       try {
+    //         const response = await axios.get("/api/v1/videos", {
+    //           withCredentials: true, // Include credentials if needed
+    //         });
+    //         setVideos(response.data.data);
+    //         console.log(videos) // Assuming the response has a `data` field with videos
+    //       } catch (err) {
+    //         setError(err.message || "Failed to fetch videos");
+    //       } finally {
+    //         setLoading(false);
+    //       }
+    //     };
+
+    //     fetchVideos();
+    //   }, []);
+
+    //   if (loading) return <p>Loading videos...</p>;
+    //   if (error) return <p>Error: {error}</p>;
   return (
     <>
       <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
