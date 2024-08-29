@@ -1,8 +1,6 @@
-/** @format */
-
 import React from "react";
 
-function EmptyVideoPage() {
+function HomePage() {
   return (
     <>
       <div className="h-screen overflow-y-auto bg-[#121212] text-white">
@@ -532,4 +530,4 @@ function EmptyVideoPage() {
   );
 }
 
-export default EmptyVideoPage;
+export default HomePage;
