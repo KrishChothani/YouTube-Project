@@ -3,9 +3,9 @@ import React from 'react'
 function Registration() {
   return (
     <>
-      <div class="h-screen overflow-y-auto bg-[#121212] text-white">
-        <div class="mx-auto my-8 flex w-full max-w-sm flex-col px-4">
-          <div class="mx-auto inline-block w-16">
+      <div className="h-screen overflow-y-auto bg-[#121212] text-white">
+        <div className="mx-auto my-8 flex w-full max-w-sm flex-col px-4">
+          <div className="mx-auto inline-block w-16">
             <svg
               style={{ width: "100%" }}
               viewBox="0 0 63 64"
@@ -60,19 +60,19 @@ function Registration() {
               </defs>
             </svg>
           </div>
-          <div class="mb-6 w-full text-center text-2xl font-semibold uppercase">
+          <div className="mb-6 w-full text-center text-2xl font-semibold uppercase">
             Play
           </div>
-          <label for="email" class="mb-1 inline-block text-gray-300">
+          <label htmlFor="email" className="mb-1 inline-block text-gray-300">
             Email*
           </label>
           <input
             id="email"
             type="email"
             placeholder="Enter your email"
-            class="mb-4 rounded-lg border bg-transparent px-3 py-2"
+            className="mb-4 rounded-lg border bg-transparent px-3 py-2"
           />
-          <button class="bg-[#ae7aff] px-4 py-3 text-black">
+          <button className="bg-[#ae7aff] px-4 py-3 text-black">
             Sign Up with Email
           </button>
         </div>

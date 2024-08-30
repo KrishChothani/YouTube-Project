@@ -11,6 +11,11 @@ import ChannelPlaylistVideoListPage from './Pages/ChannelPages/ChannelPlaylistVi
 import ChannelTweetsListPage from './Pages/ChannelPages/ChannelTweetsListPage.jsx';
 import LoginPage from './Pages/LoginPage.jsx';
 import RegistrationPage from './Pages/RegistrationPage.jsx';
+import UploadVideoPage from './Pages/UploadVideoPage.jsx';
+import UploadingVideoModelPopup from './Pages/UploadingVideoModelPopup.jsx';
+import EditPersonalDetailPage from './Pages/ChannelEditPages/EditPersonalDetailPage.jsx';
+import EditChannelDetailPage from './Pages/ChannelEditPages/EditChannelDetailPage.jsx';
+import EditPasswordPage from './Pages/ChannelEditPages/EditPasswordPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -48,6 +53,26 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <RegistrationPage />
+  },
+  {
+    path: "/uploadvideo",
+    element: <UploadVideoPage />
+  },
+  {
+    path :"/uploadingvideo",
+    element: <UploadingVideoModelPopup />
+  },
+  {
+    path : "/personalInfoEdit",
+    element: <EditPersonalDetailPage />
+  },
+  {
+    path :"/channelInfoEdit",
+    element: <EditChannelDetailPage />
+  },
+  {
+    path :"/editpassword",
+    element: <EditPasswordPage />
   }
 ]);
 

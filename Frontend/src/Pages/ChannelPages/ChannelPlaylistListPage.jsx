@@ -44,13 +44,13 @@ function ChannelPlaylistListPage() {
         as="image"
         href="https://images.pexels.com/photos/1144260/pexels-photo-1144260.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
       />
-      <div class="h-screen overflow-y-auto bg-[#121212] text-white">
+      <div className="h-screen overflow-y-auto bg-[#121212] text-white">
         <Header />
-        <div class="flex min-h-[calc(100vh-66px)] sm:min-h-[calc(100vh-82px)]">
+        <div className="flex min-h-[calc(100vh-66px)] sm:min-h-[calc(100vh-82px)]">
           <Left_Header />
-          <section class="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
+          <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
             <CoverImage />
-            <div class="px-4 pb-4">
+            <div className="px-4 pb-4">
               <AvatarAndChannelDetail />
               <ChannelPageListSelection />
               <ChannelPlaylist />

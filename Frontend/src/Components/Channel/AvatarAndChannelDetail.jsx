@@ -3,23 +3,23 @@ import React from 'react'
 function AvatarAndChannelDetail() {
   return (
     <>
-      <div class="flex flex-wrap gap-4 pb-4 pt-6">
-        <span class="relative -mt-12 inline-block h-28 w-28 shrink-0 overflow-hidden rounded-full border-2">
+      <div className="flex flex-wrap gap-4 pb-4 pt-6">
+        <span className="relative -mt-12 inline-block h-28 w-28 shrink-0 overflow-hidden rounded-full border-2">
           <img
             src="https://images.pexels.com/photos/1115816/pexels-photo-1115816.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
             alt="Channel"
-            class="h-full w-full"
+            className="h-full w-full"
           />
         </span>
-        <div class="mr-auto inline-block">
-          <h1 class="font-bolg text-xl">React Patterns</h1>
-          <p class="text-sm text-gray-400">@reactpatterns</p>
-          <p class="text-sm text-gray-400">600k Subscribers · 220 Subscribed</p>
+        <div className="mr-auto inline-block">
+          <h1 className="font-bolg text-xl">React Patterns</h1>
+          <p className="text-sm text-gray-400">@reactpatterns</p>
+          <p className="text-sm text-gray-400">600k Subscribers · 220 Subscribed</p>
         </div>
-        <div class="inline-block">
-          <div class="inline-flex min-w-[145px] justify-end">
-            <button class="group/btn mr-1 flex w-full items-center gap-x-2 bg-[#ae7aff] px-3 py-2 text-center font-bold text-black shadow-[5px_5px_0px_0px_#4f4e4e] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e] sm:w-auto">
-              <span class="inline-block w-5">
+        <div className="inline-block">
+          <div className="inline-flex min-w-[145px] justify-end">
+            <button className="group/btn mr-1 flex w-full items-center gap-x-2 bg-[#ae7aff] px-3 py-2 text-center font-bold text-black shadow-[5px_5px_0px_0px_#4f4e4e] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e] sm:w-auto">
+              <span className="inline-block w-5">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -35,8 +35,8 @@ function AvatarAndChannelDetail() {
                   ></path>
                 </svg>
               </span>
-              <span class="group-focus/btn:hidden">Subscribe</span>
-              <span class="hidden group-focus/btn:block">Subscribed</span>
+              <span className="group-focus/btn:hidden">Subscribe</span>
+              <span className="hidden group-focus/btn:block">Subscribed</span>
             </button>
           </div>
         </div>

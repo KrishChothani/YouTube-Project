@@ -3,29 +3,29 @@ import React from 'react'
 function ChannelTweet() {
   return (
     <>
-      <div class="py-4">
-        <div class="flex gap-3 border-b border-gray-700 py-4 last:border-b-transparent">
-          <div class="h-14 w-14 shrink-0">
+      <div className="py-4">
+        <div className="flex gap-3 border-b border-gray-700 py-4 last:border-b-transparent">
+          <div className="h-14 w-14 shrink-0">
             <img
               src="https://images.pexels.com/photos/1115816/pexels-photo-1115816.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
               alt="React Patterns"
-              class="h-full w-full rounded-full"
+              className="h-full w-full rounded-full"
             />
           </div>
-          <div class="w-full">
-            <h4 class="mb-1 flex items-center gap-x-2">
-              <span class="font-semibold">React Patterns</span> 
-              <span class="inline-block text-sm text-gray-400">
+          <div className="w-full">
+            <h4 className="mb-1 flex items-center gap-x-2">
+              <span className="font-semibold">React Patterns</span> 
+              <span className="inline-block text-sm text-gray-400">
                 5 hours ago
               </span>
             </h4>
-            <p class="mb-2">
+            <p className="mb-2">
               Exploring the latest features in JavaScript ES11! The language
               keeps evolving. 💡 #JavaScript #ES11
             </p>
-            <div class="flex gap-4">
+            <div className="flex gap-4">
               <button
-                class="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-like-count)] focus:after:content-[attr(data-like-count-alt)]"
+                className="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-like-count)] focus:after:content-[attr(data-like-count-alt)]"
                 data-like-count="425"
                 data-like-count-alt="424"
               >
@@ -36,7 +36,7 @@ function ChannelTweet() {
                   stroke-width="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
-                  class="h-5 w-5 text-[#ae7aff] group-focus:text-inherit"
+                  className="h-5 w-5 text-[#ae7aff] group-focus:text-inherit"
                 >
                   <path
                     stroke-linecap="round"
@@ -46,7 +46,7 @@ function ChannelTweet() {
                 </svg>
               </button>
               <button
-                class="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-dislike-count)] focus:after:content-[attr(data-dislike-count-alt)]"
+                className="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-dislike-count)] focus:after:content-[attr(data-dislike-count-alt)]"
                 data-dislike-count="87"
                 data-dislike-count-alt="88"
               >
@@ -57,7 +57,7 @@ function ChannelTweet() {
                   stroke-width="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
-                  class="h-5 w-5 text-inherit group-focus:text-[#ae7aff]"
+                  className="h-5 w-5 text-inherit group-focus:text-[#ae7aff]"
                 >
                   <path
                     stroke-linecap="round"
@@ -69,28 +69,28 @@ function ChannelTweet() {
             </div>
           </div>
         </div>
-        <div class="flex gap-3 border-b border-gray-700 py-4 last:border-b-transparent">
-          <div class="h-14 w-14 shrink-0">
+        <div className="flex gap-3 border-b border-gray-700 py-4 last:border-b-transparent">
+          <div className="h-14 w-14 shrink-0">
             <img
               src="https://images.pexels.com/photos/1115816/pexels-photo-1115816.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
               alt="React Patterns"
-              class="h-full w-full rounded-full"
+              className="h-full w-full rounded-full"
             />
           </div>
-          <div class="w-full">
-            <h4 class="mb-1 flex items-center gap-x-2">
-              <span class="font-semibold">React Patterns</span> 
-              <span class="inline-block text-sm text-gray-400">
+          <div className="w-full">
+            <h4 className="mb-1 flex items-center gap-x-2">
+              <span className="font-semibold">React Patterns</span> 
+              <span className="inline-block text-sm text-gray-400">
                 6 hours ago
               </span>
             </h4>
-            <p class="mb-2">
+            <p className="mb-2">
               Embracing the benefits of TypeScript for stronger, more reliable
               code. 🚀 #TypeScript #Programming
             </p>
-            <div class="flex gap-4">
+            <div className="flex gap-4">
               <button
-                class="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-like-count)] focus:after:content-[attr(data-like-count-alt)]"
+                className="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-like-count)] focus:after:content-[attr(data-like-count-alt)]"
                 data-like-count="425"
                 data-like-count-alt="426"
               >
@@ -101,7 +101,7 @@ function ChannelTweet() {
                   stroke-width="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
-                  class="h-5 w-5 text-inherit group-focus:text-[#ae7aff]"
+                  className="h-5 w-5 text-inherit group-focus:text-[#ae7aff]"
                 >
                   <path
                     stroke-linecap="round"
@@ -111,7 +111,7 @@ function ChannelTweet() {
                 </svg>
               </button>
               <button
-                class="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-dislike-count)] focus:after:content-[attr(data-dislike-count-alt)]"
+                className="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-dislike-count)] focus:after:content-[attr(data-dislike-count-alt)]"
                 data-dislike-count="87"
                 data-dislike-count-alt="88"
               >
@@ -122,7 +122,7 @@ function ChannelTweet() {
                   stroke-width="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
-                  class="h-5 w-5 text-inherit group-focus:text-[#ae7aff]"
+                  className="h-5 w-5 text-inherit group-focus:text-[#ae7aff]"
                 >
                   <path
                     stroke-linecap="round"
@@ -134,28 +134,28 @@ function ChannelTweet() {
             </div>
           </div>
         </div>
-        <div class="flex gap-3 border-b border-gray-700 py-4 last:border-b-transparent">
-          <div class="h-14 w-14 shrink-0">
+        <div className="flex gap-3 border-b border-gray-700 py-4 last:border-b-transparent">
+          <div className="h-14 w-14 shrink-0">
             <img
               src="https://images.pexels.com/photos/1115816/pexels-photo-1115816.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
               alt="React Patterns"
-              class="h-full w-full rounded-full"
+              className="h-full w-full rounded-full"
             />
           </div>
-          <div class="w-full">
-            <h4 class="mb-1 flex items-center gap-x-2">
-              <span class="font-semibold">React Patterns</span> 
-              <span class="inline-block text-sm text-gray-400">
+          <div className="w-full">
+            <h4 className="mb-1 flex items-center gap-x-2">
+              <span className="font-semibold">React Patterns</span> 
+              <span className="inline-block text-sm text-gray-400">
                 7 hours ago
               </span>
             </h4>
-            <p class="mb-2">
+            <p className="mb-2">
               Styling made easy with Tailwind CSS! Rapidly build beautiful,
               responsive interfaces. 🎨 #TailwindCSS #WebDev
             </p>
-            <div class="flex gap-4">
+            <div className="flex gap-4">
               <button
-                class="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-like-count)] focus:after:content-[attr(data-like-count-alt)]"
+                className="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-like-count)] focus:after:content-[attr(data-like-count-alt)]"
                 data-like-count="425"
                 data-like-count-alt="426"
               >
@@ -166,7 +166,7 @@ function ChannelTweet() {
                   stroke-width="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
-                  class="h-5 w-5 text-inherit group-focus:text-[#ae7aff]"
+                  className="h-5 w-5 text-inherit group-focus:text-[#ae7aff]"
                 >
                   <path
                     stroke-linecap="round"
@@ -176,7 +176,7 @@ function ChannelTweet() {
                 </svg>
               </button>
               <button
-                class="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-dislike-count)] focus:after:content-[attr(data-dislike-count-alt)]"
+                className="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-dislike-count)] focus:after:content-[attr(data-dislike-count-alt)]"
                 data-dislike-count="87"
                 data-dislike-count-alt="88"
               >
@@ -187,7 +187,7 @@ function ChannelTweet() {
                   stroke-width="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
-                  class="h-5 w-5 text-inherit group-focus:text-[#ae7aff]"
+                  className="h-5 w-5 text-inherit group-focus:text-[#ae7aff]"
                 >
                   <path
                     stroke-linecap="round"
@@ -199,28 +199,28 @@ function ChannelTweet() {
             </div>
           </div>
         </div>
-        <div class="flex gap-3 border-b border-gray-700 py-4 last:border-b-transparent">
-          <div class="h-14 w-14 shrink-0">
+        <div className="flex gap-3 border-b border-gray-700 py-4 last:border-b-transparent">
+          <div className="h-14 w-14 shrink-0">
             <img
               src="https://images.pexels.com/photos/1115816/pexels-photo-1115816.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
               alt="React Patterns"
-              class="h-full w-full rounded-full"
+              className="h-full w-full rounded-full"
             />
           </div>
-          <div class="w-full">
-            <h4 class="mb-1 flex items-center gap-x-2">
-              <span class="font-semibold">React Patterns</span> 
-              <span class="inline-block text-sm text-gray-400">
+          <div className="w-full">
+            <h4 className="mb-1 flex items-center gap-x-2">
+              <span className="font-semibold">React Patterns</span> 
+              <span className="inline-block text-sm text-gray-400">
                 8 hours ago
               </span>
             </h4>
-            <p class="mb-2">
+            <p className="mb-2">
               Building dynamic user interfaces with React! The go-to library for
               modern web development. 🚀 #React #WebDev
             </p>
-            <div class="flex gap-4">
+            <div className="flex gap-4">
               <button
-                class="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-like-count)] focus:after:content-[attr(data-like-count-alt)]"
+                className="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-like-count)] focus:after:content-[attr(data-like-count-alt)]"
                 data-like-count="425"
                 data-like-count-alt="424"
               >
@@ -231,7 +231,7 @@ function ChannelTweet() {
                   stroke-width="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
-                  class="h-5 w-5 text-[#ae7aff] group-focus:text-inherit"
+                  className="h-5 w-5 text-[#ae7aff] group-focus:text-inherit"
                 >
                   <path
                     stroke-linecap="round"
@@ -241,7 +241,7 @@ function ChannelTweet() {
                 </svg>
               </button>
               <button
-                class="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-dislike-count)] focus:after:content-[attr(data-dislike-count-alt)]"
+                className="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-dislike-count)] focus:after:content-[attr(data-dislike-count-alt)]"
                 data-dislike-count="87"
                 data-dislike-count-alt="88"
               >
@@ -252,7 +252,7 @@ function ChannelTweet() {
                   stroke-width="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
-                  class="h-5 w-5 text-inherit group-focus:text-[#ae7aff]"
+                  className="h-5 w-5 text-inherit group-focus:text-[#ae7aff]"
                 >
                   <path
                     stroke-linecap="round"
@@ -264,28 +264,28 @@ function ChannelTweet() {
             </div>
           </div>
         </div>
-        <div class="flex gap-3 border-b border-gray-700 py-4 last:border-b-transparent">
-          <div class="h-14 w-14 shrink-0">
+        <div className="flex gap-3 border-b border-gray-700 py-4 last:border-b-transparent">
+          <div className="h-14 w-14 shrink-0">
             <img
               src="https://images.pexels.com/photos/1115816/pexels-photo-1115816.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
               alt="React Patterns"
-              class="h-full w-full rounded-full"
+              className="h-full w-full rounded-full"
             />
           </div>
-          <div class="w-full">
-            <h4 class="mb-1 flex items-center gap-x-2">
-              <span class="font-semibold">React Patterns</span> 
-              <span class="inline-block text-sm text-gray-400">
+          <div className="w-full">
+            <h4 className="mb-1 flex items-center gap-x-2">
+              <span className="font-semibold">React Patterns</span> 
+              <span className="inline-block text-sm text-gray-400">
                 9 hours ago
               </span>
             </h4>
-            <p class="mb-2">
+            <p className="mb-2">
               Next.js makes server-side rendering a breeze! Boost your React
               app&#x27;s performance with ease. 🚀 #Nextjs #React
             </p>
-            <div class="flex gap-4">
+            <div className="flex gap-4">
               <button
-                class="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-like-count)] focus:after:content-[attr(data-like-count-alt)]"
+                className="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-like-count)] focus:after:content-[attr(data-like-count-alt)]"
                 data-like-count="425"
                 data-like-count-alt="426"
               >
@@ -296,7 +296,7 @@ function ChannelTweet() {
                   stroke-width="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
-                  class="h-5 w-5 text-inherit group-focus:text-[#ae7aff]"
+                  className="h-5 w-5 text-inherit group-focus:text-[#ae7aff]"
                 >
                   <path
                     stroke-linecap="round"
@@ -306,7 +306,7 @@ function ChannelTweet() {
                 </svg>
               </button>
               <button
-                class="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-dislike-count)] focus:after:content-[attr(data-dislike-count-alt)]"
+                className="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-dislike-count)] focus:after:content-[attr(data-dislike-count-alt)]"
                 data-dislike-count="87"
                 data-dislike-count-alt="86"
               >
@@ -317,7 +317,7 @@ function ChannelTweet() {
                   stroke-width="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
-                  class="h-5 w-5 text-[#ae7aff] group-focus:text-inherit"
+                  className="h-5 w-5 text-[#ae7aff] group-focus:text-inherit"
                 >
                   <path
                     stroke-linecap="round"
@@ -329,29 +329,29 @@ function ChannelTweet() {
             </div>
           </div>
         </div>
-        <div class="flex gap-3 border-b border-gray-700 py-4 last:border-b-transparent">
-          <div class="h-14 w-14 shrink-0">
+        <div className="flex gap-3 border-b border-gray-700 py-4 last:border-b-transparent">
+          <div className="h-14 w-14 shrink-0">
             <img
               src="https://images.pexels.com/photos/1115816/pexels-photo-1115816.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
               alt="React Patterns"
-              class="h-full w-full rounded-full"
+              className="h-full w-full rounded-full"
             />
           </div>
-          <div class="w-full">
-            <h4 class="mb-1 flex items-center gap-x-2">
-              <span class="font-semibold">React Patterns</span> 
-              <span class="inline-block text-sm text-gray-400">
+          <div className="w-full">
+            <h4 className="mb-1 flex items-center gap-x-2">
+              <span className="font-semibold">React Patterns</span> 
+              <span className="inline-block text-sm text-gray-400">
                 10 hours ago
               </span>
             </h4>
-            <p class="mb-2">
+            <p className="mb-2">
               Dive into advanced JavaScript concepts like closures and
               prototypes. Level up your coding skills! 🔍 #AdvancedJS
               #CodingTips
             </p>
-            <div class="flex gap-4">
+            <div className="flex gap-4">
               <button
-                class="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-like-count)] focus:after:content-[attr(data-like-count-alt)]"
+                className="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-like-count)] focus:after:content-[attr(data-like-count-alt)]"
                 data-like-count="425"
                 data-like-count-alt="424"
               >
@@ -362,7 +362,7 @@ function ChannelTweet() {
                   stroke-width="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
-                  class="h-5 w-5 text-[#ae7aff] group-focus:text-inherit"
+                  className="h-5 w-5 text-[#ae7aff] group-focus:text-inherit"
                 >
                   <path
                     stroke-linecap="round"
@@ -372,7 +372,7 @@ function ChannelTweet() {
                 </svg>
               </button>
               <button
-                class="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-dislike-count)] focus:after:content-[attr(data-dislike-count-alt)]"
+                className="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-dislike-count)] focus:after:content-[attr(data-dislike-count-alt)]"
                 data-dislike-count="87"
                 data-dislike-count-alt="88"
               >
@@ -383,7 +383,7 @@ function ChannelTweet() {
                   stroke-width="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
-                  class="h-5 w-5 text-inherit group-focus:text-[#ae7aff]"
+                  className="h-5 w-5 text-inherit group-focus:text-[#ae7aff]"
                 >
                   <path
                     stroke-linecap="round"
@@ -395,29 +395,29 @@ function ChannelTweet() {
             </div>
           </div>
         </div>
-        <div class="flex gap-3 border-b border-gray-700 py-4 last:border-b-transparent">
-          <div class="h-14 w-14 shrink-0">
+        <div className="flex gap-3 border-b border-gray-700 py-4 last:border-b-transparent">
+          <div className="h-14 w-14 shrink-0">
             <img
               src="https://images.pexels.com/photos/1115816/pexels-photo-1115816.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
               alt="TS Scripter"
-              class="h-full w-full rounded-full"
+              className="h-full w-full rounded-full"
             />
           </div>
-          <div class="w-full">
-            <h4 class="mb-1 flex items-center gap-x-2">
-              <span class="font-semibold">TS Scripter</span> 
-              <span class="inline-block text-sm text-gray-400">
+          <div className="w-full">
+            <h4 className="mb-1 flex items-center gap-x-2">
+              <span className="font-semibold">TS Scripter</span> 
+              <span className="inline-block text-sm text-gray-400">
                 11 hours ago
               </span>
             </h4>
-            <p class="mb-2">
+            <p className="mb-2">
               Mastering TypeScript: From basics to advanced concepts. Boost your
               development workflow with strong typing! 🚀 #TypeScript
               #Development
             </p>
-            <div class="flex gap-4">
+            <div className="flex gap-4">
               <button
-                class="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-like-count)] focus:after:content-[attr(data-like-count-alt)]"
+                className="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-like-count)] focus:after:content-[attr(data-like-count-alt)]"
                 data-like-count="425"
                 data-like-count-alt="424"
               >
@@ -428,7 +428,7 @@ function ChannelTweet() {
                   stroke-width="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
-                  class="h-5 w-5 text-[#ae7aff] group-focus:text-inherit"
+                  className="h-5 w-5 text-[#ae7aff] group-focus:text-inherit"
                 >
                   <path
                     stroke-linecap="round"
@@ -438,7 +438,7 @@ function ChannelTweet() {
                 </svg>
               </button>
               <button
-                class="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-dislike-count)] focus:after:content-[attr(data-dislike-count-alt)]"
+                className="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-dislike-count)] focus:after:content-[attr(data-dislike-count-alt)]"
                 data-dislike-count="87"
                 data-dislike-count-alt="88"
               >
@@ -449,7 +449,7 @@ function ChannelTweet() {
                   stroke-width="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
-                  class="h-5 w-5 text-inherit group-focus:text-[#ae7aff]"
+                  className="h-5 w-5 text-inherit group-focus:text-[#ae7aff]"
                 >
                   <path
                     stroke-linecap="round"
@@ -461,28 +461,28 @@ function ChannelTweet() {
             </div>
           </div>
         </div>
-        <div class="flex gap-3 border-b border-gray-700 py-4 last:border-b-transparent">
-          <div class="h-14 w-14 shrink-0">
+        <div className="flex gap-3 border-b border-gray-700 py-4 last:border-b-transparent">
+          <div className="h-14 w-14 shrink-0">
             <img
               src="https://images.pexels.com/photos/1115816/pexels-photo-1115816.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
               alt="Tailwind Wizard"
-              class="h-full w-full rounded-full"
+              className="h-full w-full rounded-full"
             />
           </div>
-          <div class="w-full">
-            <h4 class="mb-1 flex items-center gap-x-2">
-              <span class="font-semibold">Tailwind Wizard</span> 
-              <span class="inline-block text-sm text-gray-400">
+          <div className="w-full">
+            <h4 className="mb-1 flex items-center gap-x-2">
+              <span className="font-semibold">Tailwind Wizard</span> 
+              <span className="inline-block text-sm text-gray-400">
                 12 hours ago
               </span>
             </h4>
-            <p class="mb-2">
+            <p className="mb-2">
               Simplify your CSS workflow with Tailwind CSS. Effortless styling
               for modern web development! 🎨 #TailwindCSS #WebDev
             </p>
-            <div class="flex gap-4">
+            <div className="flex gap-4">
               <button
-                class="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-like-count)] focus:after:content-[attr(data-like-count-alt)]"
+                className="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-like-count)] focus:after:content-[attr(data-like-count-alt)]"
                 data-like-count="425"
                 data-like-count-alt="424"
               >
@@ -493,7 +493,7 @@ function ChannelTweet() {
                   stroke-width="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
-                  class="h-5 w-5 text-[#ae7aff] group-focus:text-inherit"
+                  className="h-5 w-5 text-[#ae7aff] group-focus:text-inherit"
                 >
                   <path
                     stroke-linecap="round"
@@ -503,7 +503,7 @@ function ChannelTweet() {
                 </svg>
               </button>
               <button
-                class="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-dislike-count)] focus:after:content-[attr(data-dislike-count-alt)]"
+                className="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-dislike-count)] focus:after:content-[attr(data-dislike-count-alt)]"
                 data-dislike-count="87"
                 data-dislike-count-alt="88"
               >
@@ -514,7 +514,7 @@ function ChannelTweet() {
                   stroke-width="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
-                  class="h-5 w-5 text-inherit group-focus:text-[#ae7aff]"
+                  className="h-5 w-5 text-inherit group-focus:text-[#ae7aff]"
                 >
                   <path
                     stroke-linecap="round"
@@ -526,29 +526,29 @@ function ChannelTweet() {
             </div>
           </div>
         </div>
-        <div class="flex gap-3 border-b border-gray-700 py-4 last:border-b-transparent">
-          <div class="h-14 w-14 shrink-0">
+        <div className="flex gap-3 border-b border-gray-700 py-4 last:border-b-transparent">
+          <div className="h-14 w-14 shrink-0">
             <img
               src="https://images.pexels.com/photos/1115816/pexels-photo-1115816.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
               alt="React Patterns"
-              class="h-full w-full rounded-full"
+              className="h-full w-full rounded-full"
             />
           </div>
-          <div class="w-full">
-            <h4 class="mb-1 flex items-center gap-x-2">
-              <span class="font-semibold">React Patterns</span> 
-              <span class="inline-block text-sm text-gray-400">
+          <div className="w-full">
+            <h4 className="mb-1 flex items-center gap-x-2">
+              <span className="font-semibold">React Patterns</span> 
+              <span className="inline-block text-sm text-gray-400">
                 13 hours ago
               </span>
             </h4>
-            <p class="mb-2">
+            <p className="mb-2">
               Building dynamic UIs with React - A comprehensive guide for
               developers. Get started with React today! 🚀 #React
               #WebDevelopment
             </p>
-            <div class="flex gap-4">
+            <div className="flex gap-4">
               <button
-                class="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-like-count)] focus:after:content-[attr(data-like-count-alt)]"
+                className="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-like-count)] focus:after:content-[attr(data-like-count-alt)]"
                 data-like-count="425"
                 data-like-count-alt="424"
               >
@@ -559,7 +559,7 @@ function ChannelTweet() {
                   stroke-width="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
-                  class="h-5 w-5 text-[#ae7aff] group-focus:text-inherit"
+                  className="h-5 w-5 text-[#ae7aff] group-focus:text-inherit"
                 >
                   <path
                     stroke-linecap="round"
@@ -569,7 +569,7 @@ function ChannelTweet() {
                 </svg>
               </button>
               <button
-                class="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-dislike-count)] focus:after:content-[attr(data-dislike-count-alt)]"
+                className="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-dislike-count)] focus:after:content-[attr(data-dislike-count-alt)]"
                 data-dislike-count="87"
                 data-dislike-count-alt="88"
               >
@@ -580,7 +580,7 @@ function ChannelTweet() {
                   stroke-width="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
-                  class="h-5 w-5 text-inherit group-focus:text-[#ae7aff]"
+                  className="h-5 w-5 text-inherit group-focus:text-[#ae7aff]"
                 >
                   <path
                     stroke-linecap="round"
@@ -592,28 +592,28 @@ function ChannelTweet() {
             </div>
           </div>
         </div>
-        <div class="flex gap-3 border-b border-gray-700 py-4 last:border-b-transparent">
-          <div class="h-14 w-14 shrink-0">
+        <div className="flex gap-3 border-b border-gray-700 py-4 last:border-b-transparent">
+          <div className="h-14 w-14 shrink-0">
             <img
               src="https://images.pexels.com/photos/1115816/pexels-photo-1115816.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
               alt="React Patterns"
-              class="h-full w-full rounded-full"
+              className="h-full w-full rounded-full"
             />
           </div>
-          <div class="w-full">
-            <h4 class="mb-1 flex items-center gap-x-2">
-              <span class="font-semibold">React Patterns</span> 
-              <span class="inline-block text-sm text-gray-400">
+          <div className="w-full">
+            <h4 className="mb-1 flex items-center gap-x-2">
+              <span className="font-semibold">React Patterns</span> 
+              <span className="inline-block text-sm text-gray-400">
                 14 hours ago
               </span>
             </h4>
-            <p class="mb-2">
+            <p className="mb-2">
               Optimize server-side rendering with Next.js. Improve performance
               and SEO for your React applications! 🚀 #Nextjs #React
             </p>
-            <div class="flex gap-4">
+            <div className="flex gap-4">
               <button
-                class="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-like-count)] focus:after:content-[attr(data-like-count-alt)]"
+                className="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-like-count)] focus:after:content-[attr(data-like-count-alt)]"
                 data-like-count="425"
                 data-like-count-alt="424"
               >
@@ -624,7 +624,7 @@ function ChannelTweet() {
                   stroke-width="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
-                  class="h-5 w-5 text-[#ae7aff] group-focus:text-inherit"
+                  className="h-5 w-5 text-[#ae7aff] group-focus:text-inherit"
                 >
                   <path
                     stroke-linecap="round"
@@ -634,7 +634,7 @@ function ChannelTweet() {
                 </svg>
               </button>
               <button
-                class="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-dislike-count)] focus:after:content-[attr(data-dislike-count-alt)]"
+                className="group inline-flex items-center gap-x-1 outline-none after:content-[attr(data-dislike-count)] focus:after:content-[attr(data-dislike-count-alt)]"
                 data-dislike-count="87"
                 data-dislike-count-alt="88"
               >
@@ -645,7 +645,7 @@ function ChannelTweet() {
                   stroke-width="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
-                  class="h-5 w-5 text-inherit group-focus:text-[#ae7aff]"
+                  className="h-5 w-5 text-inherit group-focus:text-[#ae7aff]"
                 >
                   <path
                     stroke-linecap="round"
