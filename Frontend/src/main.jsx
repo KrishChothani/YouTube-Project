@@ -18,6 +18,9 @@ import EditChannelDetailPage from './Pages/ChannelEditPages/EditChannelDetailPag
 import EditPasswordPage from './Pages/ChannelEditPages/EditPasswordPage.jsx';
 import EdminDashboardPage from './Pages/EdminDashboardPage.jsx';
 import EditVideoDetailsPopup from './Pages/EditVideoDetailsPopup.jsx';
+import DeleteVideoPopup from './Pages/DeleteVideoPopup.jsx';
+import PrivacyPolicyPage from './Pages/PrivacyPolicyPage.jsx';
+import TermsAndConditionPage from './Pages/TermsAndConditionPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -81,8 +84,21 @@ const router = createBrowserRouter([
     element: <EdminDashboardPage />
   },
   {
-    path : "/changevideodetails",
+    path : "/editevideodetails",
     element: <EditVideoDetailsPopup />
+  },
+  {
+    path :"/deletevideo",
+    element: <DeleteVideoPopup />
+  },
+  {
+    path :"/privacypolicy",
+    element: <PrivacyPolicyPage />
+  },
+  {
+    path: "/termsandconditions",
+    element: <TermsAndConditionPage />
+
   }
 ]);
 
