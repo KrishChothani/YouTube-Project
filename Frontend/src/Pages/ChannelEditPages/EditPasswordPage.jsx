@@ -29,7 +29,6 @@ function EditPasswordPage() {
               <AvatarAndChannelDetail />
               <ChannelEditListSelection />
               <PasswordEdit />
-              
             </div>
           </section>
         </div>

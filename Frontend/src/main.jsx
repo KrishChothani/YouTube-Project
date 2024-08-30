@@ -16,6 +16,8 @@ import UploadingVideoModelPopup from './Pages/UploadingVideoModelPopup.jsx';
 import EditPersonalDetailPage from './Pages/ChannelEditPages/EditPersonalDetailPage.jsx';
 import EditChannelDetailPage from './Pages/ChannelEditPages/EditChannelDetailPage.jsx';
 import EditPasswordPage from './Pages/ChannelEditPages/EditPasswordPage.jsx';
+import EdminDashboardPage from './Pages/EdminDashboardPage.jsx';
+import EditVideoDetailsPopup from './Pages/EditVideoDetailsPopup.jsx';
 
 const router = createBrowserRouter([
   {
@@ -73,6 +75,14 @@ const router = createBrowserRouter([
   {
     path :"/editpassword",
     element: <EditPasswordPage />
+  },
+  {
+    path :"/edmindashboard",
+    element: <EdminDashboardPage />
+  },
+  {
+    path : "/changevideodetails",
+    element: <EditVideoDetailsPopup />
   }
 ]);
 
