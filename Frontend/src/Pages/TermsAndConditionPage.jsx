@@ -6,7 +6,7 @@ import TermAndCondition from '../Components/TermAndCondition';
 function TermsAndConditionPage() {
   return (
     <>
-      <div class="h-screen overflow-y-auto bg-[#121212] text-white">
+      <div className="h-screen overflow-y-auto bg-[#121212] text-white">
         <Header />
         <TermAndCondition />
         <Footer />

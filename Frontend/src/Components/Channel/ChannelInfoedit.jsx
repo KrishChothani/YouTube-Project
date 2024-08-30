@@ -1,62 +1,81 @@
-import React from 'react'
+/** @format */
 
-function ChannelInfoedit() {
+import React, { useState } from "react";
+
+function ChannelInfoEdit() {
+  // State hooks to manage form values
+  const [username, setUsername] = useState("reactpatterns");
+  const [description, setDescription] = useState(
+    "I'm a Product Designer based in Melbourne, Australia. I specialise in UX/UI design, brand strategy, and Webflow development."
+  );
+  const [fontSize, setFontSize] = useState("regular");
+  const [timezone, setTimezone] = useState("UTC+05:30");
+
+  // Handlers for form fields
+  const handleUsernameChange = (e) => setUsername(e.target.value);
+  const handleDescriptionChange = (e) => setDescription(e.target.value);
+  const handleFontSizeChange = (e) => setFontSize(e.target.value);
+  const handleTimezoneChange = (e) => setTimezone(e.target.value);
+
   return (
     <>
-      <div class="flex flex-wrap justify-center gap-y-4 py-4">
-        <div class="w-full sm:w-1/2 lg:w-1/3">
-          <h5 class="font-semibold">Channel Info</h5>
-          <p class="text-gray-300">Update your Channel details here.</p>
+      <div className="flex flex-wrap justify-center gap-y-4 py-4">
+        <div className="w-full sm:w-1/2 lg:w-1/3">
+          <h5 className="font-semibold">Channel Info</h5>
+          <p className="text-gray-300">Update your Channel details here.</p>
         </div>
-        <div class="w-full sm:w-1/2 lg:w-2/3">
-          <div class="rounded-lg border">
-            <div class="flex flex-wrap gap-y-4 p-4">
-              <div class="w-full">
-                <label class="mb-1 inline-block" for="username">
+        <div className="w-full sm:w-1/2 lg:w-2/3">
+          <div className="rounded-lg border">
+            <div className="flex flex-wrap gap-y-4 p-4">
+              <div className="w-full">
+                <label className="mb-1 inline-block" htmlFor="username">
                   Username
                 </label>
-                <div class="flex rounded-lg border">
-                  <p class="flex shrink-0 items-center border-r border-white px-3 align-middle">
+                <div className="flex rounded-lg border">
+                  <p className="flex shrink-0 items-center border-r border-white px-3 align-middle">
                     vidplay.com/
                   </p>
                   <input
                     type="text"
-                    class="w-full bg-transparent px-2 py-1.5"
+                    className="w-full bg-transparent px-2 py-1.5"
                     id="username"
                     placeholder="@username"
-                    value="reactpatterns"
+                    value={username}
+                    onChange={handleUsernameChange}
                   />
                 </div>
               </div>
-              <div class="w-full">
-                <label class="mb-1 inline-block" for="desc">
+              <div className="w-full">
+                <label className="mb-1 inline-block" htmlFor="desc">
                   Description
                 </label>
                 <textarea
-                  class="w-full rounded-lg border bg-transparent px-2 py-1.5"
+                  className="w-full rounded-lg border bg-transparent px-2 py-1.5"
                   rows="4"
                   id="desc"
                   placeholder="Channel Description"
-                >
-                  I&#x27;m a Product Designer based in Melbourne, Australia. I
-                  specialise in UX/UI design, brand strategy, and Webflow
-                  development.
-                </textarea>
-                <p class="mt-0.5 text-sm text-gray-300">275 characters left</p>
+                  value={description}
+                  onChange={handleDescriptionChange}
+                />
+                <p className="mt-0.5 text-sm text-gray-300">
+                  275 characters left
+                </p>
               </div>
-              <div class="flex w-full items-center gap-3">
-                <div class="w-full max-w-xs rounded-lg border">
-                  <select class="w-full border-r-8 border-transparent bg-transparent py-1.5 pl-2">
+              <div className="flex w-full items-center gap-3">
+                <div className="w-full max-w-xs rounded-lg border">
+                  <select
+                    className="w-full border-r-8 border-transparent bg-transparent py-1.5 pl-2"
+                    value={fontSize}
+                    onChange={handleFontSizeChange}
+                  >
                     <option value="light">Light</option>
-                    <option value="regular" selected="">
-                      Regular
-                    </option>
+                    <option value="regular">Regular</option>
                     <option value="semi-bold">Semi bold</option>
                     <option value="bold">Bold</option>
                     <option value="bolder">Bolder</option>
                   </select>
                 </div>
-                <button class="h-6 w-6 hover:text-[#ae7aff] focus:text-[#ae7aff]">
+                <button className="h-6 w-6 hover:text-[#ae7aff] focus:text-[#ae7aff]">
                   <svg
                     width="11"
                     height="14"
@@ -70,7 +89,7 @@ function ChannelInfoedit() {
                     ></path>
                   </svg>
                 </button>
-                <button class="h-6 w-6 hover:text-[#ae7aff] focus:text-[#ae7aff]">
+                <button className="h-6 w-6 hover:text-[#ae7aff] focus:text-[#ae7aff]">
                   <svg
                     width="12"
                     height="14"
@@ -84,7 +103,7 @@ function ChannelInfoedit() {
                     ></path>
                   </svg>
                 </button>
-                <button class="h-6 w-6 hover:text-[#ae7aff] focus:text-[#ae7aff]">
+                <button className="h-6 w-6 hover:text-[#ae7aff] focus:text-[#ae7aff]">
                   <svg
                     width="20"
                     height="10"
@@ -98,23 +117,23 @@ function ChannelInfoedit() {
                     ></path>
                   </svg>
                 </button>
-                <button class="h-6 w-6 hover:text-[#ae7aff] focus:text-[#ae7aff]">
+                <button className="h-6 w-6 hover:text-[#ae7aff] focus:text-[#ae7aff]">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
-                    stroke-width="1.5"
+                    strokeWidth="1.5"
                     stroke="currentColor"
                     aria-hidden="true"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
                     ></path>
                   </svg>
                 </button>
-                <button class="h-6 w-6 hover:text-[#ae7aff] focus:text-[#ae7aff]">
+                <button className="h-6 w-6 hover:text-[#ae7aff] focus:text-[#ae7aff]">
                   <svg
                     width="19"
                     height="16"
@@ -129,36 +148,39 @@ function ChannelInfoedit() {
                   </svg>
                 </button>
               </div>
-              <div class="w-full">
-                <label class="mb-1 inline-block" for="timezone">
+              <div className="w-full">
+                <label className="mb-1 inline-block" htmlFor="timezone">
                   Timezone
                 </label>
-                <div class="relative w-full rounded-lg border">
-                  <div class="absolute left-2 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-300">
+                <div className="relative w-full rounded-lg border">
+                  <div className="absolute left-2 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-300">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
                       viewBox="0 0 24 24"
-                      stroke-width="1.5"
+                      width="24"
+                      height="24"
+                      fill="none"
                       stroke="currentColor"
-                      aria-hidden="true"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                      ></path>
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="12" y1="6" x2="12" y2="12"></line>
+                      <line x1="12" y1="16" x2="12" y2="16"></line>
                     </svg>
                   </div>
                   <select
                     id="timezone"
-                    class="w-full border-r-8 border-transparent bg-transparent py-1.5 pl-8"
+                    className="w-full border-r-8 border-transparent bg-transparent py-1.5 pl-8"
+                    value={timezone}
+                    onChange={handleTimezoneChange}
                   >
                     <option value="UTC-12:00">
                       (UTC-12:00) International Date Line West
                     </option>
                     <option value="UTC-11:00">
-                      (UTC-11:00) Coordinated Universal Time-11
+                      (UTC-11:00) Midway Island, Samoa
                     </option>
                     <option value="UTC-10:00">(UTC-10:00) Hawaii</option>
                     <option value="UTC-09:00">(UTC-09:00) Alaska</option>
@@ -177,82 +199,57 @@ function ChannelInfoedit() {
                     <option value="UTC-04:00">
                       (UTC-04:00) Atlantic Time (Canada)
                     </option>
-                    <option value="UTC-03:30">(UTC-03:30) Newfoundland</option>
                     <option value="UTC-03:00">
                       (UTC-03:00) Buenos Aires, Georgetown
                     </option>
-                    <option value="UTC-02:00">
-                      (UTC-02:00) Coordinated Universal Time-02
-                    </option>
+                    <option value="UTC-02:00">(UTC-02:00) Mid-Atlantic</option>
                     <option value="UTC-01:00">(UTC-01:00) Azores</option>
                     <option value="UTC+00:00">
-                      (UTC+00:00) Coordinated Universal Time
+                      (UTC+00:00) Dublin, Edinburgh, Lisbon, London
                     </option>
                     <option value="UTC+01:00">
-                      (UTC+01:00) Central European Time
+                      (UTC+01:00) Amsterdam, Berlin, Brussels, Copenhagen
                     </option>
                     <option value="UTC+02:00">
-                      (UTC+02:00) Eastern European Time
+                      (UTC+02:00) Athens, Bucharest, Istanbul
                     </option>
                     <option value="UTC+03:00">
-                      (UTC+03:00) Moscow, St. Petersburg
+                      (UTC+03:00) Moscow, St. Petersburg, Volgograd
                     </option>
-                    <option value="UTC+03:30">(UTC+03:30) Tehran</option>
-                    <option value="UTC+04:00">
-                      (UTC+04:00) Abu Dhabi, Muscat
-                    </option>
-                    <option value="UTC+04:30">(UTC+04:30) Kabul</option>
-                    <option value="UTC+05:00">(UTC+05:00) Tashkent</option>
-                    <option value="UTC+05:30" selected="">
+                    <option value="UTC+04:00">(UTC+04:00) Dubai, Muscat</option>
+                    <option value="UTC+05:00">(UTC+05:00) Yekaterinburg</option>
+                    <option value="UTC+05:30">
                       (UTC+05:30) Chennai, Kolkata, Mumbai, New Delhi
                     </option>
-                    <option value="UTC+05:45">(UTC+05:45) Kathmandu</option>
                     <option value="UTC+06:00">
                       (UTC+06:00) Almaty, Novosibirsk
-                    </option>
-                    <option value="UTC+06:30">
-                      (UTC+06:30) Yangon (Rangoon)
                     </option>
                     <option value="UTC+07:00">
                       (UTC+07:00) Bangkok, Hanoi, Jakarta
                     </option>
                     <option value="UTC+08:00">
-                      (UTC+08:00) Beijing, Chongqing, Hong Kong
+                      (UTC+08:00) Beijing, Perth, Singapore, Hong Kong
                     </option>
-                    <option value="UTC+08:45">(UTC+08:45) Eucla</option>
                     <option value="UTC+09:00">
-                      (UTC+09:00) Osaka, Sapporo, Tokyo
+                      (UTC+09:00) Tokyo, Seoul, Osaka
                     </option>
-                    <option value="UTC+09:30">(UTC+09:30) Adelaide</option>
-                    <option value="UTC+09:45">(UTC+09:45) Darwin</option>
-                    <option value="UTC+10:00">(UTC+10:00) Brisbane</option>
-                    <option value="UTC+10:30">
-                      (UTC+10:30) Lord Howe Island
-                    </option>
+                    <option value="UTC+10:00">(UTC+10:00) Sydney, Guam</option>
                     <option value="UTC+11:00">
-                      (UTC+11:00) Solomon Is., New Caledonia
+                      (UTC+11:00) Solomon Islands, New Caledonia
                     </option>
-                    <option value="UTC+11:30">
-                      (UTC+11:30) Norfolk Island
+                    <option value="UTC+12:00">
+                      (UTC+12:00) Fiji, Kamchatka, Marshall Islands
                     </option>
-                    <option value="UTC+12:00">(UTC+12:00) Fiji</option>
-                    <option value="UTC+12:45">
-                      (UTC+12:45) Chatham Islands
-                    </option>
-                    <option value="UTC+13:00">
-                      (UTC+13:00) Nuku&#x27;alofa
-                    </option>
-                    <option value="UTC+14:00">(UTC+14:00) Kiritimati</option>
                   </select>
                 </div>
               </div>
             </div>
-            <hr class="border border-gray-300" />
-            <div class="flex items-center justify-end gap-4 p-4">
-              <button class="inline-block rounded-lg border px-3 py-1.5 hover:bg-white/10">
+            <hr className="border border-gray-300" />
+            <div className="flex items-center justify-end gap-4 p-4">
+              <button className="inline-block rounded-lg border px-3 py-1.5 hover:bg-white/10">
                 Cancel
               </button>
-              <button class="inline-block bg-[#ae7aff] px-3 py-1.5 text-black">
+              <button className="inline-block bg-[#ae7aff] px-3 py-1.5 text-black">
                 Save changes
               </button>
             </div>
@@ -263,4 +260,4 @@ function ChannelInfoedit() {
   );
 }
 
-export default ChannelInfoedit
+export default ChannelInfoEdit;

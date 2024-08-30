@@ -6,7 +6,7 @@ import MiddleSectionForPrivacyPolicy from '../Components/MiddleSectionForPrivacy
 function PrivacyPolicyPage() {
   return (
     <>
-      <div class="h-screen overflow-y-auto bg-[#121212] text-white">
+      <div className="h-screen overflow-y-auto bg-[#121212] text-white">
         <Header />
         <MiddleSectionForPrivacyPolicy />
         <Footer />

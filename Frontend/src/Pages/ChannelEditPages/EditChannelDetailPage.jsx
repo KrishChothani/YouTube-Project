@@ -20,13 +20,13 @@ function EditChannelDetailPage() {
         as="image"
         href="https://images.pexels.com/photos/1092424/pexels-photo-1092424.jpeg?auto=compress"
       />
-      <div class="h-screen overflow-y-auto bg-[#121212] text-white">
+      <div className="h-screen overflow-y-auto bg-[#121212] text-white">
         <Header />
-        <div class="flex min-h-[calc(100vh-66px)] sm:min-h-[calc(100vh-82px)]">
+        <div className="flex min-h-[calc(100vh-66px)] sm:min-h-[calc(100vh-82px)]">
           <Left_Header />
-          <section class="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
+          <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
             <CoverImage />
-            <div class="px-4 pb-4">
+            <div className="px-4 pb-4">
               <AvatarAndChannelDetail />
               <ChannelEditListSelection />
               <ChannelInfoedit />

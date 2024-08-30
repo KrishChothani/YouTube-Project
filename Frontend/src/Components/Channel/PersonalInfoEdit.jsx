@@ -1,18 +1,30 @@
-import React from 'react'
+/** @format */
+
+import React, { useState } from "react";
 
 function PersonalInfoEdit() {
+  const [firstName, setFirstName] = useState("React");
+  const [lastName, setLastName] = useState("Patterns");
+  const [email, setEmail] = useState("patternsreact@gmail.com");
+
+  const handleFirstNameChange = (e) => setFirstName(e.target.value);
+  const handleLastNameChange = (e) => setLastName(e.target.value);
+  const handleEmailChange = (e) => setEmail(e.target.value);
+
   return (
     <>
       <div className="flex flex-wrap justify-center gap-y-4 py-4">
         <div className="w-full sm:w-1/2 lg:w-1/3">
           <h5 className="font-semibold">Personal Info</h5>
-          <p className="text-gray-300">Update your photo and personal details.</p>
+          <p className="text-gray-300">
+            Update your photo and personal details.
+          </p>
         </div>
         <div className="w-full sm:w-1/2 lg:w-2/3">
           <div className="rounded-lg border">
             <div className="flex flex-wrap gap-y-4 p-4">
               <div className="w-full lg:w-1/2 lg:pr-2">
-                <label for="firstname" className="mb-1 inline-block">
+                <label htmlFor="firstname" className="mb-1 inline-block">
                   First name
                 </label>
                 <input
@@ -20,11 +32,12 @@ function PersonalInfoEdit() {
                   className="w-full rounded-lg border bg-transparent px-2 py-1.5"
                   id="firstname"
                   placeholder="Enter first name"
-                  value="React"
+                  value={firstName}
+                  onChange={handleFirstNameChange}
                 />
               </div>
               <div className="w-full lg:w-1/2 lg:pl-2">
-                <label for="lastname" className="mb-1 inline-block">
+                <label htmlFor="lastname" className="mb-1 inline-block">
                   Last name
                 </label>
                 <input
@@ -32,11 +45,12 @@ function PersonalInfoEdit() {
                   className="w-full rounded-lg border bg-transparent px-2 py-1.5"
                   id="lastname"
                   placeholder="Enter last name"
-                  value="Patterns"
+                  value={lastName}
+                  onChange={handleLastNameChange}
                 />
               </div>
               <div className="w-full">
-                <label for="lastname" className="mb-1 inline-block">
+                <label htmlFor="email" className="mb-1 inline-block">
                   Email address
                 </label>
                 <div className="relative">
@@ -45,13 +59,13 @@ function PersonalInfoEdit() {
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
-                      stroke-width="1.5"
+                      strokeWidth="1.5"
                       stroke="currentColor"
                       aria-hidden="true"
                     >
                       <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                         d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
                       ></path>
                     </svg>
@@ -59,9 +73,10 @@ function PersonalInfoEdit() {
                   <input
                     type="email"
                     className="w-full rounded-lg border bg-transparent py-1.5 pl-10 pr-2"
-                    id="lastname"
+                    id="email"
                     placeholder="Enter email address"
-                    value="patternsreact@gmail.com"
+                    value={email}
+                    onChange={handleEmailChange}
                   />
                 </div>
               </div>
@@ -82,4 +97,4 @@ function PersonalInfoEdit() {
   );
 }
 
-export default PersonalInfoEdit
+export default PersonalInfoEdit;
