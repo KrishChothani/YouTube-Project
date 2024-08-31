@@ -9,29 +9,41 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js"
 
 
 const getAllVideos = asyncHandler(async (req, res) => {
-    const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query
+    const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query;
 
     const sortOptions = {};
     sortOptions[sortBy] = sortType === 'asc' ? 1 : -1;
 
     const result = await Video.aggregatePaginate(
-        Video.aggregate([
+        [
             {
                 $match: query ? { title: new RegExp(query, 'i') } : {}
             },
             {
-                 $sort: sortOptions 
+                $sort: sortOptions
+            },
+            {
+                $lookup: {
+                    from: "users", // the name of the User collection in MongoDB
+                    localField: "owner", // the field in the Video collection that references the User
+                    foreignField: "_id", // the field in the User collection that is referenced
+                    as: "ownerDetails" // the name of the new field where the result will be stored
+                }
+            },
+            {
+                $unwind: "$ownerDetails" // optional: use $unwind if you expect a single user or want to deconstruct the array
             }
-        ]),
+        ],
         {
             page: parseInt(page),
             limit: parseInt(limit)
         }
-    )
+    );
 
-    res.status(200).json(new Apiresponse(201, result, "Videos fetch Successfully"));
-    //TODO: get all videos based on query, sort, pagination
-})
+    res.status(200).json(new Apiresponse(201, result, "Videos fetched successfully"));
+});
+
+
 
 const publishAVideo = asyncHandler(async (req, res) => {
     const { title, description } = req.body;

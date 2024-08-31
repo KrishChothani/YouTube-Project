@@ -1,13 +1,47 @@
-import React from 'react'
+import React, { useState } from 'react'
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+
+  const navigate = useNavigate()
+  const [email , setEmail] =useState('')
+  const [password , setPassword] = useState('')
+  // const [error , setError] = useState('')
+
+     const handleEmail = (event) => setEmail(event.target.value);
+     const handlePassword = (event) => setPassword(event.target.value);
+
+  function login() {
+     if (!email || !password) {
+       alert("Email and Password are required");
+       return;
+     }
+    axios({
+      method: "POST",
+      url: "/api/v1/users/login",
+      data: {
+        email: email,
+        password: password,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        navigate('/home');
+      })
+      .catch((error) => {
+        alert("Login failed. Please check your credentials and try again.");
+      });
+  }
+
+
   return (
     <>
       <div className="h-screen overflow-y-auto bg-[#121212] text-white">
         <div className="mx-auto my-8 flex w-full max-w-sm flex-col px-4">
           <div className="mx-auto inline-block w-16">
             <svg
-              style={{width:'100%'}}
+              style={{ width: "100%" }}
               viewBox="0 0 63 64"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -71,9 +105,25 @@ function Login() {
             type="email"
             placeholder="Enter your email"
             className="mb-4 rounded-lg border bg-transparent px-3 py-2"
+            value={email}
+            onChange={handleEmail}
           />
-          <button className="bg-[#ae7aff] px-4 py-3 text-black">
+          <label htmlFor="email" className="mb-1 inline-block text-gray-300">
+            Password*
+          </label>
+          <input
+            id="password"
+            type="password"
+            placeholder="Enter your email"
+            className="mb-4 rounded-lg border bg-transparent px-3 py-2"
+            value={password}
+            onChange={handlePassword}
+          />
+          <button className="bg-[#ae7aff] px-4 py-3 text-black" onClick={login}>
             Sign in with Email
+          </button>
+          <button className="bg-[#ae7aff] px-4 py-3 mt-5 text-black" onClick={()=>navigate('/register')}>
+            Register your Account
           </button>
         </div>
       </div>

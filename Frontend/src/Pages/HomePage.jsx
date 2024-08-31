@@ -8,7 +8,7 @@ function HomePage() {
   
   return (
     <>
-      <link
+      {/* <link
         rel="preload"
         as="image"
         href="https://images.pexels.com/photos/3561339/pexels-photo-3561339.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
@@ -112,7 +112,7 @@ function HomePage() {
         rel="preload"
         as="image"
         href="https://images.pexels.com/photos/1115808/pexels-photo-1115808.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-      />
+      /> */}
       <div className="h-screen overflow-y-auto bg-[#121212] text-white">
         <Header />
         
