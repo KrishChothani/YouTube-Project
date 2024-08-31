@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useState } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios';
@@ -24,8 +24,8 @@ function AllVideoMiddleSection() {
         };
 
         fetchVideos();
-      }, [loading, error]);
-
+      }, [loading , error]);
+      
       if (loading) return <p>Loading videos...</p>;
       if (error) return <p>Error: {error}</p>;
   return (
@@ -64,15 +64,21 @@ function AllVideoMiddleSection() {
               </div>
             </div>
           </div>
-          ;
-          {/* {
-           videos.map(video => {
-              <div className="w-full">
+
+          {
+            // console.log(videos.length);
+            // if(videos.length==0){z
+            //   await fetchVideos()
+            // }
+
+            videos.length >0 ? (
+            videos.map((video, index) => (
+              <div className="w-full" key={index}>
                 <div className="relative mb-2 w-full pt-[56%]">
                   <div className="absolute inset-0">
                     <img
-                      src={video.thumbnail}
-                      alt="JavaScript Fundamentals: Variables and Data Types"
+                      src={video.thumbnail || "default-thumbnail.jpg"} // Provide a default image if thumbnail is missing
+                      alt={video.title || "Video title"}
                       className="h-full w-full"
                     />
                   </div>
@@ -83,24 +89,26 @@ function AllVideoMiddleSection() {
                 <div className="flex gap-x-2">
                   <div className="h-10 w-10 shrink-0">
                     <img
-                      src="https://images.pexels.com/photos/3532545/pexels-photo-3532545.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                      alt="codemaster"
+                      src={video.ownerDetails?.avatar || "default-avatar.jpg"} // Provide a default avatar if missing
+                      alt={video.ownerDetails?.username || "Username"}
                       className="h-full w-full rounded-full"
                     />
                   </div>
                   <div className="w-full">
-                    <h6 className="mb-1 font-semibold">
-                      JavaScript Fundamentals: Variables and Data Types
-                    </h6>
+                    <h6 className="mb-1 font-semibold">{video.title}</h6>
                     <p className="flex text-sm text-gray-200">
-                      10.3k Views · 44 minutes ago
+                      {video.views} Views · {video.uploadedTime} ago
                     </p>
-                    <p className="text-sm text-gray-200">Code Master</p>
+                    <p className="text-sm text-gray-200">
+                      {video.ownerDetails?.username || "Unknown"}
+                    </p>
                   </div>
                 </div>
-            </div>
-            })
-          }  */}
+              </div>
+            ))
+          ) : (
+            <p>No videos available.</p>
+          )}
         </div>
       </section>
     </>
