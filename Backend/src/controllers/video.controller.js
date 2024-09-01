@@ -24,11 +24,11 @@ const getAllVideos = asyncHandler(async (req, res) => {
             },
             {
                 $lookup: {
-                    from: "users", // the name of the User collection in MongoDB
-                    localField: "owner", // the field in the Video collection that references the User
-                    foreignField: "_id", // the field in the User collection that is referenced
-                    as: "ownerDetails" // the name of the new field where the result will be stored
-                }
+                    from: "users", 
+                    localField: "owner", 
+                    foreignField: "_id", 
+                    as: "ownerDetails" 
+            }
             },
             {
                 $unwind: "$ownerDetails" // optional: use $unwind if you expect a single user or want to deconstruct the array
@@ -95,19 +95,7 @@ const getVideoById = asyncHandler(async (req, res) => {
     const { videoId } = req.params;
     // console.log(videoId);
 
-    const video = await Video.aggregate([
-        {
-            $addFields:{
-                ownerVideo:await Video.find({ owner: videoId })
-            }
-        },
-        {
-            $project: {
-                owner: 1,
-                ownerVideo:1,
-            }
-        }
-    ]);
+    const video = await Video.find({_id :videoId}).populate("owner");
 
     // console.log(video);
     if (!video?.length) {
