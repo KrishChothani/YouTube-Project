@@ -7,6 +7,8 @@ import { Video } from "../models/video.model.js"
 
 const toggleVideoLike = asyncHandler(async (req, res) => {
     const {videoId} = req.params
+    
+
     //TODO: toggle like on video
 
     if(!videoId){
@@ -26,7 +28,7 @@ const toggleVideoLike = asyncHandler(async (req, res) => {
         )
     }
     else{
-        await Like.create({
+        const krish = await Like.create({
             video : videoId,
             LikedBy : req.user._id
         })
@@ -100,25 +102,7 @@ const toggleTweetLike = asyncHandler(async (req, res) => {
 
 const getLikedVideos = asyncHandler(async (req, res) => {
     //TODO: get all liked videos
-    const likedvideo = await Like.aggregate([
-        {
-            $match:{
-                LikedBy : req.user._id
-            }
-        },
-        {
-
-            $lookup:{
-                from : "videos",
-                localField: "video",
-                foreignField: "_id",
-                as: "videoDetails"
-            }
-        },
-        {
-            $unwind : "$videoDetails"
-        }
-    ])
+    const likedvideo = await Like.find()
     console.log(likedvideo)
 
     if(!likedvideo){

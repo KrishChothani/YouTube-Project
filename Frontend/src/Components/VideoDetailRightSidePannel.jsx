@@ -73,7 +73,7 @@ function VideoDetailRightSidePannel() {
                     <p className="flex text-sm text-gray-200">
                       {video.views} Views ·{" "}
                       {Math.floor(
-                        (new Date() - new Date(video.updatedAt)) /
+                        (new Date() - new Date(video.createdAt)) /
                           (1000 * 60 * 60 * 24)
                       )}{" "}
                       day ago

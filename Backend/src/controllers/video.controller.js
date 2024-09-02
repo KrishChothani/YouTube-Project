@@ -198,7 +198,7 @@ const viewUpdate = asyncHandler(async(req, res)=>{
     }
 
     return res.status(200).json(
-        new Apiresponse(201, view, "Increase views Successfully" )
+        new Apiresponse(201,view, "Increase views Successfully" )
     )
 })
 export {
@@ -207,5 +207,6 @@ export {
     getVideoById,
     updateVideo,
     deleteVideo,
-    togglePublishStatus
+    togglePublishStatus,
+    viewUpdate
 }

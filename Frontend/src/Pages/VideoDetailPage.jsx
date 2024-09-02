@@ -5,6 +5,7 @@
   import axios from 'axios';
   import { useState } from 'react';
   import { useParams } from 'react-router-dom';
+  import { useRef } from 'react';
 
   function VideoDetailPage() {
    
@@ -16,7 +17,13 @@
   const [subscription, setSubscription] = useState(null);
   const [user, setUser] = useState(null);
   const [toggleSubscribed, setToggleSubscribed] = useState(0);
+  const [toggleLike , setToggleLike] = useState(0)
+  const [view , setView] = useState(null)
+  const [like, setLike] = useState(null);
+  const [totalVideoLike , setTotalVideoLike] = useState(0);
+  const hasFatch =useRef(false)
 
+  // fetch video data
   useEffect(() => {
     const fetchVideoData = async () => {
       try {
@@ -32,6 +39,7 @@
     fetchVideoData();
   }, [videoId , loading , error]); 
 
+  // fetch subscription
   useEffect(() => {
     if (ownerData) {
       const fetchSubscription = async () => {
@@ -50,6 +58,7 @@
     }
   }, [ownerData, loading, error, toggleSubscribed]); 
 
+  // set fetch current user
   useEffect(() => {
     const fetchCurrUser = async () => {
       try {
@@ -65,6 +74,7 @@
     fetchCurrUser();
   }, [videoId]);
 
+  // set toggle subscribed
   useEffect(() => {
     if (subscription) {
       const isSubscribed = subscription.some(
@@ -74,10 +84,66 @@
     }
   }, [subscription]);
 
+  // fetch view
+  useEffect(() => {
+  if(hasFatch.current) return;
+    const fetchView = async () => {
+      try {
+        const view = await axios({
+          method: "PATCH",
+          url: `/api/v1/videos/v/${videoId}`,
+        });
+        setView(view.data.data.data);
+        // console.log(view);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchView();
+    hasFatch.current =true;
+  }, [videoId]);
+
+
+  // fetch video like
+  useEffect(() => {
+    const fetchVideolike = async () => {
+      try {
+        const resp = await axios({
+          method: "GET",
+          url: `/api/v1/likes/videos`,
+        });
+        setLike(resp.data.data);
+        console.log(resp.data.data);
+      } catch (error) {
+        console.log("Error in fetching likes: " + error);
+      }
+    };
+    fetchVideolike();
+  }, [videoId , toggleLike]);
+
+  // set  total video liked 
+  useEffect(() => {
+    if (like && user && like.lenght >0) {
+      const videolikes = like?.map((li) => li.video === videoId);
+      setTotalVideoLike(videolikes);
+    }
+  }, [like, user]);
+
+  // fetch toggle video like
+  useEffect(()=>{
+    if(like){
+      const isliked = like.some(
+        (li) => li.video === videoId && li.LikedBy === user._id
+      )
+      setToggleLike(isliked ? 1 : 0)
+    }
+  },[like])
 
   if (loading) return <div>Loading...</div>;
   if (error)  return <div>Error: {error.message}</div>;
    
+
+  // handle toggle subscribed by function
   async function handleToggleSubscribed (){
     try {
       const res = await axios({
@@ -93,6 +159,20 @@
     }
   }
 
+  // handle toggle liked by function
+  async function handleToggleLiked() {
+    try {
+      const res = await axios({
+        method: "POST",
+        url: `/api/v1/likes/toggle/v/${videoId}`,
+      });
+      setToggleLike(res.data.data==1);
+    } catch (error) {
+      console.log("error" + error);
+    }
+  }
+  // console.log(toggleLike)
+
     return (
       <>
         <div className="h-screen overflow-y-auto bg-[#121212] text-white">
@@ -102,7 +182,6 @@
             <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0">
               <div className="flex w-full flex-wrap gap-4 p-4 lg:flex-nowrap">
                 <div className="col-span-12 w-full">
-                  {/* video */}
                   {
                     <div className="relative mb-4 w-full pt-[56%]">
                       <div className="absolute inset-0">
@@ -128,8 +207,8 @@
                         <p className="flex text-sm text-gray-200">
                           {videoData.views} Views ·{" "}
                           {Math.floor(
-                            (new Date() - new Date(videoData.updatedAt)) /
-                              (1000 * 60 * 60 * 24)
+                            (new Date() - new Date(videoData.createdAt)) /
+                              (1000*60 * 60 * 24)
                           )}{" "}
                           day ago
                         </p>
@@ -138,11 +217,12 @@
                         <div className="flex items-center justify-between gap-x-4 md:justify-end lg:justify-between xl:justify-end">
                           <div className="flex overflow-hidden rounded-lg border">
                             <button
-                              className="group/btn flex items-center gap-x-2 border-r border-gray-700 px-4 py-1.5 after:content-[attr(data-like)] hover:bg-white/10 focus:after:content-[attr(data-like-alt)]"
-                              data-like="3050"
-                              data-like-alt="3051"
+                              className={`group/btn mr-1 flex w-full items-center gap-x-2 ${
+                                toggleLike ? "bg-[#ae7aff]" : "bg-[#ffffff]"
+                              } px-3 py-2 text-center font-bold text-black shadow-[5px_5px_0px_0px_#4f4e4e] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e] sm:w-auto`}
+                              onClick={handleToggleLiked}
                             >
-                              <span className="inline-block w-5 group-focus/btn:text-[#ae7aff]">
+                              <span className="inline-block w-5">
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   fill="none"
@@ -158,27 +238,9 @@
                                   ></path>
                                 </svg>
                               </span>
-                            </button>
-                            <button
-                              className="group/btn flex items-center gap-x-2 px-4 py-1.5 after:content-[attr(data-like)] hover:bg-white/10 focus:after:content-[attr(data-like-alt)]"
-                              data-like="20"
-                              data-like-alt="21"
-                            >
-                              <span className="inline-block w-5 group-focus/btn:text-[#ae7aff]">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth="1.5"
-                                  stroke="currentColor"
-                                  aria-hidden="true"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M7.5 15h2.25m8.024-9.75c.011.05.028.1.052.148.591 1.2.924 2.55.924 3.977a8.96 8.96 0 01-.999 4.125m.023-8.25c-.076-.365.183-.75.575-.75h.908c.889 0 1.713.518 1.972 1.368.339 1.11.521 2.287.521 3.507 0 1.553-.295 3.036-.831 4.398C20.613 14.547 19.833 15 19 15h-1.053c-.472 0-.745-.556-.5-.96a8.95 8.95 0 00.303-.54m.023-8.25H16.48a4.5 4.5 0 01-1.423-.23l-3.114-1.04a4.5 4.5 0 00-1.423-.23H6.504c-.618 0-1.217.247-1.605.729A11.95 11.95 0 002.25 12c0 .434.023.863.068 1.285C2.427 14.306 3.346 15 4.372 15h3.126c.618 0 .991.724.725 1.282A7.471 7.471 0 007.5 19.5a2.25 2.25 0 002.25 2.25.75.75 0 00.75-.75v-.633c0-.573.11-1.14.322-1.672.304-.76.93-1.33 1.653-1.715a9.04 9.04 0 002.86-2.4c.498-.634 1.226-1.08 2.032-1.08h.384"
-                                  ></path>
-                                </svg>
+
+                              <span className="group-focus">
+                                {like ? like.length : 0}
                               </span>
                             </button>
                           </div>
