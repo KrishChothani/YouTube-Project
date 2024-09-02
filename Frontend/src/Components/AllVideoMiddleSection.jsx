@@ -38,19 +38,23 @@ function AllVideoMiddleSection() {
             videos.map((video, index) => (
               <div className="w-full" key={index}>
                 <div className="relative mb-2 w-full pt-[56%]">
-                  <div className="absolute inset-0">
-                    <button onClick={() => navigate(`/video/${video._id}`)}>
-                      <video
-                        src={video.thumbnail} // Provide a default image if thumbnail is missing
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <button
+                      onClick={() => navigate(`/video/${video._id}`)}
+                      className="w-full h-full"
+                    >
+                      <img
+                        src={video.thumbnail } 
                         alt={video.title}
-                        className="h-full w-full"
+                        className="h-full w-full object-cover"
                       />
                     </button>
                   </div>
-                  <span className="absolute bottom-1 right-1 inline-block rounded bg-black px-1.5 text-sm">
+                  <span className="absolute bottom-1 right-1 inline-block rounded bg-black px-1.5 text-sm text-white">
                     {video.duration.toFixed(2)}
                   </span>
                 </div>
+
                 <div className="flex gap-x-2">
                   <div className="h-10 w-10 shrink-0">
                     <img

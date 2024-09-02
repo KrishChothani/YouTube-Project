@@ -95,7 +95,21 @@ const getVideoById = asyncHandler(async (req, res) => {
     const { videoId } = req.params;
     // console.log(videoId);
 
-    const video = await Video.find({_id :videoId}).populate("owner");
+    const video = await Video.aggregate([
+        {
+            $match:{
+                _id :new mongoose.Types.ObjectId(videoId)
+            }
+        },
+        {
+            $lookup:{
+                from : 'users',
+                localField: 'owner',
+                foreignField: '_id',
+                as: "ownerDetails"
+            }
+        }
+    ]);
 
     // console.log(video);
     if (!video?.length) {
@@ -168,6 +182,25 @@ const togglePublishStatus = asyncHandler(async (req, res) => {
     );
 })
 
+const viewUpdate = asyncHandler(async(req, res)=>{
+    const { videoId } = req.params
+    if(!videoId){
+        throw new ApiError(404 , "VideoId not found");
+    }
+
+    const view = await Video.findByIdAndUpdate(
+        videoId,
+        { $inc :{ views :1}},
+        { new : true}
+    )
+    if(!view) {
+        throw new ApiError(404 , "video not found")
+    }
+
+    return res.status(200).json(
+        new Apiresponse(201, view, "Increase views Successfully" )
+    )
+})
 export {
     getAllVideos,
     publishAVideo,
