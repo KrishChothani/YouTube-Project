@@ -1,7 +1,7 @@
   import React ,{useEffect} from 'react'
   import Header from '../Components/Header/Header';
   import Left_Header from '../Components/Left_Header/Left_Header';
-  import VideoDetailRightSidePannel from '../Components/videoDetailRightSidePannel';
+  import VideoDetailRightSidePannel from "../Components/VideoDetailRightSidePannel";
   import axios from 'axios';
   import { useState } from 'react';
   import { useParams } from 'react-router-dom';
@@ -22,6 +22,7 @@
   const [like, setLike] = useState(null);
   const [totalVideoLike , setTotalVideoLike] = useState(0);
   const hasFatch =useRef(false)
+  const [commentData, setCommentData] = useState(null)
 
   // fetch video data
   useEffect(() => {
@@ -113,7 +114,7 @@
           url: `/api/v1/likes/videos`,
         });
         setLike(resp.data.data);
-        console.log(resp.data.data);
+        // console.log(resp.data.data);
       } catch (error) {
         console.log("Error in fetching likes: " + error);
       }
@@ -123,11 +124,14 @@
 
   // set  total video liked 
   useEffect(() => {
-    if (like && user && like.lenght >0) {
-      const videolikes = like?.map((li) => li.video === videoId);
+    if (like && user ) {
+      
+       const videolikes = like.filter((li) => li.video === videoId).length;
+        // console.log(videolikes)
       setTotalVideoLike(videolikes);
     }
-  }, [like, user]);
+  }, [like, user, videoId]);
+
 
   // fetch toggle video like
   useEffect(()=>{
@@ -138,6 +142,34 @@
       setToggleLike(isliked ? 1 : 0)
     }
   },[like])
+
+  useEffect(()=>{
+    const fetchComment  = async () =>{
+       try {
+         const comments = await axios({
+           method: "GET",
+           url: `/api/v1//comments/${videoId}`,
+         });
+       } catch (error) {
+          console.error(error);
+       }
+    }
+  })
+
+  useEffect(()=>{
+    const fetchCommentData = async () =>{
+        try {
+          const res = await axios({
+            method: "GET",
+            url: `/api/v1/comments/${videoId}`,
+          });
+          setCommentData(res);
+          // console.log(res.ownerDetails);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+  })
 
   if (loading) return <div>Loading...</div>;
   if (error)  return <div>Error: {error.message}</div>;
@@ -172,6 +204,27 @@
     }
   }
   // console.log(toggleLike)
+  //  const comments = [
+  //    {
+  //      id: 1,
+  //      name: "Sarah Johnson",
+  //      username: "@sarahjv",
+  //      time: "17 hours ago",
+  //      imgSrc:
+  //        "https://images.pexels.com/photos/18148932/pexels-photo-18148932/free-photo-of-woman-reading-book-on-a-bench.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+  //      text: "This series is exactly what I've been looking for! Excited to dive into these advanced React patterns. Thanks for putting this together!",
+  //    },
+  //    {
+  //      id: 2,
+  //      name: "Michael Rodriguez",
+  //      username: "@mikerod",
+  //      time: "5 minutes ago",
+  //      imgSrc:
+  //        "https://images.pexels.com/photos/18107025/pexels-photo-18107025/free-photo-of-man-reading-newspaper.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+  //      text: "Render props have always been a bit tricky for me. Can't wait to see how this series breaks it down. Thanks for sharing!",
+  //    },
+  //    // Add other comments here
+  //  ];
 
     return (
       <>
@@ -208,7 +261,7 @@
                           {videoData.views} Views ·{" "}
                           {Math.floor(
                             (new Date() - new Date(videoData.createdAt)) /
-                              (1000*60 * 60 * 24)
+                              (1000 * 60 * 60 * 24)
                           )}{" "}
                           day ago
                         </p>
@@ -240,7 +293,7 @@
                               </span>
 
                               <span className="group-focus">
-                                {like ? like.length : 0}
+                                {totalVideoLike}
                               </span>
                             </button>
                           </div>
@@ -526,10 +579,42 @@
                       <p className="text-sm">{videoData.description}</p>
                     </div>
                   </div>
+                  {/* <div className="fixed inset-x-0 top-full z-[60] h-[calc(100%-69px)] overflow-auto rounded-lg border bg-[#121212] p-4 duration-200 hover:top-[67px] peer-focus:top-[67px] sm:static sm:h-auto sm:max-h-[500px] lg:max-h-none">
+                    <div className="block">
+                      <h6 className="mb-4 font-semibold"> {commentData?commentData.length : 0} Comments</h6>
+                      <input
+                        type="text"
+                        className="w-full rounded-lg border bg-transparent px-2 py-1 placeholder-white"
+                        placeholder="Add a Comment"
+                      />
+                    </div>
+                    <hr className="my-4 border-white" />
 
-                  <button className="peer w-full rounded-lg border p-4 text-left duration-200 hover:bg-white/5 focus:bg-white/5 sm:hidden">
-                    <h6 className="font-semibold">573 Comments...</h6>
-                  </button>
+                    {comments.map((comment) => (
+                      <div key={comment.id}>
+                        <div className="flex gap-x-4">
+                          <div className="mt-2 h-11 w-11 shrink-0">
+                            <img
+                              src={comment.imgSrc}
+                              alt={comment.username}
+                              className="h-full w-full rounded-full"
+                            />
+                          </div>
+                          <div className="block">
+                            <p className="flex items-center text-gray-200">
+                              {comment.name}&nbsp;·&nbsp;
+                              <span className="text-sm">{comment.time}</span>
+                            </p>
+                            <p className="text-sm text-gray-200">
+                              {comment.username}
+                            </p>
+                            <p className="mt-3 text-sm">{comment.text}</p>
+                          </div>
+                        </div>
+                        <hr className="my-4 border-white" />
+                      </div>
+                    ))}
+                  </div> */}
                 </div>
                 <VideoDetailRightSidePannel />
               </div>
