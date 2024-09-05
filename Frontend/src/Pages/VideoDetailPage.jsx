@@ -143,33 +143,21 @@
     }
   },[like])
 
-  useEffect(()=>{
-    const fetchComment  = async () =>{
-       try {
-         const comments = await axios({
-           method: "GET",
-           url: `/api/v1//comments/${videoId}`,
-         });
-       } catch (error) {
-          console.error(error);
-       }
-    }
-  })
-
-  useEffect(()=>{
-    const fetchCommentData = async () =>{
-        try {
-          const res = await axios({
-            method: "GET",
-            url: `/api/v1/comments/${videoId}`,
-          });
-          setCommentData(res);
-          // console.log(res.ownerDetails);
-        } catch (error) {
-            console.log(error)
-        }
-    }
-  })
+  useEffect(() => {
+    const fetchCommentData = async () => {
+      try {
+        const res = await axios({
+          method: "GET",
+          url: `/api/v1/comments/${videoId}`,
+        });
+        setCommentData(res.data.data.comments);
+        // console.log(commentData);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchCommentData();
+  }, [videoId]);
 
   if (loading) return <div>Loading...</div>;
   if (error)  return <div>Error: {error.message}</div>;
@@ -579,9 +567,12 @@
                       <p className="text-sm">{videoData.description}</p>
                     </div>
                   </div>
-                  {/* <div className="fixed inset-x-0 top-full z-[60] h-[calc(100%-69px)] overflow-auto rounded-lg border bg-[#121212] p-4 duration-200 hover:top-[67px] peer-focus:top-[67px] sm:static sm:h-auto sm:max-h-[500px] lg:max-h-none">
+                  <div className="fixed inset-x-0 top-full z-[60] h-[calc(100%-69px)] overflow-auto rounded-lg border bg-[#121212] p-4 duration-200 hover:top-[67px] peer-focus:top-[67px] sm:static sm:h-auto sm:max-h-[500px] lg:max-h-none">
                     <div className="block">
-                      <h6 className="mb-4 font-semibold"> {commentData?commentData.length : 0} Comments</h6>
+                      <h6 className="mb-4 font-semibold">
+                        {" "}
+                        {commentData ? commentData.length : 0} Comments
+                      </h6>
                       <input
                         type="text"
                         className="w-full rounded-lg border bg-transparent px-2 py-1 placeholder-white"
@@ -590,31 +581,31 @@
                     </div>
                     <hr className="my-4 border-white" />
 
-                    {comments.map((comment) => (
-                      <div key={comment.id}>
+                    {commentData?.map((comment , index) => (
+                      <div key={index}>
                         <div className="flex gap-x-4">
                           <div className="mt-2 h-11 w-11 shrink-0">
                             <img
-                              src={comment.imgSrc}
-                              alt={comment.username}
+                              src={comment.ownerDetails[0].avatar}
+                              alt={comment.ownerDetails[0].fullName}
                               className="h-full w-full rounded-full"
                             />
                           </div>
                           <div className="block">
                             <p className="flex items-center text-gray-200">
-                              {comment.name}&nbsp;·&nbsp;
+                              {comment.ownerDetails[0].fullName}&nbsp;&nbsp;
                               <span className="text-sm">{comment.time}</span>
                             </p>
                             <p className="text-sm text-gray-200">
-                              {comment.username}
+                              {comment.ownerDetails[0].userName}
                             </p>
-                            <p className="mt-3 text-sm">{comment.text}</p>
+                            <p className="mt-3 text-sm">{comment.content}</p>
                           </div>
                         </div>
                         <hr className="my-4 border-white" />
                       </div>
                     ))}
-                  </div> */}
+                  </div>
                 </div>
                 <VideoDetailRightSidePannel />
               </div>

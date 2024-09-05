@@ -21,6 +21,15 @@ const getVideoComments = asyncHandler(async (req, res) => {
         },
         {
             $sort: sortOptions
+        },
+        {
+            $lookup:{
+                from :"users",
+                localField: "owner",
+                foreignField: "_id",
+                as :"ownerDetails"
+            }
+
         }
     ]);
 

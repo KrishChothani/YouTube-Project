@@ -18,7 +18,7 @@ function AllVideoMiddleSection() {
           url: "/api/v1/videos",
         });
         setVideos(res.data.data.docs);
-        console.log(videos); 
+        // console.log(videos); 
       } catch (err) {
         setError(err.message || "Failed to fetch videos");
       } finally {
