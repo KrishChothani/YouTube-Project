@@ -1,24 +1,130 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom';
+import UserProfile from '../../UserProfile';
+
 
 function AvatarAndChannelDetail() {
+
+  const {userName} = useParams();
+  const [user, setUser] = useState(null);
+  const [profileUser , setProfileUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [subscription, setSubscription] = useState(null);
+  const [toggleSubscribed, setToggleSubscribed] = useState(0);
+  // fetch currrent user
+  useEffect(() => {
+    const fetchcurrUser = async () => {
+      try {
+        const res = await axios({
+          method: "GET",
+          url: "/api/v1/users/current-user",
+        });
+        setUser(res.data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchcurrUser();
+  }, []);
+
+  // fetch profile User
+  useEffect(() => {
+    const fetchProfileUser = async () => {
+     try {
+       const res = await axios({
+         method: "GET",
+         url: `/api/v1/users/c/${userName}`
+       })
+       setProfileUser(res.data.data)
+      //  console.log(res);
+     } catch (error) {
+        console.error(error);
+     }
+    }
+    fetchProfileUser();
+  },[])
+  // console.log(profileUser)
+
+
+  // fetch subscription
+  useEffect(() => {
+    if (profileUser) {
+      const fetchSubscription = async () => {
+        try {
+          const res = await axios.get(
+            `/api/v1/subscriptions/u/${profileUser._id}`
+          );
+          setSubscription(res.data.data);
+        } catch (error) {
+          setError(error);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchSubscription();
+    }
+  }, [profileUser,loading, toggleSubscribed]);
+
+  // set toggle subscribed
+  useEffect(() => {
+    if (subscription) {
+      const isSubscribed = subscription.some(
+        (sub) => sub.subscriber._id === user._id
+      );
+      setToggleSubscribed(isSubscribed ? 1 : 0);
+    }
+  }, [subscription]);
+
+  // handle toggle subscribed by function
+  async function handleToggleSubscribed() {
+    try {
+      const res = await axios({
+        method: "POST",
+        url: `/api/v1/subscriptions/c/${profileUser._id}`,
+        data: {
+          userId: `${user._id}`,
+        },
+      });
+      setToggleSubscribed(res.data.data == 1);
+    } catch (error) {
+      console.log("error" + error);
+    }
+  }
+
+  if (loading) {
+    return <h1>Loading ...</h1>;
+  }
+
   return (
     <>
       <div className="flex flex-wrap gap-4 pb-4 pt-6">
         <span className="relative -mt-12 inline-block h-28 w-28 shrink-0 overflow-hidden rounded-full border-2">
-          <img
-            src="https://images.pexels.com/photos/1115816/pexels-photo-1115816.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-            alt="Channel"
-            className="h-full w-full"
-          />
+          {profileUser?.avatar ? (
+            <img src={profileUser.avatar} alt="Channel" className="h-full w-full" />
+          ) : (
+            <p>Loading Avatar ...</p>
+          )}
         </span>
         <div className="mr-auto inline-block">
-          <h1 className="font-bolg text-xl">React Patterns</h1>
-          <p className="text-sm text-gray-400">@reactpatterns</p>
-          <p className="text-sm text-gray-400">600k Subscribers · 220 Subscribed</p>
+          <h1 className="font-bolg text-xl">
+            {profileUser?.fullName ? profileUser.fullName : <h1>Full Name</h1>}
+          </h1>
+          <p className="text-sm text-gray-400">
+            @{profileUser?.userName ? profileUser.userName : <h1>User Name</h1>}
+          </p>
+          <p className="text-sm text-gray-400">
+            <span>{subscription ? subscription.length : 0}</span>
+            <span style={{ marginLeft: "5px" }}>subscribers</span> · 220
+            Subscribed
+          </p>
         </div>
         <div className="inline-block">
           <div className="inline-flex min-w-[145px] justify-end">
-            <button className="group/btn mr-1 flex w-full items-center gap-x-2 bg-[#ae7aff] px-3 py-2 text-center font-bold text-black shadow-[5px_5px_0px_0px_#4f4e4e] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e] sm:w-auto">
+            <button
+              className="group/btn mr-1 flex w-full items-center gap-x-2 bg-[#ae7aff] px-3 py-2 text-center font-bold text-black shadow-[5px_5px_0px_0px_#4f4e4e] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e] sm:w-auto"
+              onClick={handleToggleSubscribed}
+            >
               <span className="inline-block w-5">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -35,8 +141,10 @@ function AvatarAndChannelDetail() {
                   ></path>
                 </svg>
               </span>
-              <span className="group-focus/btn:hidden">Subscribe</span>
-              <span className="hidden group-focus/btn:block">Subscribed</span>
+
+              <span className="group-focus">
+                {toggleSubscribed == 1 ? "UnSubscribe" : "SubScribe"}
+              </span>
             </button>
           </div>
         </div>

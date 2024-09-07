@@ -21,35 +21,105 @@ import EditVideoDetailsPopup from './Pages/EditVideoDetailsPopup.jsx';
 import DeleteVideoPopup from './Pages/DeleteVideoPopup.jsx';
 import PrivacyPolicyPage from './Pages/PrivacyPolicyPage.jsx';
 import TermsAndConditionPage from './Pages/TermsAndConditionPage.jsx';
+import App from './App.jsx';
+import UserProfile from './UserProfile.jsx';
 
 const router = createBrowserRouter([
   {
-    path: "/home",
-    element: <HomePage />,
-  },
-  {
-    path: "/video/:videoId",
-    element: <VideoDetailPage />,
-  },
-  {
-    path: "/allsubscribers",
-    element: <ChannelSubscribedListPage />,
-  },
-  {
-    path: "/channelvideos",
-    element: <ChannelVideoListPage />,
-  },
-  {
-    path: "/channelplaylists",
-    element: <ChannelPlaylistListPage />,
-  },
-  {
-    path: "/channelplaylistvideo",
-    element: <ChannelPlaylistVideoListPage />,
-  },
-  {
-    path: "/channeltweet",
-    element: <ChannelTweetsListPage />,
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        path: "/home",
+        element: <HomePage />,
+      },
+      {
+        path: "/video/:videoId",
+        element: <VideoDetailPage />,
+      },
+      {
+        path: "/userProfile/:userName",
+        element: <UserProfile />,
+        children: [
+          {
+            path: "videos",
+            element: <ChannelVideoListPage />,
+          },
+          {
+            path: "playlist",
+            element: <ChannelPlaylistListPage />,
+          },
+          {
+            path: "subscribed",
+            element: <ChannelSubscribedListPage />,
+          },
+          {
+            path: "tweet",
+            element: <ChannelTweetsListPage />,
+          },
+        ],
+      },
+      // {
+      //   path: "/allsubscribers",
+      //   element: <ChannelSubscribedListPage />,
+      // },
+      // {
+      //   path: "/channel-profile",
+      //   element: <ChannelVideoListPage />,
+      // },
+      // {
+      //   path: "/channelplaylists",
+      //   element: <ChannelPlaylistListPage />,
+      // },
+      // {
+      //   path: "/channelplaylistvideo",
+      //   element: <ChannelPlaylistVideoListPage />,
+      // },
+      // {
+      //   path: "/channeltweet",
+      //   element: <ChannelTweetsListPage />,
+      // },
+      {
+        path: "/uploadvideo",
+        element: <UploadVideoPage />,
+      },
+      {
+        path: "/uploadingvideo",
+        element: <UploadingVideoModelPopup />,
+      },
+      {
+        path: "/personalInfoEdit",
+        element: <EditPersonalDetailPage />,
+      },
+      {
+        path: "/channelInfoEdit",
+        element: <EditChannelDetailPage />,
+      },
+      {
+        path: "/editpassword",
+        element: <EditPasswordPage />,
+      },
+      {
+        path: "/edmindashboard",
+        element: <EdminDashboardPage />,
+      },
+      {
+        path: "/editevideodetails",
+        element: <EditVideoDetailsPopup />,
+      },
+      {
+        path: "/deletevideo",
+        element: <DeleteVideoPopup />,
+      },
+      {
+        path: "/privacypolicy",
+        element: <PrivacyPolicyPage />,
+      },
+      {
+        path: "/termsandconditions",
+        element: <TermsAndConditionPage />,
+      },
+    ],
   },
   {
     path: "/login",
@@ -57,49 +127,8 @@ const router = createBrowserRouter([
   },
   {
     path: "/register",
-    element: <RegistrationPage />
+    element: <RegistrationPage />,
   },
-  {
-    path: "/uploadvideo",
-    element: <UploadVideoPage />
-  },
-  {
-    path :"/uploadingvideo",
-    element: <UploadingVideoModelPopup />
-  },
-  {
-    path : "/personalInfoEdit",
-    element: <EditPersonalDetailPage />
-  },
-  {
-    path :"/channelInfoEdit",
-    element: <EditChannelDetailPage />
-  },
-  {
-    path :"/editpassword",
-    element: <EditPasswordPage />
-  },
-  {
-    path :"/edmindashboard",
-    element: <EdminDashboardPage />
-  },
-  {
-    path : "/editevideodetails",
-    element: <EditVideoDetailsPopup />
-  },
-  {
-    path :"/deletevideo",
-    element: <DeleteVideoPopup />
-  },
-  {
-    path :"/privacypolicy",
-    element: <PrivacyPolicyPage />
-  },
-  {
-    path: "/termsandconditions",
-    element: <TermsAndConditionPage />
-
-  }
 ]);
 
 ReactDom.createRoot(document.getElementById("root")).render(

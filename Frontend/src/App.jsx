@@ -1,18 +1,21 @@
 import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import axios from 'axios'
 import './App.css'
-// import EmptyVideoPage from './Components/EmptyVideoPage'
+import { Outlet } from 'react-router-dom'
+import Header from './Components/Header/Header'
+import Left_Header from './Components/Left_Header/Left_Header'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      {/* <EmptyVideoPage/> */}
+      <div className="h-screen overflow-y-auto bg-[#121212] text-white">
+        <Header />
+        <div className="flex min-h-[calc(100vh-66px)] sm:min-h-[calc(100vh-82px)]">
+          <Left_Header />
+          <Outlet />
+        </div>
+      </div>
     </>
-  )
+  );
 }
 
 export default App

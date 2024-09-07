@@ -65,7 +65,6 @@ const getUserChannelSubscribers = asyncHandler(async (req, res) => {
 // controller to return channel list to which user has subscribed
 const getSubscribedChannels = asyncHandler(async (req, res) => {
     const { channelId }= req.params
-    console.log(channelId)
 
     if(!channelId) {
         throw new ApiError(404, "Invalid channelId");

@@ -3,12 +3,13 @@ import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 function AllVideoMiddleSection() {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const {userName = ''} = useParams()
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -17,8 +18,14 @@ function AllVideoMiddleSection() {
           method: "GET",
           url: "/api/v1/videos",
         });
-        setVideos(res.data.data.docs);
-        // console.log(videos); 
+        if (userName === '') {
+          setVideos(res.data.data.docs);
+        } else {
+          const userVideo = res.data.data.docs.filter(
+            (vd) => vd.ownerDetails.userName === userName
+          );
+          setVideos(userVideo);
+        }
       } catch (err) {
         setError(err.message || "Failed to fetch videos");
       } finally {
@@ -27,7 +34,7 @@ function AllVideoMiddleSection() {
     };
     fetchVideos();
   }, [loading, error]);
-  // console.log(videos[0].duration);
+
   if (loading) return <p>Loading videos...</p>;
   if (error) return <p>Error: {error}</p>;
   return (
@@ -44,7 +51,7 @@ function AllVideoMiddleSection() {
                       className="w-full h-full"
                     >
                       <img
-                        src={video.thumbnail } 
+                        src={video.thumbnail}
                         alt={video.title}
                         className="h-full w-full object-cover"
                       />
@@ -56,27 +63,41 @@ function AllVideoMiddleSection() {
                 </div>
 
                 <div className="flex gap-x-2">
-                  <div className="h-10 w-10 shrink-0">
-                    <img
-                      src={video.ownerDetails?.avatar || "default-avatar.jpg"} // Provide a default avatar if missing
-                      alt={video.ownerDetails?.username || "Username"}
-                      className="h-full w-full rounded-full"
-                    />
-                  </div>
-                  <div className="w-full">
-                    <h6 className="mb-1 font-semibold">{video.title}</h6>
-                    <p className="flex text-sm text-gray-200">
-                      {video.views} Views ·{" "}
-                      {Math.floor(
-                        (new Date() - new Date(video.updatedAt)) /
-                          (1000 * 60 * 60 * 24)
-                      )}{" "}
-                      day ago
-                    </p>
-                    <p className="text-sm text-gray-200">
-                      {video.ownerDetails?.username || "Unknown"}
-                    </p>
-                  </div>
+                  <button
+                    onClick={() =>
+                      navigate(
+                        `/userProfile/${video.ownerDetails?.userName}/videos`
+                      )
+                    }
+                    className="flex w-full p-0 hover:bg-gray-800 rounded-md transition-colors duration-200"
+                  >
+                    {/* Avatar Section */}
+                    <div className="h-10 w-10 shrink-0 mr-3">
+                      <img
+                        src={video.ownerDetails?.avatar || "default-avatar.jpg"} // Provide a default avatar if missing
+                        alt={video.ownerDetails?.userName || "Username"}
+                        className="h-full w-full rounded-full object-cover"
+                      />
+                    </div>
+
+                    {/* Video Details Section */}
+                    <div className="flex flex-col justify-start ml-0">
+                      <h6 className="flex font-semibold text-white">
+                        {video.title}
+                      </h6>
+                      <p className="flex text-sm text-gray-400">
+                        {video.views} Views ·{" "}
+                        {Math.floor(
+                          (new Date() - new Date(video.updatedAt)) /
+                            (1000 * 60 * 60 * 24)
+                        )}{" "}
+                        day ago
+                      </p>
+                      <p className="flex text-sm text-gray-400">
+                        {video.ownerDetails?.userName || "Unknown"}
+                      </p>
+                    </div>
+                  </button>
                 </div>
               </div>
             ))
