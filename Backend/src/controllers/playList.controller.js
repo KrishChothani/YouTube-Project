@@ -41,6 +41,21 @@ const getUserPlaylists = asyncHandler(async (req, res) => {
             $match :{
                 owner: new mongoose.Types.ObjectId(userId)
             }
+        },
+        {
+            $lookup: {
+                from: "videos",
+                localField : "videos",
+                foreignField : "_id",
+                as: "videoData"
+            }
+        },
+        {
+            $addFields:{
+                totalViews :{
+                    $sum: "$videoData.views" 
+                }
+            }
         }
     ])
 
@@ -55,22 +70,38 @@ const getUserPlaylists = asyncHandler(async (req, res) => {
 })
 
 const getPlaylistById = asyncHandler(async (req, res) => {
-    const {playlistId} = req.params
+    const { playlistId } = req.params;
 
-    if(!playlistId){
-        throw new ApiError(404, "Missing playlistId")
+    if (!playlistId) {
+        throw new ApiError(404, "Missing playlistId");
     }
 
-    const playlist = await Playlist.findById(playlistId).populate("videos")
-    if(!playlist){
-        throw new ApiError(404,"something went wrong while fetching playlist");
+    // Find the playlist by ID and populate both videos and their owner
+    const playlist = await Playlist.findById(playlistId)
+        .populate({
+            path: "videos",
+            populate: {
+                path: "owner",  // Populates the owner of each video
+                select: "userName avatar",  // Customize to include only necessary fields (optional)
+            }
+        })
+        .populate("owner");  // Populate the owner of the playlist itself
+
+    if (!playlist) {
+        throw new ApiError(404, "Something went wrong while fetching the playlist");
     }
+
+    // Calculate total views
+    const totalViews = playlist.videos.reduce((sum, video) => sum + (video.views || 0), 0);
+
+    // Convert playlist to a plain object and add totalViews
+    const playlistWithViews = { ...playlist.toObject(), totalViews };
 
     return res.status(200).json(
-        new Apiresponse(201, playlist, "Playlist fetching successfully")
-    )
-    //TODO: get playlist by id
-})
+        new Apiresponse(201, playlistWithViews, "Playlist fetched successfully")
+    );
+});
+
 
 const addVideoToPlaylist = asyncHandler(async (req, res) => {
     const {videoId,playlistId } = req.params

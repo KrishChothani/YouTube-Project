@@ -12,6 +12,7 @@ function AvatarAndChannelDetail() {
   const [loading, setLoading] = useState(false);
   const [subscription, setSubscription] = useState(null);
   const [toggleSubscribed, setToggleSubscribed] = useState(0);
+  const [subscribedChannel , setSubscribedChannel] = useState(null);
   // fetch currrent user
   useEffect(() => {
     const fetchcurrUser = async () => {
@@ -31,21 +32,19 @@ function AvatarAndChannelDetail() {
   // fetch profile User
   useEffect(() => {
     const fetchProfileUser = async () => {
-     try {
-       const res = await axios({
-         method: "GET",
-         url: `/api/v1/users/c/${userName}`
-       })
-       setProfileUser(res.data.data)
-      //  console.log(res);
-     } catch (error) {
+      try {
+        const res = await axios({
+          method: "GET",
+          url: `/api/v1/users/c/${userName}`,
+        });
+        setProfileUser(res.data.data);
+        //  console.log(res);
+      } catch (error) {
         console.error(error);
-     }
-    }
+      }
+    };
     fetchProfileUser();
-  },[])
-  // console.log(profileUser)
-
+  }, [userName]);
 
   // fetch subscription
   useEffect(() => {
@@ -76,6 +75,28 @@ function AvatarAndChannelDetail() {
     }
   }, [subscription]);
 
+  // fetch subscribed channel
+  useEffect(()=>{
+    if(profileUser)
+    {
+      const fetchSubChannel = async () => {
+        try {
+          const res = await axios({
+            method: "GET",
+            url: `/api/v1/subscriptions/c/${profileUser._id}`,
+          });
+          setSubscribedChannel(res.data.data);
+          // console.log(res.data.data)
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      fetchSubChannel();
+    }
+    
+  },[user,profileUser,subscribedChannel])
+
+
   // handle toggle subscribed by function
   async function handleToggleSubscribed() {
     try {
@@ -101,7 +122,11 @@ function AvatarAndChannelDetail() {
       <div className="flex flex-wrap gap-4 pb-4 pt-6">
         <span className="relative -mt-12 inline-block h-28 w-28 shrink-0 overflow-hidden rounded-full border-2">
           {profileUser?.avatar ? (
-            <img src={profileUser.avatar} alt="Channel" className="h-full w-full" />
+            <img
+              src={profileUser.avatar}
+              alt="Channel"
+              className="h-full w-full"
+            />
           ) : (
             <p>Loading Avatar ...</p>
           )}
@@ -115,8 +140,9 @@ function AvatarAndChannelDetail() {
           </p>
           <p className="text-sm text-gray-400">
             <span>{subscription ? subscription.length : 0}</span>
-            <span style={{ marginLeft: "5px" }}>subscribers</span> · 220
-            Subscribed
+            <span style={{ marginLeft: "5px" }}>subscribers</span> · 
+            <span style={{ marginLeft: "5px" }}>{subscribedChannel ? subscribedChannel.length : 0}</span>
+             <span> Subscribed</span>
           </p>
         </div>
         <div className="inline-block">

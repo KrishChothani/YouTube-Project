@@ -50,6 +50,10 @@ const router = createBrowserRouter([
             element: <ChannelPlaylistListPage />,
           },
           {
+            path: "playlist/:playlistId",
+            element: <ChannelPlaylistVideoListPage />,
+          },
+          {
             path: "subscribed",
             element: <ChannelSubscribedListPage />,
           },
