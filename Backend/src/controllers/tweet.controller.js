@@ -38,7 +38,18 @@ const getUserTweets = asyncHandler(async (req, res) => {
             $match: {
                 owner: new mongoose.Types.ObjectId(userId)  // Correct way to use ObjectId
             }
-        }
+        },
+        {
+            $lookup: {
+                from : 'users',
+                localField: 'owner',
+                foreignField: '_id',
+                as:'ownerDetails'
+            }
+        },
+        {
+            $unwind: '$ownerDetails',
+        },
     ]);
 
 
