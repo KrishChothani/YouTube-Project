@@ -9,7 +9,7 @@ function ChannelTweet() {
   const [currUser, setCurrUser] = useState(null);
   const [profileUser, setProfileUser] = useState(null);
   const [tweetData, setTweetData] = useState([]);
-  const [likeData, setLikeData] = useState([]); // All likes for the profile's tweets
+  const [likeData, setLikeData] = useState([]);
 
   // Fetch current user
   useEffect(() => {
