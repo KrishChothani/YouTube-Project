@@ -55,7 +55,10 @@ function ChannelTweet() {
     if (profileUser) {
       const fetchTweetData = async () => {
         try {
-          const res = await axios.get(`/api/v1/tweets/user/${profileUser._id}`);
+          const res = await axios({
+            method: 'GET',
+            url:`/api/v1/tweets/user/${profileUser._id}`
+          });
           setTweetData(res.data.data);
         } catch (error) {
           console.error(error);

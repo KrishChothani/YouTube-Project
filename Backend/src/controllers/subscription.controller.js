@@ -64,23 +64,64 @@ const getUserChannelSubscribers = asyncHandler(async (req, res) => {
 
 // controller to return channel list to which user has subscribed
 const getSubscribedChannels = asyncHandler(async (req, res) => {
-    const { channelId }= req.params
+  const { channelId } = req.params;
 
-    if(!channelId) {
-        throw new ApiError(404, "Invalid channelId");
-    }
-    const subscribedChannel = await Subscription.find({
-        subscriber: channelId
-    }).populate("channel")
+  if (!channelId) {
+    throw new ApiError(404, "Invalid channelId");
+  }
 
-    if(!subscribedChannel) {
-        throw new ApiError(404, "Invalid subscribedChannel");
-    }
+  const subscribedChannel = await Subscription.aggregate([
+    {
+      $match: {
+        subscriber: new mongoose.Types.ObjectId(channelId),
+      },
+    },
+    {
+      $lookup: {
+        from: 'users',
+        localField: 'channel',
+        foreignField: '_id',
+        as: 'channelDetails',
+      },
+    },
+    {
+      $unwind: '$channelDetails', // Unwind the channelDetails array to modify it
+    },
+    {
+      $lookup: {
+        from: 'subscriptions', // Assuming subscriptions collection contains subscribers info
+        localField: 'channel',
+        foreignField: 'channel',
+        as: 'subscribersList',
+      },
+    },
+    {
+      $addFields: {
+        'channelDetails.subscribersList': '$subscribersList', // Add the subscribers list directly into channelDetails
+        'channelDetails.subscribersCount': {
+          $size: '$subscribersList', // Count the subscribers and add to channelDetails
+        },
+      },
+    },
+    {
+      $group: {
+        _id: '$_id',
+        channelDetails: { $push: '$channelDetails' }, // Rebuild the channelDetails array
+      },
+    },
+  ]);
 
-    return res.status(200).json(
-        new Apiresponse(200, subscribedChannel, "fetch subscribed channel successfully")
-    )
-})
+  if (!subscribedChannel) {
+    throw new ApiError(404, "No subscribed channels found");
+  }
+
+  return res
+    .status(200)
+    .json(
+      new Apiresponse(200, subscribedChannel, "Fetched subscribed channels successfully")
+    );
+});
+
 
 export {
     toggleSubscription,

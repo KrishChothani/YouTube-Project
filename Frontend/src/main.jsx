@@ -63,26 +63,6 @@ const router = createBrowserRouter([
           },
         ],
       },
-      // {
-      //   path: "/allsubscribers",
-      //   element: <ChannelSubscribedListPage />,
-      // },
-      // {
-      //   path: "/channel-profile",
-      //   element: <ChannelVideoListPage />,
-      // },
-      // {
-      //   path: "/channelplaylists",
-      //   element: <ChannelPlaylistListPage />,
-      // },
-      // {
-      //   path: "/channelplaylistvideo",
-      //   element: <ChannelPlaylistVideoListPage />,
-      // },
-      // {
-      //   path: "/channeltweet",
-      //   element: <ChannelTweetsListPage />,
-      // },
       {
         path: "/uploadvideo",
         element: <UploadVideoPage />,
