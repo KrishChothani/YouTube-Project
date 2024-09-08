@@ -114,7 +114,7 @@
       try {
         const resp = await axios({
           method: "GET",
-          url: `/api/v1/likes/videos`,
+          url: `/api/v1/likes/`,
         });
         setLike(resp.data.data);
         // console.log(resp.data.data);

@@ -98,15 +98,15 @@ const toggleTweetLike = asyncHandler(async (req, res) => {
 
 const getLikedVideos = asyncHandler(async (req, res) => {
     //TODO: get all liked videos
-    const likedvideo = await Like.find()
-    console.log(likedvideo)
+    const likes = await Like.find()
+    console.log(likes)
 
-    if(!likedvideo){
+    if(!likes){
         throw new ApiError(401 , "something went wrong when trying to collect liked videos")
     }
 
     return res.status(200).json(
-        new Apiresponse(200,likedvideo, "liked video fetch successfully")
+        new Apiresponse(200,likes, "liked video fetch successfully")
     )
 })
 
