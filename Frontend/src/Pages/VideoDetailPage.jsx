@@ -107,7 +107,6 @@
     hasFatch.current =true;
   }, [videoId]);
 
-
   // fetch video like
   useEffect(() => {
     const fetchVideolike = async () => {
@@ -162,6 +161,23 @@
     fetchCommentData();
   }, [videoId , addComment, commentData]);
 
+  // add video to user watch history
+  useEffect(()=>{
+    const userWatchHistory = async () =>{
+     try {
+      const res= await axios({
+         method: "POST",
+         url: "/api/v1/users/addVideoToWatchHistory",
+         data :{
+          videoId : videoId ,
+         }
+       });
+     } catch (error) {
+      console.log(error)
+     }
+    };
+    userWatchHistory();
+  },[videoId])
   
   if (loading) return <div>Loading...</div>;
   if (error)  return <div>Error: {error.message}</div>;

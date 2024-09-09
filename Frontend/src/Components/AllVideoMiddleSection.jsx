@@ -4,36 +4,56 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-function AllVideoMiddleSection() {
+function AllVideoMiddleSection({callVideo = ''}) {
   const navigate = useNavigate();
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const {userName = ''} = useParams()
 
-  useEffect(() => {
-    const fetchVideos = async () => {
-      try {
-        const res = await axios({
-          method: "GET",
-          url: "/api/v1/videos",
-        });
-        if (userName === '') {
-          setVideos(res.data.data.docs);
-        } else {
-          const userVideo = res.data.data.docs.filter(
-            (vd) => vd.ownerDetails.userName === userName
-          );
-          setVideos(userVideo);
+  if (callVideo === '') {
+    useEffect(() => {
+      const fetchVideos = async () => {
+        try {
+          const res = await axios({
+            method: "GET",
+            url: "/api/v1/videos",
+          });
+          if (userName === "") {
+            setVideos(res.data.data.docs);
+          } else {
+            const userVideo = res.data.data.docs.filter(
+              (vd) => vd.ownerDetails.userName === userName
+            );
+            setVideos(userVideo);
+          }
+        } catch (err) {
+          setError(err.message || "Failed to fetch videos");
+        } finally {
+          setLoading(false);
         }
-      } catch (err) {
-        setError(err.message || "Failed to fetch videos");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchVideos();
-  }, [loading, error]);
+      };
+      fetchVideos();
+    }, [loading, error]);
+  } else if (callVideo === "watchhistory") {
+    useEffect(() => {
+      const fetchVideos = async () => {
+        try {
+          const res = await axios({
+            method: "GET",
+            url: "/api/v1/users/history",
+          });
+          setVideos(res.data.data);
+        } catch (err) {
+          setError(err.message || "Failed to fetch videos");
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchVideos();
+    }, [loading, error]);
+  }
+ 
 
   if (loading) return <p>Loading videos...</p>;
   if (error) return <p>Error: {error}</p>;

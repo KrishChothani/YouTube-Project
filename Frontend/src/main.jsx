@@ -23,6 +23,7 @@ import PrivacyPolicyPage from './Pages/PrivacyPolicyPage.jsx';
 import TermsAndConditionPage from './Pages/TermsAndConditionPage.jsx';
 import App from './App.jsx';
 import UserProfile from './UserProfile.jsx';
+import WatchHistoryPage from './Pages/WatchHistoryPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -103,6 +104,11 @@ const router = createBrowserRouter([
         path: "/termsandconditions",
         element: <TermsAndConditionPage />,
       },
+      {
+        path: '/user/history',
+        element: <WatchHistoryPage />
+      }
+    
     ],
   },
   {

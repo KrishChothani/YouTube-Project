@@ -5,7 +5,6 @@ import { uploadOnCloudinary } from '../utils/cloudinary.js';
 import { Apiresponse } from '../utils/ApiResponse.js';
 import jwt from "jsonwebtoken";
 import mongoose from 'mongoose';
-// import isPasswordCorrect  from '../routes/user.router.js';
 
 const generateAccessAndRefreshToken = async (userId) => {
     try {
@@ -212,7 +211,6 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     }
 });
 
-
 const changeCurrentPassword = asyncHandler( async(req, res) => {
     const { oldPassword , newPassword } =  req.body
 
@@ -414,7 +412,7 @@ const getWatchhistory = asyncHandler( async(req, res) => {
                     },
                     {
                         $addFields:{
-                                owner:{
+                                ownerDetails:{
                                     $first: "$owner"
                                 }
                         }
@@ -427,6 +425,31 @@ const getWatchhistory = asyncHandler( async(req, res) => {
     return res.status(200).json(new Apiresponse(200 , user[0].watchHistory , "watch history fetch succesfully"));
 })
 
+const addVideoToWatchHistory = asyncHandler(async (req, res) => {
+    const { videoId } = req.body;
+
+    if (!videoId) {
+        throw new ApiError(400, "Video ID is required");
+    }
+
+    const videoObjectId = new mongoose.Types.ObjectId(videoId);
+
+    const user = await User.findById(req.user._id);
+
+    // Check if the video is already in the watch history
+    const isVideoAlreadyInHistory = user.watchHistory.some(
+        (watchedVideo) => watchedVideo.equals(videoObjectId)
+    );
+
+    if (!isVideoAlreadyInHistory) {
+        user.watchHistory.push(videoObjectId);
+        await user.save({ validateBeforeSave: false });
+    }
+
+    return res.status(200).json(
+        new Apiresponse(200, user.watchHistory, "Video added to watch history successfully")
+    );
+});
 
 
 export { 
@@ -440,6 +463,7 @@ export {
     updateUserAvatar,
     updateUserCoverImage,
     getUserChannelProfile,
-    getWatchhistory
+    getWatchhistory,
+    addVideoToWatchHistory
 }
 
