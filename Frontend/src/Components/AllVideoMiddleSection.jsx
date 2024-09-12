@@ -11,7 +11,7 @@ function AllVideoMiddleSection({callVideo = ''}) {
   const [error, setError] = useState(null);
   const {userName = ''} = useParams()
 
-  if (callVideo === '') {
+  if (callVideo === "") {
     useEffect(() => {
       const fetchVideos = async () => {
         try {
@@ -36,6 +36,23 @@ function AllVideoMiddleSection({callVideo = ''}) {
       fetchVideos();
     }, [loading, error]);
   } else if (callVideo === "watchhistory") {
+    useEffect(() => {
+      const fetchVideos = async () => {
+        try {
+          const res = await axios({
+            method: "GET",
+            url: "/api/v1/users/history",
+          });
+          setVideos(res.data.data);
+        } catch (err) {
+          setError(err.message || "Failed to fetch videos");
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchVideos();
+    }, [loading, error]);
+  } else if (callVideo === "likedVideo") {
     useEffect(() => {
       const fetchVideos = async () => {
         try {

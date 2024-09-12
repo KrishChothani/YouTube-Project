@@ -24,6 +24,7 @@ import TermsAndConditionPage from './Pages/TermsAndConditionPage.jsx';
 import App from './App.jsx';
 import UserProfile from './UserProfile.jsx';
 import WatchHistoryPage from './Pages/WatchHistoryPage.jsx';
+import LikedVideoPage from './Pages/LikedVideoPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -107,8 +108,11 @@ const router = createBrowserRouter([
       {
         path: '/user/history',
         element: <WatchHistoryPage />
+      },
+      {
+        path :'/user/likedvideo',
+        element: <LikedVideoPage />
       }
-    
     ],
   },
   {
