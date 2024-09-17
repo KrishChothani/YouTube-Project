@@ -3,7 +3,7 @@ import React from 'react'
 function TermAndCondition() {
   return (
     <>
-      <section className="relative mx-auto max-w-3xl px-4 py-20">
+      <section className="relative mx-auto  px-4 py-20">
         <div className="mb-16 border-b pb-16 text-center">
           <h1 className="mb-3 text-sm text-[#ae7aff]">Current as of 20 Jan 2022</h1>
           <h2 className="mb-4 text-4xl font-bold">Terms and conditions</h2>

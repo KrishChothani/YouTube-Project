@@ -21,17 +21,30 @@
       formData.append("avatar", avatar);
       formData.append("coverImage", coverImage);
 
-    function register(){
-        axios({
-          method: "POST",
-          url: "/api/v1/users/register",
-          data: formData,
-        })
-          .then(() => navigate("/login"))
-          .catch((error) => {
-            console.log(error), alert("error " + error.message);
-          });
-    }
+   function register() {
+     const formData = new FormData();
+     formData.append("fullName", fullName);
+     formData.append("userName", userName);
+     formData.append("email", email);
+     formData.append("password", password);
+     formData.append("avatar", avatar); // Make sure this is a File object
+     formData.append("coverImage", coverImage); // Make sure this is a File object
+
+     axios({
+       method: "POST",
+       url: "http://localhost:8000/api/v1/users/register",
+       data: formData,
+       headers: {
+         "Content-Type": "multipart/form-data", // Remove this line if it causes issues
+       },
+     })
+       .then(() => navigate("/login"))
+       .catch((error) => {
+         console.log(error);
+         alert("error " + error.message);
+       });
+   }
+
 
     return (
       <>

@@ -85,7 +85,7 @@ function Left_Header() {
               </span>
             </button>
           </li>
-          <li className="hidden sm:block">
+          {/* <li className="hidden sm:block">
             <button
               className="flex flex-col items-center justify-center border-white py-1 focus:text-[#ae7aff] sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-[#ae7aff] sm:hover:text-black sm:focus:border-[#ae7aff] sm:focus:bg-[#ae7aff] sm:focus:text-black sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4"
               onClick={() => navigate("/home")}
@@ -110,7 +110,7 @@ function Left_Header() {
                 My Content
               </span>
             </button>
-          </li>
+          </li> */}
           <li className="">
             <button
               className="flex flex-col items-center justify-center border-white py-1 focus:text-[#ae7aff] sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-[#ae7aff] sm:hover:text-black sm:focus:border-[#ae7aff] sm:focus:bg-[#ae7aff] sm:focus:text-black sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4"
@@ -137,7 +137,7 @@ function Left_Header() {
               </span>
             </button>
           </li>
-          <li className="">
+          {/* <li className="">
             <button
               className="flex flex-col items-center justify-center border-white py-1 focus:text-[#ae7aff] sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-[#ae7aff] sm:hover:text-black sm:focus:border-[#ae7aff] sm:focus:bg-[#ae7aff] sm:focus:text-black sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4"
               onClick={() => navigate("/home")}
@@ -162,11 +162,11 @@ function Left_Header() {
                 Subsribers
               </span>
             </button>
-          </li>
+          </li> */}
           <li className="hidden sm:block mt-auto">
             <button
               className="flex flex-col items-center justify-center border-white py-1 focus:text-[#ae7aff] sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-[#ae7aff] sm:hover:text-black sm:focus:border-[#ae7aff] sm:focus:bg-[#ae7aff] sm:focus:text-black sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4"
-              onClick={() => navigate("/home")}
+              onClick={() => navigate("/support")}
             >
               <span className="inline-block w-5 shrink-0 sm:group-hover:mr-4 lg:mr-4">
                 <svg
@@ -192,7 +192,7 @@ function Left_Header() {
           <li className="hidden sm:block">
             <button
               className="flex flex-col items-center justify-center border-white py-1 focus:text-[#ae7aff] sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-[#ae7aff] sm:hover:text-black sm:focus:border-[#ae7aff] sm:focus:bg-[#ae7aff] sm:focus:text-black sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4"
-              onClick={() => navigate("/home")}
+              onClick={() => navigate("/uploadvideo")}
             >
               <span className="inline-block w-5 shrink-0 sm:group-hover:mr-4 lg:mr-4">
                 <svg
@@ -211,7 +211,7 @@ function Left_Header() {
                 </svg>
               </span>
               <span className="block sm:hidden sm:group-hover:inline lg:inline">
-                Settings
+                Upload Video
               </span>
             </button>
           </li>

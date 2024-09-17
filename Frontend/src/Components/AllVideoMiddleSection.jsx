@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+    import React, { useCallback } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
@@ -9,8 +9,24 @@ function AllVideoMiddleSection({callVideo = ''}) {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const {userName = ''} = useParams()
+  const {userName = ''} = useParams();
+  const [likeData, setLikeData] = useState([]);
+  const [currUser , setCurrUser] = useState(null);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios({
+          method: "GET",
+          url: "/api/v1/users/current-user",
+        });
+        setCurrUser(res.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [loading, error]);
   if (callVideo === "") {
     useEffect(() => {
       const fetchVideos = async () => {
@@ -53,24 +69,35 @@ function AllVideoMiddleSection({callVideo = ''}) {
       fetchVideos();
     }, [loading, error]);
   } else if (callVideo === "likedVideo") {
-    useEffect(() => {
-      const fetchVideos = async () => {
-        try {
-          const res = await axios({
-            method: "GET",
-            url: "/api/v1/users/history",
-          });
-          setVideos(res.data.data);
-        } catch (err) {
-          setError(err.message || "Failed to fetch videos");
-        } finally {
+        useEffect(() => {
+          if (currUser) {
+            const fetchVideolike = async () => {
+              try {
+                const resp = await axios({
+                  method: "GET",
+                  url: `/api/v1/likes/`,
+                });
+                setLikeData(resp.data.data);
+              } catch (error) {
+                console.log("Error in fetching likes: " + error);
+              }
+            };
+            fetchVideolike();
+          }
+        }, [currUser]);
+
+
+        useEffect(() => {
+          if (likeData) {
+            const videodata = likeData.filter((li) => {
+              return li.LikedBy === currUser._id && li.video; 
+            }).map((li)=>li.videoDetails);
+            setVideos(videodata);
+          }
           setLoading(false);
-        }
-      };
-      fetchVideos();
-    }, [loading, error]);
-  }
- 
+        }, [likeData]);
+      }
+  
 
   if (loading) return <p>Loading videos...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -78,7 +105,7 @@ function AllVideoMiddleSection({callVideo = ''}) {
     <>
       <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
         <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-4 p-4">
-          {videos.length > 0 ? (
+          {videos?.length > 0 ? (
             videos.map((video, index) => (
               <div className="w-full" key={index}>
                 <div className="relative mb-2 w-full pt-[56%]">

@@ -7,7 +7,7 @@ function TermsAndConditionPage() {
   return (
     <>
       <div className="h-screen overflow-y-auto bg-[#121212] text-white">
-        <Header />
+        {/* <Header /> */}
         <TermAndCondition />
         <Footer />
       </div>

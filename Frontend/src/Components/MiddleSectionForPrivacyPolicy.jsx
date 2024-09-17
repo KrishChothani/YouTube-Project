@@ -3,10 +3,14 @@ import React from 'react'
 function MiddleSectionForPrivacyPolicy() {
   return (
     <>
-      <section className="relative mx-auto max-w-3xl px-4 py-20">
+      <section className="relative mx-auto px-4 py-20">
         <div className="mb-16 text-center">
-          <h1 className="mb-3 text-sm text-[#ae7aff]">Privacy Policy</h1>
-          <h2 className="mb-4 text-4xl font-bold">We care about your privacy</h2>
+          <h1 className="mb-10 text-6xl font-bold text-[#ae7aff]">
+            Privacy Policy
+          </h1>
+          <h2 className="mb-4 text-4xl font-bold">
+            We care about your privacy
+          </h2>
           <h3 className="text-gray-300">
             Your privacy is important to us at videoTube. We repect your privacy
             regarding any information we may collect from you across out

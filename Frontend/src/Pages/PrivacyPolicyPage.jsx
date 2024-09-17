@@ -7,7 +7,6 @@ function PrivacyPolicyPage() {
   return (
     <>
       <div className="h-screen overflow-y-auto bg-[#121212] text-white">
-        <Header />
         <MiddleSectionForPrivacyPolicy />
         <Footer />
       </div>

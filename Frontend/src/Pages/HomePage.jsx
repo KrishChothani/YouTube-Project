@@ -8,13 +8,7 @@ function HomePage() {
   
   return (
     <>
-      {/* <div className="h-screen overflow-y-auto bg-[#121212] text-white">
-        <Header />    
-        <div className="flex min-h-[calc(100vh-66px)] sm:min-h-[calc(100vh-82px)]">
-          <Left_Header /> */}
-          <AllVideoMiddleSection />
-        {/* </div>
-      </div> */}
+      <AllVideoMiddleSection />
     </>
   );
 }

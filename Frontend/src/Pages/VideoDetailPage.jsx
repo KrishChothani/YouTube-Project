@@ -131,6 +131,7 @@
        const videolikes = like.filter((li) => li.video === videoId).length;
         // console.log(videolikes)
       setTotalVideoLike(videolikes);
+      console.log(totalVideoLike);
     }
   }, [like, user, videoId]);
 

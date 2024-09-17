@@ -25,6 +25,7 @@ import App from './App.jsx';
 import UserProfile from './UserProfile.jsx';
 import WatchHistoryPage from './Pages/WatchHistoryPage.jsx';
 import LikedVideoPage from './Pages/LikedVideoPage.jsx';
+import SupportPage from './Pages/SupportPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -112,6 +113,10 @@ const router = createBrowserRouter([
       {
         path :'/user/likedvideo',
         element: <LikedVideoPage />
+      },
+      {
+        path :'/support',
+        element: <SupportPage />
       }
     ],
   },
