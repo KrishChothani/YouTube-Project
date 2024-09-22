@@ -15,8 +15,6 @@ const getChannelStats = asyncHandler(async(req, res) => {
     const totalLikes = await Like.countDocuments({
         video: {$in: await Video.find({owner: userId}).select('_id') }
     })
-    console.log(totalSubscribers);
-
 
     const stats ={
         totalSubscribers: totalSubscribers,
@@ -31,7 +29,6 @@ const getChannelvideos = asyncHandler(async(req, res) => {
     
     const userId = req.user._id
     const channelVideo = await Video.find({ owner: userId})
-    console.log(channelVideo);
     return res.status(200).json(
         new Apiresponse(201, channelVideo, "ChannelVieo fetch SuccessFully")
     )

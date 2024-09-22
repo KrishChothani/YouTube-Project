@@ -1,11 +1,27 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 function Header() {
   const navigate = useNavigate()
-  const [healthcheck , useHealthcheck] = useState(0);
+  // const [healthcheck , useHealthcheck] = useState(0);
+  const [login , setLogin]  = useState(false);
 
+  useEffect(()=>{
+    const fetchData = async () =>{
+      try {
+        const res = await axios({
+          method: "GET",
+          url: "/api/v1/healthcheck",
+        });
+        console.log(res)
+        setLogin(true);
+      } catch (error) {
+        setLogin(false);
+      }
+    };
+    fetchData();
+  },[])
   return (
     <>
       <header className="sticky inset-x-0 top-0 z-50 w-full border-b border-white bg-[#121212] px-4">
@@ -286,22 +302,7 @@ function Header() {
             </ul>
 
             {/* // login logout */}
-            <div className="mb-8 mt-auto flex w-full flex-wrap gap-4 px-4 sm:mb-0 sm:mt-0 sm:items-center sm:px-0">
-              {/* <button
-                className="w-full bg-[#383737] px-3 py-2 hover:bg-[#4f4e4e] sm:w-auto sm:bg-transparent"
-                onClick={()=> navigate('/login')}
-              >
-                Log in
-              </button>
-              <button
-                className="mr-1 w-full bg-[#ae7aff] px-3 py-2 text-center font-bold text-black shadow-[5px_5px_0px_0px_#4f4e4e] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e] sm:w-auto"
-                onClick={()=> navigate('/register')}
-              >
-                Sign up
-              </button> */}
-
-
-              {/* // logOut button */}
+            {login ? (
               <button
                 className="mr-1 w-full bg-[#ae7aff] px-3 py-2 text-center font-bold text-black shadow-[5px_5px_0px_0px_#4f4e4e] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e] sm:w-auto"
                 onClick={() =>
@@ -317,7 +318,16 @@ function Header() {
               >
                 Log out
               </button>
-            </div>
+            ) : (
+                <div className="mr-1 w-full bg-[#ae7aff] px-3 py-2 text-center font-bold text-black shadow-[5px_5px_0px_0px_#4f4e4e] transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e] sm:w-auto">
+                <button
+                  className="w-full bg-[#383737] px-3 py-2 hover:bg-[#4f4e4e] sm:w-auto sm:bg-transparent"
+                  onClick={() => navigate("/login")}
+                >
+                  Log in
+                </button>
+                </div>
+            )}
           </div>
         </nav>
       </header>

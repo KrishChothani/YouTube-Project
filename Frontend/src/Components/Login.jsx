@@ -27,7 +27,7 @@ function Login() {
     })
       .then((res) => {
         console.log(res);
-        navigate('/home');
+        navigate('/');
       })
       .catch((error) => {
         alert("Login failed. Please check your credentials and try again.");

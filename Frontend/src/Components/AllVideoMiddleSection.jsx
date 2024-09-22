@@ -12,7 +12,8 @@ function AllVideoMiddleSection({callVideo = ''}) {
   const {userName = ''} = useParams();
   const [likeData, setLikeData] = useState([]);
   const [currUser , setCurrUser] = useState(null);
-
+   
+  //  console.log(login)
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -105,7 +106,7 @@ function AllVideoMiddleSection({callVideo = ''}) {
     <>
       <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
         <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-4 p-4">
-          {videos?.length > 0 ? (
+          {(videos?.length > 0 || login )?  (
             videos.map((video, index) => (
               <div className="w-full" key={index}>
                 <div className="relative mb-2 w-full pt-[56%]">
