@@ -36,7 +36,7 @@ function UploadVideoPopup() {
     })
       .then((res) => {
         console.log(res);
-        navigate("/home");
+        navigate("/edmindashboard");
       })
       .catch((e) => {
         console.error(e);
