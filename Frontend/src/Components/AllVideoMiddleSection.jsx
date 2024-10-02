@@ -1,112 +1,91 @@
-    import React, { useCallback } from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+/** @format */
+
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
-function AllVideoMiddleSection({callVideo = ''}) {
+import { useNavigate, useParams } from "react-router-dom";
+
+function AllVideoMiddleSection({ callVideo = "" }) {
   const navigate = useNavigate();
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const {userName = ''} = useParams();
+  const { userName = "" } = useParams();
   const [likeData, setLikeData] = useState([]);
-  const [currUser , setCurrUser] = useState(null);
-   
-  //  console.log(login)
+  const [currUser, setCurrUser] = useState(null);
+
+  // Fetch current user data
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios({
-          method: "GET",
-          url: "/api/v1/users/current-user",
-        });
+        const res = await axios.get("/api/v1/users/current-user");
         setCurrUser(res.data.data);
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
-  }, [loading, error]);
-  if (callVideo === "") {
-    useEffect(() => {
-      const fetchVideos = async () => {
-        try {
-          const res = await axios({
-            method: "GET",
-            url: "/api/v1/videos",
-          });
-          if (userName === "") {
-            setVideos(res.data.data.docs);
-          } else {
-            const userVideo = res.data.data.docs.filter(
-              (vd) => vd.ownerDetails.userName === userName
-            );
-            setVideos(userVideo);
-          }
-        } catch (err) {
-          setError(err.message || "Failed to fetch videos");
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchVideos();
-    }, [loading, error]);
-  } else if (callVideo === "watchhistory") {
-    useEffect(() => {
-      const fetchVideos = async () => {
-        try {
-          const res = await axios({
-            method: "GET",
-            url: "/api/v1/users/history",
-          });
-          setVideos(res.data.data);
-        } catch (err) {
-          setError(err.message || "Failed to fetch videos");
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchVideos();
-    }, [loading, error]);
-  } else if (callVideo === "likedVideo") {
-        useEffect(() => {
-          if (currUser) {
-            const fetchVideolike = async () => {
-              try {
-                const resp = await axios({
-                  method: "GET",
-                  url: `/api/v1/likes/`,
-                });
-                setLikeData(resp.data.data);
-              } catch (error) {
-                console.log("Error in fetching likes: " + error);
-              }
-            };
-            fetchVideolike();
-          }
-        }, [currUser]);
+  }, []); // No need to depend on `loading` or `error` here.
 
+  // Fetch all videos
+  useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+        let res;
+        if (callVideo === "watchhistory") {
+          res = await axios.get("/api/v1/users/history");
+        } else {
+          res = await axios.get("/api/v1/videos");
+        }
 
-        useEffect(() => {
-          if (likeData) {
-            const videodata = likeData.filter((li) => {
-              return li.LikedBy === currUser._id && li.video; 
-            }).map((li)=>li.videoDetails);
-            setVideos(videodata);
-          }
-          setLoading(false);
-        }, [likeData]);
+        if (userName === "") {
+          setVideos(res.data.data.docs || res.data.data);
+        } else {
+          const userVideo = res.data.data.docs.filter(
+            (vd) => vd.ownerDetails.userName === userName
+          );
+          setVideos(userVideo);
+        }
+      } catch (err) {
+        setError(err.message || "Failed to fetch videos");
+      } finally {
+        setLoading(false);
       }
-  
+    };
+
+    if (callVideo !== "likedVideo") {
+      fetchVideos();
+    }
+  }, [callVideo, userName]); // Depend on callVideo and userName to prevent redundant requests
+
+  // Fetch liked videos when callVideo is 'likedVideo'
+  useEffect(() => {
+    const fetchLikedVideos = async () => {
+      try {
+        if (callVideo === "likedVideo" && currUser) {
+          const resp = await axios.get(`/api/v1/likes/`);
+          const videodata = resp.data.data
+            .filter((li) => li.LikedBy === currUser._id && li.video)
+            .map((li) => li.videoDetails);
+          setVideos(videodata);
+        }
+      } catch (error) {
+        setError("Error in fetching liked videos");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLikedVideos();
+  }, [callVideo, currUser]);
 
   if (loading) return <p>Loading videos...</p>;
   if (error) return <p>Error: {error}</p>;
+
   return (
     <>
       <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
         <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-4 p-4">
-          {(videos?.length > 0 || login )?  (
+          {videos?.length > 0 ? (
             videos.map((video, index) => (
               <div className="w-full" key={index}>
                 <div className="relative mb-2 w-full pt-[56%]">
@@ -136,16 +115,14 @@ function AllVideoMiddleSection({callVideo = ''}) {
                     }
                     className="flex w-full p-0 hover:bg-gray-800 rounded-md transition-colors duration-200"
                   >
-                    {/* Avatar Section */}
                     <div className="h-10 w-10 shrink-0 mr-3">
                       <img
-                        src={video.ownerDetails?.avatar || "default-avatar.jpg"} // Provide a default avatar if missing
+                        src={video.ownerDetails?.avatar || "default-avatar.jpg"}
                         alt={video.ownerDetails?.userName || "Username"}
                         className="h-full w-full rounded-full object-cover"
                       />
                     </div>
 
-                    {/* Video Details Section */}
                     <div className="flex flex-col justify-start ml-0">
                       <h6 className="flex font-semibold text-white">
                         {video.title}
