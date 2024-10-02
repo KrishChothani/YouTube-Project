@@ -12,7 +12,7 @@
     const [avatar, setAvatar] = useState(null);
     const [coverImage, setCoverImage] = useState(null);
     const navigate = useNavigate()
-
+    const [color , setColor] = useState(false);
       const formData = new FormData();
       formData.append("fullName", fullName);
       formData.append("userName", userName);
@@ -30,9 +30,11 @@
      formData.append("avatar", avatar); // Make sure this is a File object
      formData.append("coverImage", coverImage); // Make sure this is a File object
 
+     setColor(true);
+
      axios({
        method: "POST",
-       url: "http://localhost:8000/api/v1/users/register",
+       url: "/api/v1/users/register",
        data: formData,
        headers: {
          "Content-Type": "multipart/form-data", // Remove this line if it causes issues
@@ -41,6 +43,7 @@
        .then(() => navigate("/login"))
        .catch((error) => {
          console.log(error);
+         setColor(false);
          alert("error " + error.message);
        });
    }
@@ -180,7 +183,9 @@
             />
 
             <button
-              className="bg-[#ae7aff] px-4 py-3 text-black"
+              className={`${
+                color ? "bg-[#2c0f5a]" : "bg-[#ae7aff]"
+              } px-4 py-3 text-black`}
               type="button"
               onClick={register}
             >
@@ -188,9 +193,9 @@
             </button>
 
             <button
-              className="bg-[#ae7aff] px-4 py-3 mt-5 text-black"
+              className={`bg-[#ae7aff] px-4 py-3 mt-5 text-black`}
               type="button"
-              onClick={()=>navigate('/login')}
+              onClick={() => navigate("/login")}
             >
               Sign In
             </button>
