@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
-function AllVideoMiddleSection({ callVideo = "" }) {
+function allVideoMiddleSection({ callVideo = "" }) {
   const navigate = useNavigate();
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -24,7 +24,7 @@ function AllVideoMiddleSection({ callVideo = "" }) {
       }
     };
     fetchData();
-  }, []); // No need to depend on `loading` or `error` here.
+  }, []); // No need to depend on loading or error here.
 
   // Fetch all videos
   useEffect(() => {
@@ -62,7 +62,7 @@ function AllVideoMiddleSection({ callVideo = "" }) {
     const fetchLikedVideos = async () => {
       try {
         if (callVideo === "likedVideo" && currUser) {
-          const resp = await axios.get(`/api/v1/likes/`);
+          const resp = await axios.get('/api/v1/likes/');
           const videodata = resp.data.data
             .filter((li) => li.LikedBy === currUser._id && li.video)
             .map((li) => li.videoDetails);
@@ -152,4 +152,4 @@ function AllVideoMiddleSection({ callVideo = "" }) {
   );
 }
 
-export default AllVideoMiddleSection;
+export default allVideoMiddleSection;
