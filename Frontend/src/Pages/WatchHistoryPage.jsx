@@ -1,5 +1,5 @@
 import React from 'react'
-import AllVideoMiddleSection from '../Components/allVideoMiddleSection';
+import AllVideoMiddleSection from '../Components/AllVideo';
 
 function WatchHistoryPage() {
   return (
