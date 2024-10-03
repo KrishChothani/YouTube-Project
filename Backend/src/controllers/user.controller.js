@@ -68,10 +68,7 @@ const registerUser = asyncHandler(async(req,res)=>{
     if(!avatar){
         throw new ApiError(400, "Avatar file is required");
     }
-    if(!coverIamge){
-        throw new ApiError(400, "Avatar file is required");
-    }
-    console.log(fullName, email, userName, password, coverIamge)
+
     const user = await User.create({ 
         fullName,
         avatar: avatar.url,
@@ -81,16 +78,17 @@ const registerUser = asyncHandler(async(req,res)=>{
         userName: userName.toLowerCase()
     })
     const createdUser = await User.findById(user._id).select("-password -refreshToken");
-    console.log(createdUser , avatar, coverIamge)
+
     if(!createdUser){
         throw new ApiError(500 , "something went wrong while register the user");
     }
+    // console.log(user.password);
+    // console.log(createdUser.password);
 
     return res.status(201).json(
         new Apiresponse(200, createdUser, "USer registration completed successfully")
     )
 })
-
 const loginUser = asyncHandler( async(req, res) => {
     // data from request body
     // username or email
