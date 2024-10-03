@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   server:{
       proxy:{
-        '/api/v1' : 'https://youtube-backend-lilac.vercel.app',
+        '/api/v1' : 'https://youtube-backend-psi.vercel.app',
         // '/api/v1' : 'https://youtube-backend-lilac.vercel.app'
       }
   },

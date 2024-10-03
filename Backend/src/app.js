@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 const app = express();
 
 app.use(cors({
-    origin: "https://youtube-backend-lilac.vercel.app",
+    origin: "https://youtube-backend-psi.vercel.app",
     credentials: true,
 }));
 
