@@ -32,7 +32,7 @@
 
      axios({
        method: "POST",
-       url: "http://localhost:8000/api/v1/users/register",
+       url: "/api/v1/users/register",
        data: formData,
        headers: {
          "Content-Type": "multipart/form-data", // Remove this line if it causes issues
