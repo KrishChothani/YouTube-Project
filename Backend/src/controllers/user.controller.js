@@ -5,6 +5,7 @@ import { uploadOnCloudinary } from '../utils/cloudinary.js';
 import { Apiresponse } from '../utils/ApiResponse.js';
 import jwt from "jsonwebtoken";
 import mongoose from 'mongoose';
+import fs from 'fs';
 
 const generateAccessAndRefreshToken = async (userId) => {
     try {
@@ -84,6 +85,9 @@ const registerUser = asyncHandler(async(req,res)=>{
     }
     // console.log(user.password);
     // console.log(createdUser.password);
+    //  fs.unlinkSync(coverImageLocalPath);
+    //  fs.unlinkSync(avatarLocalPath);
+
 
     return res.status(201).json(
         new Apiresponse(200, createdUser, "USer registration completed successfully")
