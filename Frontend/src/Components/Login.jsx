@@ -19,7 +19,7 @@ function Login() {
      }
     axios({
       method: "POST",
-      url: "/api/v1/users/login",
+      url: "https://youtube-backend-lilac.vercel.app/api/v1/users/login",
       data: {
         email: email,
         password: password,
@@ -27,10 +27,10 @@ function Login() {
     })
       .then((res) => {
         console.log(res);
-        navigate('/');
+        navigate("/");
       })
       .catch((error) => {
-        console.log("login error" , error);
+        console.log("login error", error);
         alert("Login failed. Please check your credentials and try again.");
       });
   }
