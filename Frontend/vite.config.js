@@ -6,7 +6,7 @@ export default defineConfig({
   server:{
       proxy:{
         // '/api/v1' : 'http://localhost:8000',
-        '/api/v1' : 'you-tube-project-api.vercel.app'
+        '/api/v1' : 'https://youtube-backend-lilac.vercel.app'
       }
   },
   plugins: [react()],
