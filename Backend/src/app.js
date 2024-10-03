@@ -4,12 +4,13 @@ import cookieParser from "cookie-parser";
 
 const app = express();
 
+// Configure CORS
 const corsOptions = {
-    origin: 'https://youtube-clone-cks-dev.vercel.app', // without trailing slash
+    origin: process.env.CORS_ORIGIN,
     methods: 'GET, POST, OPTIONS',
     credentials: true, // if you're using cookies or authorization headers
 };
-
+   
 app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public"))
