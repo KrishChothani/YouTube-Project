@@ -14,8 +14,8 @@ function Header() {
             method: "GET",
             url: "https://youtube-backend-psi.vercel.app/api/v1/healthcheck",
             withCredentials: true,
-          });
-  
+          }, ()=>console.log('Cookies:', req.cookies));
+          
           setLogin(true);
           console.log("successfuly login", res, login);
         } catch (error) {

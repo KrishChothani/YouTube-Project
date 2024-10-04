@@ -29,6 +29,7 @@ function Login() {
       .then((res) => {
         console.log("successfully login");
         console.log(res);
+        
         navigate("/");
       })
       .catch((error) => {
