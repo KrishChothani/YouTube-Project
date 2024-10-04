@@ -13,6 +13,7 @@ function Header() {
         const res = await axios({
           method: "GET",
           url: "https://youtube-backend-psi.vercel.app/api/v1/healthcheck",
+          withCredentials: true,
         });
  
         setLogin(true);
