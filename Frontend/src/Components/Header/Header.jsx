@@ -19,7 +19,7 @@ function Header() {
         console.log("successfuly login", res, login);
       } catch (error) {
        
-        setLogin(false); console.log("login failed" , login);
+        setLogin(false); console.log("login failed" , login,error);
       }
     };
     fetchData();
