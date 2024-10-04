@@ -14,9 +14,10 @@ function Header() {
           method: "GET",
           url: "/api/v1/healthcheck",
         });
-        console.log(res)
+        console.log("successfuly login" , res);
         setLogin(true);
       } catch (error) {
+        console.log("login failed");
         setLogin(false);
       }
     };
