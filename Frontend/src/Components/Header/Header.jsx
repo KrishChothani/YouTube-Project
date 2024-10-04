@@ -3,29 +3,29 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 function Header() {
-  const navigate = useNavigate()
-  // const [healthcheck , useHealthcheck] = useState(0);
-  const [login , setLogin]  = useState(false);
+    const navigate = useNavigate()
+    // const [healthcheck , useHealthcheck] = useState(0);
+    const [login , setLogin]  = useState(false);
 
-  useEffect(()=>{
-    const fetchData = async () =>{
-      try {
-        const res = await axios({
-          method: "GET",
-          url: "https://youtube-backend-psi.vercel.app/api/v1/healthcheck",
-          withCredentials: true,
-        });
- 
-        setLogin(true);
-        console.log("successfuly login", res, login);
-      } catch (error) {
-       
-        setLogin(false); console.log("login failed" , login,error);
-      }
-      // setLogin(true);
-    };
-    fetchData();
-  },[])
+    useEffect(()=>{
+      const fetchData = async () =>{
+        try {
+          const res = await axios({
+            method: "GET",
+            url: "https://youtube-backend-psi.vercel.app/api/v1/healthcheck",
+            withCredentials: true,
+          });
+  
+          setLogin(true);
+          console.log("successfuly login", res, login);
+        } catch (error) {
+        
+          setLogin(false); console.log("login failed" , login,error);
+        }
+        // setLogin(true);
+      };
+      fetchData();
+    },[])
   return (
     <>
       <header className="sticky inset-x-0 top-0 z-50 w-full border-b border-white bg-[#121212] px-4">
