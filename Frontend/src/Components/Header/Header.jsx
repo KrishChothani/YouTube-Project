@@ -7,36 +7,37 @@ function Header() {
     // const [healthcheck , useHealthcheck] = useState(0);
     const [login , setLogin]  = useState(false);
 
-useEffect(() => {
-  axios
-    .get("https://youtube-backend-psi.vercel.app/api/v1/healthcheck")
-    .then(() => {
-      console.log("healthcheck");
-      setLogin(true);
-    })
-    .catch(() => setLogin(false));
-}, []);
+// useEffect(() => {
+//   axios
+//     .get("https://youtube-backend-psi.vercel.app/api/v1/healthcheck")
+//     .then(() => {
+//       console.log("healthcheck");
+//       setLogin(true);
+//     })
+//     .catch(() => setLogin(false));
+// }, []);
 
     
-    // useEffect(()=>{
-    //   const fetchData = async () =>{
-    //     try {
-    //       const res = await axios({
-    //         method: "GET",
-    //         url: "https://youtube-backend-psi.vercel.app/api/v1/healthcheck",
-    //         withCredentials: true,
-    //       }, ()=>console.log('Cookies:', req.cookies));
-          
-    //       setLogin(true);
-    //       console.log("successfuly login", res, login);
-    //     } catch (error) {
-        
-    //       setLogin(false); console.log("login failed" , login,error);
-    //     }
-    //     // setLogin(true);
-    //   };
-    //   fetchData();
-    // },[])
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          await new Promise((resolve) => setTimeout(resolve, 2000)); // Delay of 2 seconds
+          const res = await axios({
+            method: "GET",
+            url: "https://youtube-backend-psi.vercel.app/api/v1/healthcheck",
+            withCredentials: true,
+          });
+          setLogin(true);
+          console.log("Successfully logged in", res);
+        } catch (error) {
+          setLogin(false);
+          console.log("Login failed", error);
+        }
+      };
+
+      fetchData();
+    }, []);
+
   return (
     <>
       <header className="sticky inset-x-0 top-0 z-50 w-full border-b border-white bg-[#121212] px-4">
