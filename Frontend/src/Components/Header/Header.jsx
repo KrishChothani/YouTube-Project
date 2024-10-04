@@ -21,6 +21,7 @@ function Header() {
        
         setLogin(false); console.log("login failed" , login,error);
       }
+      setLogin(true);
     };
     fetchData();
   },[])
