@@ -5,5 +5,5 @@ import { healthcheck } from "../controllers/healthcheck.controller.js";
 const router = new Router();
 router.use(verifyJWT)
 
-router.route('/').get(healthcheck);
+router.route('/').get(verifyJWT,healthcheck);
 export default router;
