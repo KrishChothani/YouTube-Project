@@ -7,16 +7,6 @@ function Header() {
     // const [healthcheck , useHealthcheck] = useState(0);
     const [login , setLogin]  = useState(false);
 
-// useEffect(() => {
-//   axios
-//     .get("https://youtube-backend-psi.vercel.app/api/v1/healthcheck")
-//     .then(() => {
-//       console.log("healthcheck");
-//       setLogin(true);
-//     })
-//     .catch(() => setLogin(false));
-// }, []);
-
     
     useEffect(() => {
       const fetchData = async () => {
@@ -36,7 +26,7 @@ function Header() {
       };
 
       fetchData();
-    }, []);
+    }, [login]);
 
   return (
     <>
