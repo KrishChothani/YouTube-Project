@@ -15,13 +15,13 @@ function Header() {
           url: "https://youtube-backend-psi.vercel.app/api/v1/healthcheck",
         });
  
-        setLogin(true);
+        setLogin(false);
         console.log("successfuly login", res, login);
       } catch (error) {
        
-        setLogin(false); console.log("login failed" , login,error);
+        setLogin(true); console.log("login failed" , login,error);
       }
-      setLogin(true);
+      // setLogin(true);
     };
     fetchData();
   },[])
