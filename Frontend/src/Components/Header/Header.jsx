@@ -310,7 +310,7 @@ function Header() {
                 onClick={() =>
                   axios({
                     method: "POST",
-                    url: "/api/v1/users/logout",
+                    url: "https://youtube-backend-psi.vercel.app/api/v1/users/logout",
                   })
                     .then(() => navigate("/login"))
                     .catch((error) => {
