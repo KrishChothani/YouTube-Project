@@ -11,6 +11,7 @@ const healthcheck = asyncHandler(async (req, res) => {
         status: "OK",
         message: "Server is up and running"
     }
+    console.log(req.cookies)
     return res.status(200).json(
         new Apiresponse(201,showstatus,"show healcheck Status successfullly" )  
     );
