@@ -12,13 +12,14 @@ function Header() {
       try {
         const res = await axios({
           method: "GET",
-          url: "/api/v1/healthcheck",
+          url: "https://youtube-backend-psi.vercel.app/api/v1/healthcheck",
         });
-        console.log("successfuly login" , res);
+ 
         setLogin(true);
+        console.log("successfuly login", res, login);
       } catch (error) {
-        console.log("login failed");
-        setLogin(false);
+       
+        setLogin(false); console.log("login failed" , login);
       }
     };
     fetchData();
