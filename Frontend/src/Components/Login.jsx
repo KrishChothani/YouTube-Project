@@ -19,7 +19,7 @@ function Login() {
      }
     axios({
       method: "POST",
-      url: "https://youtube-backend-psi.vercel.app/api/v1/users/login",
+      url: "/api/v1/users/login",
       data: {
         email: email,
         password: password,
