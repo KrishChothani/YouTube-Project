@@ -5,12 +5,11 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-  "start": "node -r dotenv/config --experimental-json-modules src/index.js",
-  "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
-  "test": "jest",
-  "lint": "eslint ."
-}
-,
+    "start": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
+    "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
+    "test": "jest",
+    "lint": "eslint ."
+  },
   "keywords": [
     "javascript",
     "backend"
@@ -31,6 +30,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.5.3",
     "mongoose-aggregate-paginate-v2": "^1.1.2",
-    "multer": "^1.4.5-lts.1"
+    "multer": "^1.4.5-lts.1",
+    "react-backend": "file:"
   }
 }

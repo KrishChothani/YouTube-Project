@@ -15,7 +15,7 @@ function ChannelTweet() {
   useEffect(() => {
     const fetchCurrUser = async () => {
       try {
-        const res = await axios.get(`https://youtube-backend-psi.vercel.app/api/v1/users/current-user`);
+        const res = await axios.get(`/api/v1/users/current-user`);
         setCurrUser(res.data.data);
       } catch (error) {
         console.log(error);
@@ -28,7 +28,7 @@ function ChannelTweet() {
   useEffect(() => {
     const fetchProfileUser = async () => {
       try {
-        const res = await axios.get(`https://youtube-backend-psi.vercel.app/api/v1/users/c/${userName}`);
+        const res = await axios.get(`/api/v1/users/c/${userName}`);
         setProfileUser(res.data.data);
       } catch (error) {
         console.error(error);
@@ -41,7 +41,7 @@ function ChannelTweet() {
   useEffect(() => {
     const fetchLikeData = async () => {
       try {
-        const res = await axios.get(`https://youtube-backend-psi.vercel.app/api/v1/likes/`);
+        const res = await axios.get(`/api/v1/likes/`);
         setLikeData(res.data.data);
       } catch (error) {
         console.log("Error in fetching likes: " + error);
@@ -57,7 +57,7 @@ function ChannelTweet() {
         try {
           const res = await axios({
             method: 'GET',
-            url:`https://youtube-backend-psi.vercel.app/api/v1/tweets/user/${profileUser._id}`
+            url:`/api/v1/tweets/user/${profileUser._id}`
           });
           setTweetData(res.data.data);
         } catch (error) {
@@ -85,10 +85,10 @@ function ChannelTweet() {
   // Handle like/unlike for each tweet
   const handleToggleLiked = async (tweetId) => {
     try {
-      await axios.post(`https://youtube-backend-psi.vercel.app/api/v1/likes/toggle/t/${tweetId}`);
+      await axios.post(`/api/v1/likes/toggle/t/${tweetId}`);
       const res = await axios({
         method :'GET',
-        url :`https://youtube-backend-psi.vercel.app/api/v1/likes/`
+        url :`/api/v1/likes/`
       });
       setLikeData(res.data.data); 
     } catch (error) {

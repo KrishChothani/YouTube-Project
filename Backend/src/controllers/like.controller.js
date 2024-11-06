@@ -15,7 +15,7 @@ const toggleVideoLike = asyncHandler(async (req, res) => {
         video : videoId,
         LikedBy : req.user._id
     })
-    console.log(existingVideoLike)
+    // console.log(existingVideoLike)
     if(existingVideoLike){
         await existingVideoLike.deleteOne()
 

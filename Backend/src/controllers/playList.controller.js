@@ -105,7 +105,7 @@ const getPlaylistById = asyncHandler(async (req, res) => {
 
 const addVideoToPlaylist = asyncHandler(async (req, res) => {
     const {videoId,playlistId } = req.params
-    console.log(req.params);
+    // console.log(req.params);
     
 
     if(!playlistId && !videoId){

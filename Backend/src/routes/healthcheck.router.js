@@ -3,7 +3,7 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 import { healthcheck } from "../controllers/healthcheck.controller.js";
 
 const router = new Router();
-// router.use(verifyJWT)
+router.use(verifyJWT)
 
 router.route('/').get(healthcheck);
 export default router;

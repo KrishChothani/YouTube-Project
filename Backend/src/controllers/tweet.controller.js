@@ -10,7 +10,7 @@ import { asyncHandler } from "../utils/asyncHandler.js"
 const createTweet = asyncHandler(async (req, res) => {
     //TODO: create tweet
     const {content} = req.body
-    console.log(req.body)
+    // console.log(req.body)
 
     if(!content){
         throw new ApiError(400, "Empty content")
@@ -26,7 +26,7 @@ const createTweet = asyncHandler(async (req, res) => {
 
 const getUserTweets = asyncHandler(async (req, res) => {
     const { userId } = req.params;
-    console.log(userId);
+    // console.log(userId);
 
     // Validate that userId is a valid ObjectId
     if (!mongoose.Types.ObjectId.isValid(userId)) {
@@ -84,7 +84,7 @@ const updateTweet = asyncHandler(async (req, res) => {
             }
         },
     )
-    console.log(updatedTweet);
+    // console.log(updatedTweet);
     res.status(200).json( new Apiresponse(201,updatedTweet, "tweet updated succeessfully") );
 })
 
@@ -96,6 +96,10 @@ const deleteTweet = asyncHandler(async (req, res) => {
     }
 
     const deletedTweet = await Tweet.findByIdAndDelete(tweetId)
+    if(!deletedTweet){
+        throw new Error(404 , "Tweet ID not found");
+        
+    }
 
     res.status(200).json( new Apiresponse(201,deleteTweet, "tweet deleted succeessfully") );
 })

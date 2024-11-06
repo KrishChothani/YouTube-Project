@@ -13,10 +13,10 @@ function VideoDetailRightSidePannel() {
       try {
         const res = await axios({
           method: "GET",
-          url: "https://youtube-backend-psi.vercel.app/api/v1/videos",
+          url: "/api/v1/videos",
         });
         setVideos(res.data.data.docs);
-        console.log(videos);
+        // console.log(videos);
       } catch (err) {
         setError(err.message || "Failed to fetch videos");
       } finally {

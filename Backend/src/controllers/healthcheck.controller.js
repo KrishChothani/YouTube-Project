@@ -13,7 +13,7 @@ const healthcheck = asyncHandler(async (req, res) => {
     }
     console.log(req.cookies)
     return res.status(200).json(
-        new Apiresponse(201,sho-wstatus,"show healcheck Status successfullly" )  
+        new Apiresponse(201,showstatus,"show healcheck Status successfullly" )  
     );
 })
 

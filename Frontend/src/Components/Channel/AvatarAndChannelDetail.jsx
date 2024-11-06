@@ -19,7 +19,7 @@ function AvatarAndChannelDetail() {
       try {
         const res = await axios({
           method: "GET",
-          url: "https://youtube-backend-psi.vercel.app/api/v1/users/current-user",
+          url: "/api/v1/users/current-user",
         });
         setUser(res.data.data);
       } catch (error) {
@@ -35,7 +35,7 @@ function AvatarAndChannelDetail() {
       try {
         const res = await axios({
           method: "GET",
-          url: `https://youtube-backend-psi.vercel.app/api/v1/users/c/${userName}`,
+          url: `/api/v1/users/c/${userName}`,
         });
         setProfileUser(res.data.data);
         //  console.log(res);
@@ -52,7 +52,7 @@ function AvatarAndChannelDetail() {
       const fetchSubscription = async () => {
         try {
           const res = await axios.get(
-            `https://youtube-backend-psi.vercel.app/api/v1/subscriptions/u/${profileUser._id}`
+            `/api/v1/subscriptions/u/${profileUser._id}`
           );
           setSubscription(res.data.data);
         } catch (error) {
@@ -83,7 +83,7 @@ function AvatarAndChannelDetail() {
         try {
           const res = await axios({
             method: "GET",
-            url: `https://youtube-backend-psi.vercel.app/api/v1/subscriptions/c/${profileUser._id}`,
+            url: `/api/v1/subscriptions/c/${profileUser._id}`,
           });
           setSubscribedChannel(res.data.data);
           // console.log(res.data.data)
@@ -102,7 +102,7 @@ function AvatarAndChannelDetail() {
     try {
       const res = await axios({
         method: "POST",
-        url: `https://youtube-backend-psi.vercel.app/api/v1/subscriptions/c/${profileUser._id}`,
+        url: `/api/v1/subscriptions/c/${profileUser._id}`,
         data: {
           userId: `${user._id}`,
         },

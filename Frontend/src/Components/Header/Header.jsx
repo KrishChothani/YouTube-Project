@@ -11,14 +11,14 @@ function Header() {
     useEffect(() => {
       const fetchData = async () => {
         try {
-          await new Promise((resolve) => setTimeout(resolve, 2000)); // Delay of 2 seconds
+          // await new Promise((resolve) => setTimeout(resolve, 2000)); // Delay of 2 seconds
           const res = await axios({
             method: "GET",
-            url: "https://youtube-backend-psi.vercel.app/api/v1/healthcheck",
+            url: "/api/v1/healthcheck",
             withCredentials: true,
           });
           setLogin(true);
-          console.log("Successfully logged in", res);
+          // console.log("Successfully logged in", res);
         } catch (error) {
           setLogin(false);
           console.log("Login failed", error);
@@ -26,7 +26,7 @@ function Header() {
       };
 
       fetchData();
-    }, [login]);
+    }, []);
 
   return (
     <>
@@ -314,7 +314,7 @@ function Header() {
                 onClick={() =>
                   axios({
                     method: "POST",
-                    url: "https://youtube-backend-psi.vercel.app/api/v1/users/logout",
+                    url: "/api/v1/users/logout",
                   })
                     .then(() => navigate("/login"))
                     .catch((error) => {

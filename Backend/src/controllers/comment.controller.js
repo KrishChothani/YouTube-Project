@@ -29,7 +29,6 @@ const getVideoComments = asyncHandler(async (req, res) => {
                 foreignField: "_id",
                 as :"ownerDetails"
             }
-
         }
     ]);
 

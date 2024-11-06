@@ -32,7 +32,7 @@
 
      axios({
        method: "POST",
-       url: "https://youtube-backend-psi.vercel.app/api/v1/users/register",
+       url: "/api/v1/users/register",
        data: formData,
        headers: {
          "Content-Type": "multipart/form-data", // Remove this line if it causes issues
