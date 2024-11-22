@@ -6,9 +6,10 @@ const app = express();
 
 // Configure CORS
 const corsOptions = {
-    origin: 'https://you-tube-project-chi.vercel.app',
-    methods: 'GET, POST, OPTIONS ,PATCH',
-    credentials: true, // if you're using cookies or authorization headers
+  // origin: 'https://you-tube-project-chi.vercel.app',
+  origin: process.env.CORS_ORIGIN,
+  methods: "GET, POST, OPTIONS ,PATCH",
+  credentials: true, // if you're using cookies or authorization headers
 };
 app.use(cors(corsOptions));
 app.use(express.json({ limit: "16kb" }));
