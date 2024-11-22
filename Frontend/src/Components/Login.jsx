@@ -33,7 +33,8 @@ function Login() {
         navigate("/");
       })
       .catch((error) => {
-        console.log("login error", error);
+        console.log(email , password);
+        console.error("login error", error);
         alert("Login failed. Please check your credentials and try again.");
       });
   }
