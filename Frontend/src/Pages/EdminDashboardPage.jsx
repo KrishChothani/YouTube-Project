@@ -18,7 +18,7 @@ function EdminDashboardPage() {
         try {
           const res =  await axios({
             method: 'GET',
-            url: '/api/v1/users/current-user',
+            url: 'https://youtube-backend-psi.vercel.app/api/v1/users/current-user',
           })
           setAdmin(res.data.data);
         } catch (error) {
@@ -34,7 +34,7 @@ function EdminDashboardPage() {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const res = await axios.get("/api/v1/videos");
+        const res = await axios.get("https://youtube-backend-psi.vercel.app/api/v1/videos");
         setVideoData(res.data.data.docs);
       } catch (error) {
         console.error("Error fetching videos:", error);

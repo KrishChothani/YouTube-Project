@@ -17,7 +17,7 @@ function AllVideo({ callVideo = "" }) {
    useEffect(() => {
      const fetchData = async () => {
        try {
-         const res = await axios.get("/api/v1/users/current-user");
+         const res = await axios.get("https://youtube-backend-psi.vercel.app/api/v1/users/current-user");
          setCurrUser(res.data.data);
        } catch (error) {
          console.log(error);
@@ -32,9 +32,9 @@ function AllVideo({ callVideo = "" }) {
        try {
          let res;
          if (callVideo === "watchhistory") {
-           res = await axios.get("/api/v1/users/history");
+           res = await axios.get("https://youtube-backend-psi.vercel.app/api/v1/users/history");
          } else {
-           res = await axios.get("/api/v1/videos");
+           res = await axios.get("https://youtube-backend-psi.vercel.app/api/v1/videos");
          }
 
          if (userName === "") {
@@ -62,7 +62,7 @@ function AllVideo({ callVideo = "" }) {
      const fetchLikedVideos = async () => {
        try {
          if (callVideo === "likedVideo" && currUser) {
-           const resp = await axios.get("/api/v1/likes/");
+           const resp = await axios.get("https://youtube-backend-psi.vercel.app/api/v1/likes/");
            const videodata = resp.data.data
              .filter((li) => li.LikedBy === currUser._id && li.video)
              .map((li) => li.videoDetails);
