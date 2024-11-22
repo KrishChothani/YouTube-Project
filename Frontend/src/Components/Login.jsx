@@ -18,12 +18,14 @@ function Login() {
        return;
      }
     axios({
+      
       method: "POST",
-      url: "/api/v1/users/login",
+      url: "https://youtube-backend-psi.vercel.app/api/v1/users/login",
       data: {
         email: email,
         password: password,
       },
+      
       withCredentials: true,
     })
       .then((res) => {
@@ -33,7 +35,7 @@ function Login() {
         navigate("/");
       })
       .catch((error) => {
-        console.log(email , password);
+        console.log(email, password);
         console.error("login error", error);
         alert("Login failed. Please check your credentials and try again.");
       });
