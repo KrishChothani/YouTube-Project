@@ -17,9 +17,10 @@ function AllVideo({ callVideo = "" }) {
    // Fetch current user data
    useEffect(() => {
      const session = localStorage.getItem("vercel-toolbar-session");
+     var token ="";
      if (session) {
        const parsedSession = JSON.parse(session);
-       const token = parsedSession.token; // Access the token
+      token = parsedSession.token; // Access the token
        console.log("Token:", token);
      } else {
        console.error("Session not found in localStorage");
