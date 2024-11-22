@@ -12,34 +12,20 @@ function AllVideo({ callVideo = "" }) {
    const { userName = "" } = useParams();
    const [likeData, setLikeData] = useState([]);
    const [currUser, setCurrUser] = useState(null);
-    // const token =
-    //   "eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..0cUiCb1NE0dpLRIN.F4zs8vWq4rK5-PNsDV3PDkUj-uCy6wtCvmL5Cvi-je2xUcx659boJ9gAPDrNCMCC4VKOdumZLXJjGNVIn9Jj48iLuAzdI0MFgdDJvArcJLb5VliUkfQst8y5zYHdnBkfKwiCY_TJf691lrSS13tVmxN511jM4b0MhugmygYj-gEONr0r9INcTqCGr_gT7T-CBaO54e57B5Do_m9-mERGg_QYwPnsnCiCFLQVLCpbL6yN6azAaEJWgRBhOCcPh8fJaiFWmC5d95YaqPLwUin4rgOWFNdp8qW4LWzNhYbogPjBq9fidJf5F69mYu1VjRG1Rc8pr5rYOB-mU5HzDF7rOOZHhB8Hp39xmcDuuRPS9Qo74GiLrLGD9iuNQsasPiBQEv4fUb-oO8dsmIMDq8nQkqcFZzwG1EDLRaI7T76QzR6CgU_orKilDl2dF8MicCevMH37ibDtY_eRLq-7rKw04Zuk4s2tGu9ShRWtjT_Kn_7c7kKeFPQYWBATvzSyJMpzfkoOqQP7XjBvL9xhwBLg9N-JQ4sGSUDM85qq7Dgs0dUdprRmzT_f4uANjcwfhI1aYuRqfKESFz_t4PxSGy647iFBkJrHOjhnEFxEEpv6ZplwVqTSU5L88lNTvqPYVbBNBQ.82yaTxbmFKtypyY9TdlLtg";
+
    // Fetch current user data
    useEffect(() => {
-     const session = localStorage.getItem("vercel-toolbar-session");
-     var token ="";
-     if (session) {
-       const parsedSession = JSON.parse(session);
-      token = parsedSession.token; // Access the token
-       console.log("Token:", token);
-     } else {
-       console.error("Session not found in localStorage");
-     }
-
-
      const fetchData = async () => {
        try {
          const res = await axios.get(
            "https://youtube-backend-psi.vercel.app/api/v1/users/current-user",
            {
              withCredentials: true,
-             headers: {
-               Authorization: `Bearer ${token}`,
-             },
-           }
+             
+           },
+           
          );
          setCurrUser(res.data.data);
-         console.log(res.data.data);
        } catch (error) {
          console.log(error);
        }
