@@ -18,10 +18,9 @@ function AllVideo({ callVideo = "" }) {
      const fetchData = async () => {
        try {
          const res = await axios.get(
-           "https://youtube-backend-psi.vercel.app/api/v1/users/current-user",
+           "/api/v1/users/current-user",
            {
              withCredentials: true,
-             
            },
            
          );
@@ -38,17 +37,17 @@ function AllVideo({ callVideo = "" }) {
      const fetchVideos = async () => {
        try {
          let res;
-         if (callVideo === "watchhistory") {
-           res = await axios.get("https://youtube-backend-psi.vercel.app/api/v1/users/history");
+         if (callVideo === "watchhistory" && currUser) {
+           res = await axios.get("/api/v1/users/history");
          } else {
-           res = await axios.get("https://youtube-backend-psi.vercel.app/api/v1/videos");
+           res = await axios.get("/api/v1/videos");
          }
 
          if (userName === "") {
            setVideos(res.data.data.docs || res.data.data);
          } else {
            const userVideo = res.data.data.docs.filter(
-             (vd) => vd.ownerDetails.userName === userName
+             (vd) => vd.ownerDetails.userName === userName && vd.published == true
            );
            setVideos(userVideo);
          }
@@ -69,7 +68,7 @@ function AllVideo({ callVideo = "" }) {
      const fetchLikedVideos = async () => {
        try {
          if (callVideo === "likedVideo" && currUser) {
-           const resp = await axios.get("https://youtube-backend-psi.vercel.app/api/v1/likes/");
+           const resp = await axios.get("/api/v1/likes/");
            const videodata = resp.data.data
              .filter((li) => li.LikedBy === currUser._id && li.video)
              .map((li) => li.videoDetails);
@@ -85,6 +84,31 @@ function AllVideo({ callVideo = "" }) {
      fetchLikedVideos();
    }, [callVideo, currUser]);
 
+   useEffect(()=>{
+     const fetchLikedVideos = async () => {
+       try {
+         if (callVideo === "" && currUser) {
+           const resp = await axios.get("/api/v1/likes/");
+           const videodata = resp.data.data;
+           setVideos(videodata);
+         }
+       } catch (error) {
+         setError("Error in fetching liked videos");
+       } finally {
+         setLoading(false);
+       }
+     };
+     fetchLikedVideos();
+   },[])
+
+   useEffect(() => {
+     if (videos) {
+       const filteredVideos = videos.filter(
+         (video) => video.published === true
+       );
+       setVideos(filteredVideos); // Make sure to set the filtered videos to state
+     }
+   }, []);
    if (loading) return <p>Loading videos...</p>;
    if (error) return <p>Error: {error}</p>;
 

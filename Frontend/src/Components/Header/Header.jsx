@@ -14,7 +14,7 @@ function Header() {
           // await new Promise((resolve) => setTimeout(resolve, 2000)); // Delay of 2 seconds
           const res = await axios({
             method: "GET",
-            url: "https://youtube-backend-psi.vercel.app/api/v1/healthcheck",
+            url: "/api/v1/healthcheck",
             withCredentials: true,
           });
           setLogin(true);
@@ -314,7 +314,7 @@ function Header() {
                 onClick={() =>
                   axios({
                     method: "POST",
-                    url: "https://youtube-backend-psi.vercel.app/api/v1/users/logout",
+                    url: "/api/v1/users/logout",
                   })
                     .then(() => navigate("/login"))
                     .catch((error) => {

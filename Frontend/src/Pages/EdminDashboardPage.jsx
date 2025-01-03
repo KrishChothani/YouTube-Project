@@ -1,64 +1,136 @@
 import React, { useEffect, useState } from 'react'
-import Header from '../Components/Header/Header';
 import EdminDashboard from '../Components/EdminDashboard';
-import { useLoaderData, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function EdminDashboardPage() {
-  const navigate = useNavigate();
+ const [totalView, setTotalView] = useState(0);
+ const [videoData, setVideoData] = useState([]);
+ const [filteredVideos, setFilteredVideos] = useState([]);
+ const [loading, setLoadingData] = useState(true);
+ const [admin, setAdmin] = useState(null);
+ const [subscription, setSubscription] = useState(null);
+ const [likeData, setLikeData] = useState([]);
+ const [totalLikes, setTotalLikes] = useState(0);
+  const [mergedVideoData, setMergedVideoData] = useState([]);
+ const [error, setError] = useState(null);
 
-  const [totalView, setTotalView] = useState(null);
-  const [videoData, setVideoData] = useState([]);
-  const [loading, setLoadingData] = useState(true);
-  const [admin , setAdmin] = useState(null);
-
-  // fetch admin
-  useEffect(() => {
-    const fetchData = async () => {
-        try {
-          const res =  await axios({
-            method: 'GET',
-            url: 'https://youtube-backend-psi.vercel.app/api/v1/users/current-user',
-          })
-          setAdmin(res.data.data);
-        } catch (error) {
-            console.log(error);
-        } finally {
-          setLoadingData(false);
-        }
-    }
-   
-    fetchData();
-  },[])
-  // fatch video data
-  useEffect(() => {
-    const fetchVideos = async () => {
-      try {
-        const res = await axios.get("https://youtube-backend-psi.vercel.app/api/v1/videos");
-        setVideoData(res.data.data.docs);
-      } catch (error) {
-        console.error("Error fetching videos:", error);
-      } finally {
-        setLoadingData(false); 
-      }
-    };
-
-    fetchVideos();
-  }, []); 
-  // console.log(admin);
-
-  // admin video
-   useEffect(() => {
-     if (videoData && admin) {
-       const filteredVideos = videoData.filter(
-         (video) => video.owner === admin._id
-       );
-       setVideoData(filteredVideos);
+ // Fetch Admin Data
+ useEffect(() => {
+   const fetchAdminData = async () => {
+     try {
+       const res = await axios.get("/api/v1/users/current-user");
+       setAdmin(res.data.data);
+     } catch (err) {
+       setError("Failed to fetch admin data");
+       console.error(err);
+     } finally {
+       setLoadingData(false);
      }
-   }, [ admin]);
+   };
+   fetchAdminData();
+ }, []);
 
-  // console.log(videoData)
-  
+ // Fetch Video Data
+ useEffect(() => {
+   const fetchVideoData = async () => {
+     try {
+       const res = await axios.get("/api/v1/videos");
+       setVideoData(res.data.data.docs);
+     } catch (err) {
+       setError("Failed to fetch video data");
+       console.error(err);
+     } finally {
+       setLoadingData(false);
+     }
+   };
+
+   fetchVideoData();
+ }, [admin]);
+
+ // Filter Videos Owned by Admin
+ useEffect(() => {
+   if (videoData.length > 0 && admin) {
+     const filtered = videoData.filter((video) => video.owner === admin._id);
+     setFilteredVideos(filtered);
+   }
+ }, [videoData, admin]);
+
+ // Calculate Total Views
+ useEffect(() => {
+   if (filteredVideos.length > 0) {
+     const totalViews = filteredVideos.reduce(
+       (sum, video) => sum + (video.views || 0),
+       0
+     );
+     setTotalView(totalViews);
+   }
+ }, [filteredVideos]);
+
+ // Fetch Subscriptions
+ useEffect(() => {
+   const fetchSubscriptions = async () => {
+     try {
+       if (admin) {
+         const res = await axios.get(`/api/v1/subscriptions/u/${admin._id}`);
+         setSubscription(res.data.data);
+       }
+     } catch (err) {
+       setError("Failed to fetch subscription data");
+       console.error(err);
+     } finally {
+       setLoadingData(false);
+     }
+   };
+
+   fetchSubscriptions();
+ }, [admin]);
+
+ // Fetch Liked Videos
+ useEffect(() => {
+   const fetchLikedVideos = async () => {
+     try {
+       if (admin) {
+         const res = await axios.get("/api/v1/likes");
+         setLikeData(res.data.data);
+       }
+     } catch (err) {
+       setError("Error fetching liked videos");
+       console.error(err);
+     }
+   };
+   fetchLikedVideos();
+ }, [admin]);
+
+ // Calculate Total Likes
+ useEffect(() => {
+   if (likeData.length > 0 && admin) {
+     const totalLikes = likeData.filter(
+       (li) => li.videoDetails.owner === admin._id
+     ).length;
+     setTotalLikes(totalLikes);
+   }
+ }, [likeData, admin]);
+
+ // Calculate Video Frequency
+useEffect(() => {
+  if (videoData.length > 0 && likeData.length > 0) {
+    // Calculate like counts for each video
+    const likeCounts = likeData.reduce((acc, like) => {
+      const videoId = like.videoDetails._id;
+      acc[videoId] = (acc[videoId] || 0) + 1;
+      return acc;
+    }, {});
+
+    // Merge like counts with video data
+    const mergedData = filteredVideos.map((video) => ({
+      ...video,
+      likeCount: likeCounts[video._id] || 0, // Default to 0 if no likes
+    }));
+
+    setMergedVideoData(mergedData);
+    console.log(mergedVideoData);
+  }
+}, [videoData, likeData]);
 
   return (
     <>
@@ -123,7 +195,7 @@ function EdminDashboardPage() {
                 </span>
               </div>
               <h6 className="text-gray-300">Total views</h6>
-              <p className="text-3xl font-semibold">221,234</p>
+              <p className="text-3xl font-semibold">{totalView}</p>
             </div>
             <div className="border p-4">
               <div className="mb-4 block">
@@ -145,7 +217,9 @@ function EdminDashboardPage() {
                 </span>
               </div>
               <h6 className="text-gray-300">Total subscribers</h6>
-              <p className="text-3xl font-semibold">4,053</p>
+              <p className="text-3xl font-semibold">
+                {subscription ? subscription.length : 0}
+              </p>
             </div>
             <div className="border p-4">
               <div className="mb-4 block">
@@ -167,7 +241,7 @@ function EdminDashboardPage() {
                 </span>
               </div>
               <h6 className="text-gray-300">Total likes</h6>
-              <p className="text-3xl font-semibold">63,021</p>
+              <p className="text-3xl font-semibold">{totalLikes}</p>
             </div>
           </div>
           <EdminDashboard />
