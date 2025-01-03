@@ -5,13 +5,21 @@ import cookieParser from "cookie-parser";
 const app = express();
 
 // Configure CORS
-const corsOptions = {
-//   origin: "https://you-tube-project-chi.vercel.app",
-  origin: "https://yt-by-cks-dev.netlify.app",
-  methods: "GET, POST, OPTIONS ,PATCH",
-  credentials: true, // if you're using cookies or authorization headers
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+// //   origin: "https://you-tube-project-chi.vercel.app",
+//   origin: "*",
+//   methods: "GET, POST, OPTIONS ,PATCH",
+//   credentials: true, // if you're using cookies or authorization headers
+// };
+
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN,
+    credentials: true,
+  })
+);
+
+// app.use(cors(corsOptions));
 app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public"))

@@ -70,14 +70,14 @@ const registerUser = asyncHandler(async(req,res)=>{
         throw new ApiError(400, "Avatar file is required");
     }
 
-    const user = await User.create({ 
-        fullName,
-        avatar: avatar.url,
-        coverImage: coverIamge?.url || "",
-        email,
-        password,
-        userName: userName.toLowerCase()
-    })
+    const user = await User.create({
+      fullName,
+      avatar: avatar.url,
+      coverImage: coverIamge?.url || "",
+      email,
+      password,
+      userName: userName.toLowerCase(),
+    });
     const createdUser = await User.findById(user._id).select("-password -refreshToken");
 
     if(!createdUser){
@@ -85,9 +85,15 @@ const registerUser = asyncHandler(async(req,res)=>{
     }
     // console.log(user.password);
     // console.log(createdUser.password);
-    //  fs.unlinkSync(coverImageLocalPath);
-    //  fs.unlinkSync(avatarLocalPath);
+    // fs.unlinkSync(avatarLocalPath);
+    // fs.unlinkSync(coverImageLocalPath);
 
+    if (fs.existsSync(avatarLocalPath)) {
+      fs.unlinkSync(avatarLocalPath);
+    } 
+    if (fs.existsSync(coverImageLocalPath)) {
+      fs.unlinkSync(coverImageLocalPath);
+    } 
 
     return res.status(201).json(
         new Apiresponse(200, createdUser, "USer registration completed successfully")
