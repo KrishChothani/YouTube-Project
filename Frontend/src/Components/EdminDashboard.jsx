@@ -68,7 +68,7 @@ function EdminDashboard() {
       }
     };
     fetchLikedVideos();
-  }, [admin]);
+  }, [admin,load]);
 
   // Calculate Video Frequency
   // useEffect(() => {
@@ -130,9 +130,8 @@ function EdminDashboard() {
         }));
 
         setMergedVideoData(merged);
-        console.log(mergedVideoData);
       }
-    }, [videoData, likeData]);
+    }, [videoData, likeData, load]);
 
 
   // const handleCheckboxChange = (event) => {
@@ -149,7 +148,17 @@ function EdminDashboard() {
       console.error("Error toggling video publish status:", error);
     }
   };
-
+  const deleteVideo = async (videoId) => {
+     try {
+       // Make the API call to toggle the publish status
+       const res = await axios.delete(
+         `/api/v1/videos/uv/${videoId}`
+       );
+       setLoadData(!load);
+     } catch (error) {
+       console.error("Error toggling video publish status:", error);
+     }
+  }
 
   
   return (
@@ -223,7 +232,9 @@ function EdminDashboard() {
                   </td>
                   <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                     <div className="flex gap-4">
-                      <button className="h-5 w-5 hover:text-[#ae7aff]">
+                      <button className="h-5 w-5 hover:text-[#ae7aff]"
+                        onClick={()=>deleteVideo(video._id)}
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"

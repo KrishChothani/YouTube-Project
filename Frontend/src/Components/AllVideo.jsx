@@ -10,7 +10,6 @@ function AllVideo({ callVideo = "" }) {
    const [loading, setLoading] = useState(true);
    const [error, setError] = useState(null);
    const { userName = "" } = useParams();
-   const [likeData, setLikeData] = useState([]);
    const [currUser, setCurrUser] = useState(null);
 
    // Fetch current user data
@@ -101,14 +100,11 @@ function AllVideo({ callVideo = "" }) {
      fetchLikedVideos();
    },[])
 
-   useEffect(() => {
-     if (videos) {
-       const filteredVideos = videos.filter(
-         (video) => video.published === true
-       );
-       setVideos(filteredVideos); // Make sure to set the filtered videos to state
-     }
-   }, []);
+useEffect(() => {
+  if (videos.length > 0) {
+    setVideos((prevVideos) => prevVideos.filter((video) => video.published));
+  }
+});
    if (loading) return <p>Loading videos...</p>;
    if (error) return <p>Error: {error}</p>;
 

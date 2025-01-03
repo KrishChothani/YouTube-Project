@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import EdminDashboard from '../Components/EdminDashboard';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function EdminDashboardPage() {
+
+  const navigate = useNavigate();
  const [totalView, setTotalView] = useState(0);
  const [videoData, setVideoData] = useState([]);
  const [filteredVideos, setFilteredVideos] = useState([]);
