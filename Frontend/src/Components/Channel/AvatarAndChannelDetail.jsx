@@ -19,7 +19,8 @@ function AvatarAndChannelDetail() {
       try {
         const res = await axios({
           method: "GET",
-          url: "/api/v1/users/current-user",
+          url: "https://youtube-backend-psi.vercel.app/api/v1/users/current-user",
+          withCredentials:true,
         });
         setUser(res.data.data);
       } catch (error) {
@@ -35,7 +36,8 @@ function AvatarAndChannelDetail() {
       try {
         const res = await axios({
           method: "GET",
-          url: `/api/v1/users/c/${userName}`,
+          url: `https://youtube-backend-psi.vercel.app/api/v1/users/c/${userName}`,
+          withCredentials:true,
         });
         setProfileUser(res.data.data);
         //  console.log(res);
@@ -52,7 +54,8 @@ function AvatarAndChannelDetail() {
       const fetchSubscription = async () => {
         try {
           const res = await axios.get(
-            `/api/v1/subscriptions/u/${profileUser._id}`
+            `https://youtube-backend-psi.vercel.app/api/v1/subscriptions/u/${profileUser._id}`,
+            { withCredentials: true }
           );
           setSubscription(res.data.data);
         } catch (error) {
@@ -83,7 +86,8 @@ function AvatarAndChannelDetail() {
         try {
           const res = await axios({
             method: "GET",
-            url: `/api/v1/subscriptions/c/${profileUser._id}`,
+            url: `https://youtube-backend-psi.vercel.app/api/v1/subscriptions/c/${profileUser._id}`,
+            withCredentials: true,
           });
           setSubscribedChannel(res.data.data);
           // console.log(res.data.data)
@@ -102,10 +106,11 @@ function AvatarAndChannelDetail() {
     try {
       const res = await axios({
         method: "POST",
-        url: `/api/v1/subscriptions/c/${profileUser._id}`,
+        url: `https://youtube-backend-psi.vercel.app/api/v1/subscriptions/c/${profileUser._id}`,
         data: {
           userId: `${user._id}`,
         },
+        withCredentials: true,
       });
       setToggleSubscribed(res.data.data == 1);
     } catch (error) {

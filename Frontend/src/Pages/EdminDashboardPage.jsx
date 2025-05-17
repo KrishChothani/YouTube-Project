@@ -21,7 +21,10 @@ function EdminDashboardPage() {
  useEffect(() => {
    const fetchAdminData = async () => {
      try {
-       const res = await axios.get("/api/v1/users/current-user");
+       const res = await axios.get(
+         "https://youtube-backend-psi.vercel.app/api/v1/users/current-user",
+         { withCredentials: true }
+       );
        setAdmin(res.data.data);
      } catch (err) {
        setError("Failed to fetch admin data");
@@ -37,7 +40,7 @@ function EdminDashboardPage() {
  useEffect(() => {
    const fetchVideoData = async () => {
      try {
-       const res = await axios.get("/api/v1/videos");
+       const res = await axios.get("https://youtube-backend-psi.vercel.app/api/v1/videos", {withCredentials:true});
        setVideoData(res.data.data.docs);
      } catch (err) {
        setError("Failed to fetch video data");
@@ -54,12 +57,14 @@ function EdminDashboardPage() {
  useEffect(() => {
    if (videoData.length > 0 && admin) {
      const filtered = videoData.filter((video) => video.owner === admin._id);
+    //  console.log("krish",filtered)
      setFilteredVideos(filtered);
    }
  }, [videoData, admin]);
 
  // Calculate Total Views
  useEffect(() => {
+  // console.log(filteredVideos)
    if (filteredVideos.length > 0) {
      const totalViews = filteredVideos.reduce(
        (sum, video) => sum + (video.views || 0),
@@ -68,13 +73,16 @@ function EdminDashboardPage() {
      setTotalView(totalViews);
    }
  }, [filteredVideos]);
-
+//  console.log(filteredVideos)
  // Fetch Subscriptions
  useEffect(() => {
    const fetchSubscriptions = async () => {
      try {
        if (admin) {
-         const res = await axios.get(`/api/v1/subscriptions/u/${admin._id}`);
+         const res = await axios.get(
+           `https://youtube-backend-psi.vercel.app/api/v1/subscriptions/u/${admin._id}`,
+           { withCredentials: true }
+         );
          setSubscription(res.data.data);
        }
      } catch (err) {
@@ -93,7 +101,9 @@ function EdminDashboardPage() {
    const fetchLikedVideos = async () => {
      try {
        if (admin) {
-         const res = await axios.get("/api/v1/likes");
+         const res = await axios.get("https://youtube-backend-psi.vercel.app/api/v1/likes", {
+           withCredentials: true,
+         });
          setLikeData(res.data.data);
        }
      } catch (err) {
@@ -131,7 +141,7 @@ useEffect(() => {
     }));
 
     setMergedVideoData(mergedData);
-    console.log(mergedVideoData);
+    // console.log(mergedVideoData);
   }
 }, [videoData, likeData]);
 
@@ -142,7 +152,7 @@ useEffect(() => {
           <div className="flex flex-wrap justify-between gap-4">
             <div className="block">
               <h1 className="text-2xl font-bold">
-                Welcome Back, React Patterns
+                Welcome Back, {admin? admin.userName:"Noob"}
               </h1>
               <p className="text-sm text-gray-300">
                 Seamless Video Management, Elevated Results.

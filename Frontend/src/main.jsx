@@ -91,7 +91,7 @@ const router = createBrowserRouter([
         element: <EdminDashboardPage />,
       },
       {
-        path: "/editevideodetails",
+        path: "/editevideodetails/:videoId",
         element: <EditVideoDetailsPopup />,
       },
       {
@@ -107,17 +107,17 @@ const router = createBrowserRouter([
         element: <TermsAndConditionPage />,
       },
       {
-        path: '/user/history',
-        element: <WatchHistoryPage />
+        path: "/user/history",
+        element: <WatchHistoryPage />,
       },
       {
-        path :'/user/likedvideo',
-        element: <LikedVideoPage />
+        path: "/user/likedvideo",
+        element: <LikedVideoPage />,
       },
       {
-        path :'/support',
-        element: <SupportPage />
-      }
+        path: "/support",
+        element: <SupportPage />,
+      },
     ],
   },
   {

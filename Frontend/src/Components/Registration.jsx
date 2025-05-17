@@ -32,11 +32,13 @@
 
      axios({
        method: "POST",
-       url: "/api/v1/users/register",
+       url: "https://youtube-backend-psi.vercel.app/api/v1/users/register",
+       withCredentials:true,
        data: formData,
        headers: {
          "Content-Type": "multipart/form-data", // Remove this line if it causes issues
        },
+       
      })
        .then(() => navigate("/login"))
        .catch((error) => {

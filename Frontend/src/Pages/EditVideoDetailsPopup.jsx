@@ -1,13 +1,47 @@
-import React ,{useState} from 'react'
+import React ,{useEffect, useState} from 'react'
 import Header from '../Components/Header/Header';
 import EdminDashboard from '../Components/EdminDashboard';
-
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 function EditVideoDetailsPopup() {
+  const {videoId } = useParams();
+  const navigate = useNavigate();
 
-   const [title, setTitle] = useState("State Management with Redux");
-   const [description, setDescription] = useState(
-     "State Management with Redux is a comprehensive guidebook that delves into the principles and practices of managing application state in JavaScript-based web development. It explores the Redux library, a popular tool for handling state in complex applications, providing practical insights and best practices for effectively managing data flow. This book equips developers with the knowledge and skills needed to architect robust and maintainable front-end applications, making it an essential resource for anyone seeking to master state management in modern web development."
-   );
+  const [thumbnail, setThumbnail] = useState(null);
+  const [videoDdata, setVideoData] = useState(null);
+  const [title, setTitle] = useState("State Management with Redux");
+  const [description, setDescription] = useState(
+    "State Management with Redux is a comprehensive guidebook that delves into the principles and practices of managing application state in JavaScript-based web development. It explores the Redux library, a popular tool for handling state in complex applications, providing practical insights and best practices for effectively managing data flow. This book equips developers with the knowledge and skills needed to architect robust and maintainable front-end applications, making it an essential resource for anyone seeking to master state management in modern web development."
+  );
+  const [loading, setLoading] = useState(false);
+  const [errorr, setError] = useState(false);
+
+  const handleThumbnail = (event) => setThumbnail(event.target.files[0]);
+
+  useEffect(() => {
+    console.log(videoId )
+    const fetchVideoData = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get(
+          `https://youtube-backend-psi.vercel.app/api/v1/videos/v/${videoId }`,
+          { withCredentials: true }
+        );
+        // console.log("working");
+        setVideoData(res.data.data);
+        setTitle(res.data.data.title);
+        setDescription(res.data.data.description);
+        setThumbnail(res.data.data.thumbnail);
+        console.log(res.data);
+      } catch (error) {
+        // console.log(error);
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchVideoData();
+  }, [videoId ]); 
 
    const handleTitleChange = (e) => {
      setTitle(e.target.value);
@@ -17,13 +51,39 @@ function EditVideoDetailsPopup() {
      setDescription(e.target.value);
    };
 
+   const handlesubmit = async () => {
+     try {
+       const formData = new FormData();
+       if (title) formData.append("title", title);
+       if (description) formData.append("description", description);
+       if (thumbnail instanceof File) formData.append("thumbnail", thumbnail); // Only append if it's a File
+
+       const res = await axios.patch(
+         `https://youtube-backend-psi.vercel.app/api/v1/videos/uv/${videoId}`,
+         formData,
+         {
+           withCredentials: true,
+           headers: {
+             "Content-Type": "multipart/form-data",
+           },
+         }
+       );
+
+       console.log("Video updated:", res.data);
+       navigate("/edmindashboard"); // Redirect after update
+     } catch (error) {
+       console.error("Update failed:", error.response?.data || error.message);
+     }
+   };
+  
+
   return (
     <>
-     
-      <div className="h-screen overflow-y-auto bg-[#121212] text-white">
-        <Header />
-        <div className="relative flex min-h-[calc(100vh-66px)] sm:min-h-[calc(100vh-82px)]">
-          <div className="mx-auto flex w-full max-w-7xl flex-col gap-y-6 px-4 py-8">
+      <div className="absolute inset-0 z-10 bg-black/50 px-4 pb-[86px] pt-4 sm:px-14 sm:py-8">
+        <div className="h-screen overflow-y-auto bg-[#121212] text-white">
+          {/* <Header /> */}
+          <div className="relative flex min-h-[calc(100vh-66px)] sm:min-h-[calc(100vh-82px)]">
+            {/* <div className="mx-auto flex w-full max-w-7xl flex-col gap-y-6 px-4 py-8">
             <div className="flex flex-wrap justify-between gap-4">
               <div className="block">
                 <h1 className="text-2xl font-bold">
@@ -129,76 +189,88 @@ function EditVideoDetailsPopup() {
               </div>
             </div>
             <EdminDashboard />
-          </div>
-          <div className="fixed inset-0 top-[calc(66px)] z-10 flex flex-col bg-black/50 px-4 pb-[86px] pt-4 sm:top-[calc(82px)] sm:px-14 sm:py-8">
-            <div className="mx-auto w-full max-w-lg overflow-auto rounded-lg border border-gray-700 bg-[#121212] p-4">
-              <div className="mb-4 flex items-start justify-between">
-                <h2 className="text-xl font-semibold">
-                  Edit Video
-                  <span className="block text-sm text-gray-300">
-                    Share where you've worked on your profile.
-                  </span>
-                </h2>
-                <button className="h-6 w-6">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    aria-hidden="true"
+          </div> */}
+            <div className="fixed inset-0 top-[calc(66px)] z-10 flex flex-col bg-black/50 px-4 pb-[86px] pt-4 sm:top-[calc(82px)] sm:px-14 sm:py-8">
+              <div className="mx-auto w-full max-w-lg overflow-auto rounded-lg border border-gray-700 bg-[#121212] p-4">
+                <div className="mb-4 flex items-start justify-between">
+                  <h2 className="text-xl font-semibold">
+                    Edit Video
+                    <span className="block text-sm text-gray-300">
+                      Share where you've worked on your profile.
+                    </span>
+                  </h2>
+                  <button
+                    className="h-6 w-6"
+                    onClick={() => navigate("/edmindashboard")}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6 18L18 6M6 6l12 12"
-                    ></path>
-                  </svg>
-                </button>
-              </div>
-              <label htmlFor="thumbnail" className="mb-1 inline-block">
-                Thumbnail<sup>*</sup>
-              </label>
-              <label
-                className="relative mb-4 block cursor-pointer border border-dashed p-2 after:absolute after:inset-0 after:bg-transparent hover:after:bg-black/10"
-                htmlFor="thumbnail"
-              >
-                <input type="file" className="sr-only" id="thumbnail" />
-                <img
-                  src="https://images.pexels.com/photos/7775641/pexels-photo-7775641.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                  alt="State Management with Redux"
-                />
-              </label>
-              <div className="mb-6 flex flex-col gap-y-4">
-                <div className="w-full">
-                  <label htmlFor="title" className="mb-1 inline-block">
-                    Title<sup>*</sup>
-                  </label>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M6 18L18 6M6 6l12 12"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+                <label htmlFor="thumbnail" className="mb-1 inline-block">
+                  Thumbnail<sup>*</sup>
+                </label>
+                <label
+                  className="relative mb-4 block cursor-pointer border border-dashed p-2 after:absolute after:inset-0 after:bg-transparent hover:after:bg-black/10"
+                  htmlFor="thumbnail"
+                >
                   <input
-                    id="title"
-                    type="text"
-                    className="w-full border bg-transparent px-2 py-1 outline-none"
-                    value={title}
-                    onChange={handleTitleChange}
+                    type="file"
+                    className="sr-only"
+                    id="thumbnail"
+                    onChange={handleThumbnail}
                   />
-                </div>
-                <div className="w-full">
-                  <label htmlFor="desc" className="mb-1 inline-block">
-                    Description<sup>*</sup>
-                  </label>
-                  <textarea
-                    id="desc"
-                    className="h-40 w-full resize-none border bg-transparent px-2 py-1 outline-none"
-                    value={description}
-                    onChange={handleDescriptionChange}
+                  <img
+                    src={thumbnail}
+                    alt="State Management with Redux"
                   />
+                </label>
+                <div className="mb-6 flex flex-col gap-y-4">
+                  <div className="w-full">
+                    <label htmlFor="title" className="mb-1 inline-block">
+                      Title<sup>*</sup>
+                    </label>
+                    <input
+                      id="title"
+                      type="text"
+                      className="w-full border bg-transparent px-2 py-1 outline-none"
+                      value={title}
+                      onChange={handleTitleChange}
+                    />
+                  </div>
+                  <div className="w-full">
+                    <label htmlFor="desc" className="mb-1 inline-block">
+                      Description<sup>*</sup>
+                    </label>
+                    <textarea
+                      id="desc"
+                      className="h-40 w-full resize-none border bg-transparent px-2 py-1 outline-none"
+                      value={description}
+                      onChange={handleDescriptionChange}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <button className="border px-4 py-3">Cancel</button>
-                <button className="bg-[#ae7aff] px-4 py-3 text-black disabled:bg-[#E4D3FF]">
-                  Update
-                </button>
+                <div className="grid grid-cols-2 gap-4">
+                  <button className="border px-4 py-3">Cancel</button>
+                  <button
+                    className="bg-[#ae7aff] px-4 py-3 text-black disabled:bg-[#E4D3FF]"
+                    onClick={handlesubmit}
+                  >
+                    Update
+                  </button>
+                </div>
               </div>
             </div>
           </div>

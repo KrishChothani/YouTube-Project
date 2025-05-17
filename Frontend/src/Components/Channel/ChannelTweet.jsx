@@ -15,7 +15,10 @@ function ChannelTweet() {
   useEffect(() => {
     const fetchCurrUser = async () => {
       try {
-        const res = await axios.get(`/api/v1/users/current-user`);
+        const res = await axios.get(
+          `https://youtube-backend-psi.vercel.app/api/v1/users/current-user`,
+          { withCredentials: true }
+        );
         setCurrUser(res.data.data);
       } catch (error) {
         console.log(error);
@@ -28,7 +31,10 @@ function ChannelTweet() {
   useEffect(() => {
     const fetchProfileUser = async () => {
       try {
-        const res = await axios.get(`/api/v1/users/c/${userName}`);
+        const res = await axios.get(
+          `https://youtube-backend-psi.vercel.app/api/v1/users/c/${userName}`,
+          { withCredentials: true }
+        );
         setProfileUser(res.data.data);
       } catch (error) {
         console.error(error);
@@ -41,7 +47,9 @@ function ChannelTweet() {
   useEffect(() => {
     const fetchLikeData = async () => {
       try {
-        const res = await axios.get(`/api/v1/likes/`);
+        const res = await axios.get(`https://youtube-backend-psi.vercel.app/api/v1/likes/`, {
+          withCredentials: true,
+        });
         setLikeData(res.data.data);
       } catch (error) {
         console.log("Error in fetching likes: " + error);
@@ -56,8 +64,9 @@ function ChannelTweet() {
       const fetchTweetData = async () => {
         try {
           const res = await axios({
-            method: 'GET',
-            url:`/api/v1/tweets/user/${profileUser._id}`
+            method: "GET",
+            url: `https://youtube-backend-psi.vercel.app/api/v1/tweets/user/${profileUser._id}`,
+            withCredentials: true,
           });
           setTweetData(res.data.data);
         } catch (error) {
@@ -85,10 +94,14 @@ function ChannelTweet() {
   // Handle like/unlike for each tweet
   const handleToggleLiked = async (tweetId) => {
     try {
-      await axios.post(`/api/v1/likes/toggle/t/${tweetId}`);
+      await axios.post(
+        `https://youtube-backend-psi.vercel.app/api/v1/likes/toggle/t/${tweetId}`,
+        { withCredentials: true }
+      );
       const res = await axios({
-        method :'GET',
-        url :`/api/v1/likes/`
+        method: "GET",
+        url: `https://youtube-backend-psi.vercel.app/api/v1/likes/`,
+        withCredentials: true,
       });
       setLikeData(res.data.data); 
     } catch (error) {

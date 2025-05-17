@@ -11,7 +11,8 @@ function CoverImage() {
       try {
         const res = await axios({
           method: "GET",
-          url: "/api/v1/users/current-user",
+          url: "https://youtube-backend-psi.vercel.app/api/v1/users/current-user",
+          withCredentials: true,
         });
         setUser(res.data.data);
       } catch (error) {

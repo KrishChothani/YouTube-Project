@@ -57,6 +57,7 @@ const publishAVideo = asyncHandler(async (req, res) => {
 
     if (!videoLocalPath) {
         throw new ApiError(400, "Video file is required");
+        
     }
     if (!thumbnailLocalPath) {
         throw new ApiError(400, "Thumbnail file is required");
@@ -123,32 +124,59 @@ const getVideoById = asyncHandler(async (req, res) => {
 
 
 const updateVideo = asyncHandler(async (req, res) => {
-    const { videoId } = req.params;
+  const { videoId } = req.params;
+  console.log(videoId);
 
-    if (!videoId) {
-        throw new ApiError(404, "VideoId not found");
+  if (!videoId) {
+    throw new ApiError(404, "VideoId not found");
+  }
+
+  const { title, description } = req.body;
+  let thumbnail = req.file?.path || req.body.thumbnail;
+
+  if (!title && !thumbnail && !description) {
+    throw new ApiError(
+      400,
+      "At least one field (title, thumbnail, or description) is required to update"
+    );
+  }
+
+  let finalThumbnailUrl;
+
+  if (thumbnail) {
+    const isUrl = /^https?:\/\//i.test(thumbnail);
+    if (isUrl) {
+      finalThumbnailUrl = thumbnail;
+    } else {
+      const thumbnailUpload = await uploadOnCloudinary(thumbnail);
+      if (!thumbnailUpload?.url) {
+        throw new ApiError(400, "Failed to upload thumbnail");
+      }
+      finalThumbnailUrl = thumbnailUpload.url;
     }
-    const { title, description } = req.body;
-    const thumbnail = req.file?.path;
-    if (!title && !thumbnail && !description) {
-        throw new ApiError(400, "At least one field (title, thumbnail, or description) is required to update");
-    }
-    const thumbnailurl = await uploadOnCloudinary(thumbnail);
-    if (!thumbnailurl.url) {
-            throw new ApiError(400, "Failed to upload thumbnail");
-        }
-        const video = await Video.findByIdAndUpdate(
-            videoId,
-            {
-                $set:{
-                    thumbnail : thumbnailurl.url,
-                    title,
-                    description
-                }
-            }
-        )
-    return res.status(200).json(new Apiresponse(200, video, "Video details updated successfully"));
+  }
+
+  const updateFields = {
+    ...(finalThumbnailUrl && { thumbnail: finalThumbnailUrl }),
+    ...(title && { title }),
+    ...(description && { description }),
+  };
+
+  const video = await Video.findByIdAndUpdate(
+    videoId,
+    { $set: updateFields },
+    { new: true }
+  );
+
+  if (!video) {
+    throw new ApiError(404, "Video not found");
+  }
+
+  return res
+    .status(200)
+    .json(new Apiresponse(200, video, "Video details updated successfully"));
 });
+  
 
 
 const deleteVideo = asyncHandler(async (req, res) => {

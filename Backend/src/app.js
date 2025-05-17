@@ -11,14 +11,31 @@ const app = express();
 //   methods: "GET, POST, OPTIONS ,PATCH",
 //   credentials: true, // if you're using cookies or authorization headers
 // };
+const allowedOrigins = [
+  "http://localhost:5173",
+];
+
+// app.use(
+//   cors({
+//     origin: process.env.CORS_ORIGIN,
+//     credentials: true,
+//   })
+// );
+
 
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN,
-    credentials: true,
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS not allowed for this origin"));
+      }
+    },
+    // origin: "*",
+    credentials: true, // only if you're using cookies
   })
 );
-
 // app.use(cors(corsOptions));
 app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));

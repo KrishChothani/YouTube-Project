@@ -18,9 +18,8 @@ function Login() {
        return;
      }
     axios({
-      
       method: "POST",
-      url: "/api/v1/users/login",
+      url: "https://youtube-backend-psi.vercel.app/api/v1/users/login",
       data: {
         email: email,
         password: password,
@@ -30,8 +29,6 @@ function Login() {
     })
       .then((res) => {
         console.log("successfully login");
-        // console.log(res);
-
         navigate("/");
       })
       .catch((error) => {
@@ -115,13 +112,13 @@ function Login() {
             value={email}
             onChange={handleEmail}
           />
-          <label htmlFor="email" className="mb-1 inline-block text-gray-300">
+          <label htmlFor="password" className="mb-1 inline-block text-gray-300">
             Password*
           </label>
           <input
             id="password"
             type="password"
-            placeholder="Enter your email"
+            placeholder="Enter Password"
             className="mb-4 rounded-lg border bg-transparent px-3 py-2"
             value={password}
             onChange={handlePassword}
@@ -129,7 +126,10 @@ function Login() {
           <button className="bg-[#ae7aff] px-4 py-3 text-black" onClick={login}>
             Sign in with Email
           </button>
-          <button className="bg-[#ae7aff] px-4 py-3 mt-5 text-black" onClick={()=>navigate('/register')}>
+          <button
+            className="bg-[#ae7aff] px-4 py-3 mt-5 text-black"
+            onClick={() => navigate("/register")}
+          >
             Register your Account
           </button>
         </div>

@@ -1,8 +1,9 @@
 import React , {useEffect,useState}from 'react'
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 function EdminDashboard() {
 
-
+  const navigate = useNavigate();
   const [videoData, setVideoData] = useState([]);
   const [filteredVideos, setFilteredVideos] = useState([]);
   const [loading, setLoadingData] = useState(true);
@@ -16,7 +17,10 @@ function EdminDashboard() {
   useEffect(() => {
     const fetchAdminData = async () => {
       try {
-        const res = await axios.get("/api/v1/users/current-user");
+        const res = await axios.get(
+          "https://youtube-backend-psi.vercel.app/api/v1/users/current-user",
+          { withCredentials: true }
+        );
         setAdmin(res.data.data);
       } catch (err) {
         setError("Failed to fetch admin data");
@@ -32,7 +36,9 @@ function EdminDashboard() {
   useEffect(() => {
     const fetchVideoData = async () => {
       try {
-        const res = await axios.get("/api/v1/videos");
+        const res = await axios.get("https://youtube-backend-psi.vercel.app/api/v1/videos", {
+          withCredentials: true,
+        });
         setVideoData(res.data.data.docs);
       } catch (err) {
         setError("Failed to fetch video data");
@@ -59,7 +65,9 @@ function EdminDashboard() {
     const fetchLikedVideos = async () => {
       try {
         if (admin) {
-          const res = await axios.get("/api/v1/likes");
+          const res = await axios.get("https://youtube-backend-psi.vercel.app/api/v1/likes", {
+            withCredentials: true,
+          });
           setLikeData(res.data.data);
         }
       } catch (err) {
@@ -80,7 +88,7 @@ function EdminDashboard() {
   //       for (const like of likeData) {
   //         try {
   //           const videoId = like.videoDetails._id; // Assuming _id is the unique identifier
-  //           const res = await axios.get(`/api/v1/videos/v/${videoId}`);
+  //           const res = await axios.get(`https://youtube-backend-psi.vercel.app/api/v1/videos/v/${videoId}`);
   //           const video = res.data.data;
 
   //           if (!likeCountMap[videoId]) {
@@ -141,7 +149,9 @@ function EdminDashboard() {
     try {
       // Make the API call to toggle the publish status
       const res = await axios.patch(
-        `/api/v1/videos/uv/${videoId}/toggle-publish`
+        `https://youtube-backend-psi.vercel.app/api/v1/videos/uv/${videoId}/toggle-publish`,
+        {},
+        { withCredentials: true }
       );
       setLoadData(!load);
     } catch (error) {
@@ -152,7 +162,8 @@ function EdminDashboard() {
      try {
        // Make the API call to toggle the publish status
        const res = await axios.delete(
-         `/api/v1/videos/uv/${videoId}`
+         `https://youtube-backend-psi.vercel.app/api/v1/videos/uv/${videoId}`,
+         { withCredentials: true }
        );
        setLoadData(!load);
      } catch (error) {
@@ -232,8 +243,9 @@ function EdminDashboard() {
                   </td>
                   <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                     <div className="flex gap-4">
-                      <button className="h-5 w-5 hover:text-[#ae7aff]"
-                        onClick={()=>deleteVideo(video._id)}
+                      <button
+                        className="h-5 w-5 hover:text-[#ae7aff]"
+                        onClick={() => deleteVideo(video._id)}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -250,7 +262,12 @@ function EdminDashboard() {
                           ></path>
                         </svg>
                       </button>
-                      <button className="h-5 w-5 hover:text-[#ae7aff]">
+                      <button
+                        className="h-5 w-5 hover:text-[#ae7aff]"
+                        onClick={() =>
+                          navigate(`/editevideodetails/${video._id}`)
+                        }
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
