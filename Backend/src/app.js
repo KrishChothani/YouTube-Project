@@ -12,6 +12,7 @@ const app = express();
 //   credentials: true, // if you're using cookies or authorization headers
 // };
 const allowedOrigins = [
+  "https://you-tube-project-ruby.vercel.app",
   "http://localhost:5173",
 ];
 
