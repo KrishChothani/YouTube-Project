@@ -13,7 +13,7 @@ function VideoDetailRightSidePannel() {
       try {
         const res = await axios({
           method: "GET",
-          url: "https://youtube-backend-psi.vercel.app/api/v1/videos",
+          url: "https://youtube-backend-psi.vercel.app/videos",
           withCredentials:true,
         });
         setVideos(res.data.data.docs);

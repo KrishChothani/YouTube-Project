@@ -10,13 +10,13 @@ function ChannelTweet() {
   const [profileUser, setProfileUser] = useState(null);
   const [tweetData, setTweetData] = useState([]);
   const [likeData, setLikeData] = useState([]);
-
+  const [newTweet, setNewTweet] = useState(""); // New tweet input
   // Fetch current user
   useEffect(() => {
     const fetchCurrUser = async () => {
       try {
         const res = await axios.get(
-          `https://youtube-backend-psi.vercel.app/api/v1/users/current-user`,
+          `https://youtube-backend-psi.vercel.app/users/current-user`,
           { withCredentials: true }
         );
         setCurrUser(res.data.data);
@@ -32,7 +32,7 @@ function ChannelTweet() {
     const fetchProfileUser = async () => {
       try {
         const res = await axios.get(
-          `https://youtube-backend-psi.vercel.app/api/v1/users/c/${userName}`,
+          `https://youtube-backend-psi.vercel.app/users/c/${userName}`,
           { withCredentials: true }
         );
         setProfileUser(res.data.data);
@@ -44,35 +44,37 @@ function ChannelTweet() {
   }, [userName]);
 
   // Fetch tweet likes
+  const fetchLikeData = async () => {
+    try {
+      const res = await axios.get(`https://youtube-backend-psi.vercel.app/likes/tweet`, {
+        withCredentials: true,
+      });
+      console.log(res.data.data);
+      setLikeData(res.data.data);
+    } catch (error) {
+      console.log("Error in fetching likes: " + error);
+    }
+  };
+
   useEffect(() => {
-    const fetchLikeData = async () => {
-      try {
-        const res = await axios.get(`https://youtube-backend-psi.vercel.app/api/v1/likes/`, {
-          withCredentials: true,
-        });
-        setLikeData(res.data.data);
-      } catch (error) {
-        console.log("Error in fetching likes: " + error);
-      }
-    };
     fetchLikeData();
   }, [profileUser]);
 
   // Fetch tweet data
+  const fetchTweetData = async () => {
+    try {
+      const res = await axios({
+        method: "GET",
+        url: `https://youtube-backend-psi.vercel.app/tweets/user/${profileUser._id}`,
+        withCredentials: true,
+      });
+      setTweetData(res.data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   useEffect(() => {
     if (profileUser) {
-      const fetchTweetData = async () => {
-        try {
-          const res = await axios({
-            method: "GET",
-            url: `https://youtube-backend-psi.vercel.app/api/v1/tweets/user/${profileUser._id}`,
-            withCredentials: true,
-          });
-          setTweetData(res.data.data);
-        } catch (error) {
-          console.error(error);
-        }
-      };
       fetchTweetData();
     }
   }, [profileUser]);
@@ -80,6 +82,7 @@ function ChannelTweet() {
   // Helper function to get the total likes for each tweet
   const getTweetLikes = (tweetId) => {
     const likes = likeData.filter((like) => like.tweet === tweetId).length;
+    console.log(likes);
     return likes;
   };
 
@@ -93,25 +96,61 @@ function ChannelTweet() {
 
   // Handle like/unlike for each tweet
   const handleToggleLiked = async (tweetId) => {
+    console.log(tweetId);
     try {
-      await axios.post(
-        `https://youtube-backend-psi.vercel.app/api/v1/likes/toggle/t/${tweetId}`,
+      const ress = await axios.post(
+        `https://youtube-backend-psi.vercel.app/likes/toggle/t/${tweetId}`,
+        {},
         { withCredentials: true }
       );
-      const res = await axios({
-        method: "GET",
-        url: `https://youtube-backend-psi.vercel.app/api/v1/likes/`,
-        withCredentials: true,
-      });
-      setLikeData(res.data.data); 
+      console.log("asdfgh", ress);
+      fetchLikeData();
+      fetchTweetData();
+      // console.log(likeData)
     } catch (error) {
       console.log("Error toggling like: " + error);
+    }
+  };
+  // ✅ Handle new tweet submission
+  const handleTweetSubmit = async () => {
+    if (!newTweet.trim()) return;
+
+    try {
+      await axios.post(
+        `https://youtube-backend-psi.vercel.app/tweets`,
+        { content: newTweet },
+        { withCredentials: true }
+      );
+      setNewTweet(""); // clear input box
+      fetchTweetData(); // refresh tweets
+    } catch (error) {
+      console.log("Error posting tweet: " + error);
     }
   };
 
   return (
     <>
       <div className="py-4">
+        {/* ✅ Tweet input box */}
+        {currUser && currUser.userName === userName && (
+          <div className="mb-6">
+            <textarea
+              value={newTweet}
+              onChange={(e) => setNewTweet(e.target.value)}
+              placeholder="What's on your mind?"
+              className="w-full p-2 rounded bg-gray-800 text-white border border-gray-600"
+              rows={3}
+            ></textarea>
+            <button
+              onClick={handleTweetSubmit}
+              className="mt-2 px-4 py-1 rounded bg-purple-600 hover:bg-purple-700 text-white"
+            >
+              Tweet
+            </button>
+          </div>
+        )}
+
+        {/* ✅ Tweets list */}
         {tweetData && tweetData.length > 0 ? (
           tweetData.map((tweet, index) => (
             <div
@@ -145,7 +184,7 @@ function ChannelTweet() {
                     className="group inline-flex items-center gap-x-1 outline-none"
                     onClick={() => handleToggleLiked(tweet._id)}
                   >
-                    <svg
+                        <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -164,15 +203,14 @@ function ChannelTweet() {
                         d="M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75A2.25 2.25 0 0116.5 4.5c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23H5.904M14.25 9h2.25M5.904 18.75c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 01-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 10.203 4.167 9.75 5 9.75h1.053c.472 0 .745.556.5.96a8.958 8.958 0 00-1.302 4.665c0 1.194.232 2.333.654 3.375z"
                       ></path>
                     </svg>
-                    {getTweetLikes(tweet._id)}{" "}
-                    {/* Display the tweet's total likes */}
+                    {getTweetLikes(tweet._id)}
                   </button>
                 </div>
               </div>
             </div>
           ))
         ) : (
-          <h1> 0 Tweets</h1>
+          <h1>0 Tweets</h1>
         )}
       </div>
     </>

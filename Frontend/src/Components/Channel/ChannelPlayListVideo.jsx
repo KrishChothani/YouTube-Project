@@ -19,7 +19,7 @@ function ChannelPlayListVideo() {
       try {
         const res = await axios({
           method: "GET",
-          url: `https://youtube-backend-psi.vercel.app/api/v1/playlists/${playlistId}`,
+          url: `https://youtube-backend-psi.vercel.app/playlists/${playlistId}`,
           withCredentials: true,
         });
         setPlaylistData(res.data.data);
@@ -39,7 +39,7 @@ function ChannelPlayListVideo() {
       const fetchSubscription = async () => {
         try {
           const res = await axios.get(
-            `https://youtube-backend-psi.vercel.app/api/v1/subscriptions/u/${playlistData.owner._id}`,
+            `https://youtube-backend-psi.vercel.app/subscriptions/u/${playlistData.owner._id}`,
             { withCredentials: true }
           );
           setSubscription(res.data.data);

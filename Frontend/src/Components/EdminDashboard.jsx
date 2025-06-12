@@ -18,7 +18,7 @@ function EdminDashboard() {
     const fetchAdminData = async () => {
       try {
         const res = await axios.get(
-          "https://youtube-backend-psi.vercel.app/api/v1/users/current-user",
+          "https://youtube-backend-psi.vercel.app/users/current-user",
           { withCredentials: true }
         );
         setAdmin(res.data.data);
@@ -36,7 +36,7 @@ function EdminDashboard() {
   useEffect(() => {
     const fetchVideoData = async () => {
       try {
-        const res = await axios.get("https://youtube-backend-psi.vercel.app/api/v1/videos", {
+        const res = await axios.get("https://youtube-backend-psi.vercel.app/videos", {
           withCredentials: true,
         });
         setVideoData(res.data.data.docs);
@@ -65,7 +65,7 @@ function EdminDashboard() {
     const fetchLikedVideos = async () => {
       try {
         if (admin) {
-          const res = await axios.get("https://youtube-backend-psi.vercel.app/api/v1/likes", {
+          const res = await axios.get("https://youtube-backend-psi.vercel.app/likes/video", {
             withCredentials: true,
           });
           setLikeData(res.data.data);
@@ -88,7 +88,7 @@ function EdminDashboard() {
   //       for (const like of likeData) {
   //         try {
   //           const videoId = like.videoDetails._id; // Assuming _id is the unique identifier
-  //           const res = await axios.get(`https://youtube-backend-psi.vercel.app/api/v1/videos/v/${videoId}`);
+  //           const res = await axios.get(`https://youtube-backend-psi.vercel.app/videos/v/${videoId}`);
   //           const video = res.data.data;
 
   //           if (!likeCountMap[videoId]) {
@@ -149,7 +149,7 @@ function EdminDashboard() {
     try {
       // Make the API call to toggle the publish status
       const res = await axios.patch(
-        `https://youtube-backend-psi.vercel.app/api/v1/videos/uv/${videoId}/toggle-publish`,
+        `https://youtube-backend-psi.vercel.app/videos/uv/${videoId}/toggle-publish`,
         {},
         { withCredentials: true }
       );
@@ -162,7 +162,7 @@ function EdminDashboard() {
      try {
        // Make the API call to toggle the publish status
        const res = await axios.delete(
-         `https://youtube-backend-psi.vercel.app/api/v1/videos/uv/${videoId}`,
+         `https://youtube-backend-psi.vercel.app/videos/uv/${videoId}`,
          { withCredentials: true }
        );
        setLoadData(!load);

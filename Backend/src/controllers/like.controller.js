@@ -75,6 +75,7 @@ const toggleTweetLike = asyncHandler(async (req, res) => {
         tweet : tweetId,
         LikedBy : req.user._id
     })
+    console.log(existingTweetLike)
 
     if(existingTweetLike){
         await existingTweetLike.deleteOne();
@@ -89,7 +90,7 @@ const toggleTweetLike = asyncHandler(async (req, res) => {
             LikedBy: req.user._id
         })
         return res.status(200).json(
-            new Apiresponse(200, 1, "Remove Like from Tweet")
+            new Apiresponse(200, 1, "Add Like from Tweet")
         )
     }
 
@@ -98,6 +99,7 @@ const toggleTweetLike = asyncHandler(async (req, res) => {
 
 const getLikedVideos = asyncHandler(async (req, res) => {
     //TODO: get all liked videos
+    console.log("working")
     const likes = await Like.aggregate([
         {
             $lookup: {
@@ -121,10 +123,8 @@ const getLikedVideos = asyncHandler(async (req, res) => {
         {
             $unwind : '$videoDetails.ownerDetails'
         }
-        
-       
     ])
-    console.log(likes)
+    // console.log(likes)
 
     if(!likes){
         throw new ApiError(401 , "something went wrong when trying to collect liked videos")
@@ -135,9 +135,52 @@ const getLikedVideos = asyncHandler(async (req, res) => {
     )
 })
 
+
+const getLikedTweet = asyncHandler(async (req, res) => {
+  //TODO: get all liked videos
+  console.log("working");
+  const likes = await Like.aggregate([
+    {
+      $lookup: {
+        from: "tweets",
+        localField: "tweet",
+        foreignField: "_id",
+        as: "tweetDetails",
+      },
+    },
+    {
+      $unwind: "$tweetDetails",
+    },
+    // {
+    //   $lookup: {
+    //     from: "users",
+    //     localField: "videoDetails.owner",
+    //     foreignField: "_id",
+    //     as: "videoDetails.ownerDetails",
+    //   },
+    // },
+    // {
+    //   $unwind: "$videoDetails.ownerDetails",
+    // },
+  ]);
+  // console.log(likes)
+
+  if (!likes) {
+    throw new ApiError(
+      401,
+      "something went wrong when trying to collect liked videos"
+    );
+  }
+
+  return res
+    .status(200)
+    .json(new Apiresponse(200, likes, "liked video fetch successfully"));
+});
+
 export {
-    toggleCommentLike,
-    toggleTweetLike,
-    toggleVideoLike,
-    getLikedVideos
-}
+  toggleCommentLike,
+  toggleTweetLike,
+  toggleVideoLike,
+  getLikedVideos,
+  getLikedTweet,
+};

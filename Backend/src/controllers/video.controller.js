@@ -125,7 +125,7 @@ const getVideoById = asyncHandler(async (req, res) => {
 
 const updateVideo = asyncHandler(async (req, res) => {
   const { videoId } = req.params;
-  console.log(videoId);
+//   console.log(videoId);
 
   if (!videoId) {
     throw new ApiError(404, "VideoId not found");

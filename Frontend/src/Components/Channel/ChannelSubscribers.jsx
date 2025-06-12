@@ -11,13 +11,13 @@ function ChannelSubscribers() {
   const [subscribedData, setSubscribedData] = useState([]);
   const [toggleSubscribedData, setToggleSubscribed] = useState(0);
   const [likedByCurrentUser , setLikedByCurrentUSer] = useState(0)
-
+  const [searchTerm, setSearchTerm] = useState("");
   // Fetch current user
   useEffect(() => {
     const fetchCurrUser = async () => {
       try {
         const res = await axios.get(
-          `https://youtube-backend-psi.vercel.app/api/v1/users/current-user`,
+          `https://youtube-backend-psi.vercel.app/users/current-user`,
           { withCredentials: true }
         );
         setCurrUser(res.data.data);
@@ -33,7 +33,7 @@ function ChannelSubscribers() {
     const fetchProfileUser = async () => {
       try {
         const res = await axios.get(
-          `https://youtube-backend-psi.vercel.app/api/v1/users/c/${userName}`,
+          `https://youtube-backend-psi.vercel.app/users/c/${userName}`,
           { withCredentials: true }
         );
         setProfileUser(res.data.data);
@@ -50,7 +50,7 @@ function ChannelSubscribers() {
       const fetchSubscription = async () => {
         try {
           const res = await axios.get(
-            `https://youtube-backend-psi.vercel.app/api/v1/subscriptions/c/${profileUser._id}`,{withCredentials:true}
+            `https://youtube-backend-psi.vercel.app/subscriptions/c/${profileUser._id}`,{withCredentials:true}
           );
           setSubscribedData(res.data.data);
         } catch (error) {
@@ -76,7 +76,7 @@ function ChannelSubscribers() {
 
   async function handleToggleSubscribed(channelId) {
     try {
-      const res = await axios.post(`https://youtube-backend-psi.vercel.app/api/v1/subscriptions/c/${channelId}`, {
+      const res = await axios.post(`https://youtube-backend-psi.vercel.app/subscriptions/c/${channelId}`, {
         userId: currUser?._id,
       },{withCredentials:true});
       setToggleSubscribed(res.data.data === 1);
@@ -84,6 +84,13 @@ function ChannelSubscribers() {
       console.log("Error: " + error);
     }
   }
+  const filteredSubscribedData = subscribedData.filter((channel) => {
+    const user = channel.channelDetails[0];
+    return (
+      user?.userName?.toLowerCase().includes(searchTerm) ||
+      user?.fullName?.toLowerCase().includes(searchTerm)
+    );
+  });
 
   return (
     <>
@@ -109,11 +116,13 @@ function ChannelSubscribers() {
           <input
             className="w-full bg-transparent outline-none"
             placeholder="Search"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
           />
         </div>
 
-        {subscribedData.length ? (
-          subscribedData.map((channels, index) => (
+        {filteredSubscribedData.length ? (
+          filteredSubscribedData.map((channels, index) => (
             <div className="flex w-full justify-between" key={index}>
               <div className="flex items-center gap-x-2">
                 <div className="h-14 w-14 shrink-0">
@@ -134,8 +143,8 @@ function ChannelSubscribers() {
               </div>
               <div className="block">
                 <button
-                  className={`group/btn px-3 py-2 text-black  ${
-                   setCommentLikedByCurrentUser(channels.channelDetails[0]._id)
+                  className={`group/btn px-3 py-2 text-black ${
+                    setCommentLikedByCurrentUser(channels.channelDetails[0]._id)
                       ? "bg-[#ae7aff]"
                       : "bg-[#ffffff]"
                   }`}
@@ -151,7 +160,7 @@ function ChannelSubscribers() {
             </div>
           ))
         ) : (
-          <h1>0 subscribedData</h1>
+          <h1>No matching channels found</h1>
         )}
       </div>
     </>
