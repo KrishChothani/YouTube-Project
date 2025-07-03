@@ -12,7 +12,7 @@ function Left_Header() {
       try {
         const res = await axios({
           method: "GET",
-          url: "https://youtube-backend-psi.vercel.app/users/current-user",
+          url: "https://youtube-backend-psi.vercel.app/api/v1/users/current-user",
           withCredentials: true,
         });
         // console.log(res.data.data);

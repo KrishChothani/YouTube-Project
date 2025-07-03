@@ -24,7 +24,7 @@ function EditVideoDetailsPopup() {
       try {
         setLoading(true);
         const res = await axios.get(
-          `https://youtube-backend-psi.vercel.app/videos/v/${videoId }`,
+          `https://youtube-backend-psi.vercel.app/api/v1/videos/v/${videoId }`,
           { withCredentials: true }
         );
         // console.log("working");
@@ -59,7 +59,7 @@ function EditVideoDetailsPopup() {
        if (thumbnail instanceof File) formData.append("thumbnail", thumbnail); // Only append if it's a File
 
        const res = await axios.patch(
-         `https://youtube-backend-psi.vercel.app/videos/uv/${videoId}`,
+         `https://youtube-backend-psi.vercel.app/api/v1/videos/uv/${videoId}`,
          formData,
          {
            withCredentials: true,
