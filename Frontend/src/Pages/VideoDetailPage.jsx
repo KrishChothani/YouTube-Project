@@ -59,7 +59,7 @@
       try {
         setLoading(true);
         const res = await axios.get(
-          `http://localhost:8000/api/v1/videos/v/${videoId}`,
+          `https://youtube-backend-psi.vercel.app/api/v1/videos/v/${videoId}`,
           { withCredentials: true }
         );
         setVideoData(res.data.data);
