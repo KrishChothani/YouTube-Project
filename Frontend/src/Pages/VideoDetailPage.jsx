@@ -31,12 +31,35 @@
   const [showPlaylistPopup, setShowPlaylistPopup] = useState(false);
   const [refreshComments, setRefreshComments] = useState(0);
 
+  // Reset all state when videoId changes
+  useEffect(() => {
+    // Reset all state
+    setVideoData(null);
+    setLoading(true);
+    setError(null);
+    setOwnerData(null);
+    setSubscription(null);
+    setToggleSubscribed(0);
+    setToggleLike(0);
+    setView(null);
+    setLike(null);
+    setTotalVideoLike(0);
+    setCommentData(null);
+    setAddComment('');
+    setRefreshComments(0);
+    hasFatch.current = false;
+    
+    // Scroll to top when video changes
+    window.scrollTo(0, 0);
+  }, [videoId]);
+
   // fetch video data
   useEffect(() => {
     const fetchVideoData = async () => {
       try {
+        setLoading(true);
         const res = await axios.get(
-          `https://youtube-backend-psi.vercel.app/api/v1/videos/v/${videoId}`,
+          `http://localhost:8000/api/v1/videos/v/${videoId}`,
           { withCredentials: true }
         );
         setVideoData(res.data.data);
