@@ -267,10 +267,11 @@
                 <div className="relative mb-4 w-full pt-[56%]">
                   <div className="absolute inset-0">
                     <video
+                      key={videoId}
                       className="h-full w-full"
                       controls
                       autoPlay
-                      muted={0}
+                      muted={false}
                       src={videoData.videoFile}
                     />
                   </div>
