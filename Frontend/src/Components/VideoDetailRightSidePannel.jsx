@@ -17,7 +17,6 @@ function VideoDetailRightSidePannel() {
           withCredentials:true,
         });
         setVideos(res.data.data.docs);
-        // console.log(videos);
       } catch (err) {
         setError(err.message || "Failed to fetch videos");
       } finally {
@@ -25,7 +24,7 @@ function VideoDetailRightSidePannel() {
       }
     };
     fetchVideos();
-  }, [loading, error]);
+  }, []); // Empty dependency array - fetch only once
   // console.log(videos[0].duration);
   if (loading) return <p>Loading videos...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -40,7 +39,7 @@ function VideoDetailRightSidePannel() {
                 <div className="w-full pt-[56%]">
                   <button
                     onClick={() => {
-                      navigate(`/video/${video._id}`), window.location.reload();
+                      navigate(`/video/${video._id}`);
                     }}
                   >
                     <div className="absolute inset-0">
