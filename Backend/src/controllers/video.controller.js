@@ -45,6 +45,59 @@ const getAllVideos = asyncHandler(async (req, res) => {
 
 
 
+/**
+ * Generate signed upload parameters for client-side upload
+ * This endpoint provides credentials for direct browser-to-Cloudinary upload
+ */
+const getUploadSignature = asyncHandler(async (req, res) => {
+    const { folder = "youtube_video", resourceType = "video" } = req.query;
+    
+    const { generateSignedUploadParams } = await import("../utils/cloudinary.js");
+    const uploadParams = generateSignedUploadParams(folder, resourceType);
+    
+    return res.status(200).json(
+        new Apiresponse(200, uploadParams, "Upload signature generated successfully")
+    );
+});
+
+/**
+ * Publish video with Cloudinary URLs (after client-side upload)
+ */
+const publishVideoWithUrls = asyncHandler(async (req, res) => {
+    const { title, description, videoUrl, thumbnailUrl, duration, publicId } = req.body;
+
+    if (!title || !description) {
+        throw new ApiError(400, "Title and description are required");
+    }
+
+    if (!videoUrl) {
+        throw new ApiError(400, "Video URL is required");
+    }
+    
+    if (!thumbnailUrl) {
+        throw new ApiError(400, "Thumbnail URL is required");
+    }
+
+    // Create video document with provided URLs
+    const video = await Video.create({
+        title,
+        description,
+        videoFile: videoUrl,
+        thumbnail: thumbnailUrl,
+        owner: req.user._id,
+        duration: duration || 0,
+        publicId: publicId || "",
+    });
+
+    return res.status(201).json(
+        new Apiresponse(200, video, "Video published successfully")
+    );
+});
+
+/**
+ * Original publish video method (for backward compatibility)
+ * Uploads through server - use for small files only
+ */
 const publishAVideo = asyncHandler(async (req, res) => {
     const { title, description } = req.body;
 
@@ -232,6 +285,8 @@ const viewUpdate = asyncHandler(async(req, res)=>{
 export {
     getAllVideos,
     publishAVideo,
+    publishVideoWithUrls,
+    getUploadSignature,
     getVideoById,
     updateVideo,
     deleteVideo,

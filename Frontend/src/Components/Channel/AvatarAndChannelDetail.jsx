@@ -19,7 +19,7 @@ function AvatarAndChannelDetail() {
     const fetchCurrUser = async () => {
       try {
         const res = await axios.get(
-          "https://youtube-backend-psi.vercel.app/api/v1/users/current-user",
+          "http://localhost:8000/api/v1/users/current-user",
           { withCredentials: true }
         );
         setUser(res.data.data);
@@ -35,7 +35,7 @@ function AvatarAndChannelDetail() {
     const fetchProfileUser = async () => {
       try {
         const res = await axios.get(
-          `https://youtube-backend-psi.vercel.app/api/v1/users/c/${userName}`,
+          `http://localhost:8000/api/v1/users/c/${userName}`,
           { withCredentials: true }
         );
         setProfileUser(res.data.data);
@@ -53,7 +53,7 @@ function AvatarAndChannelDetail() {
       const fetchSubscription = async () => {
         try {
           const res = await axios.get(
-            `https://youtube-backend-psi.vercel.app/api/v1/subscriptions/u/${profileUser._id}`,
+            `http://localhost:8000/api/v1/subscriptions/u/${profileUser._id}`,
             { withCredentials: true }
           );
           setSubscription(res.data.data || []);
@@ -73,7 +73,7 @@ function AvatarAndChannelDetail() {
       const fetchSubChannel = async () => {
         try {
           const res = await axios.get(
-            `https://youtube-backend-psi.vercel.app/api/v1/subscriptions/c/${profileUser._id}`,
+            `http://localhost:8000/api/v1/subscriptions/c/${profileUser._id}`,
             { withCredentials: true }
           );
           setSubscribedChannel(res.data.data || []);
@@ -96,13 +96,13 @@ function AvatarAndChannelDetail() {
     if (!user || !profileUser) return;
     try {
       await axios.post(
-        `https://youtube-backend-psi.vercel.app/api/v1/subscriptions/c/${profileUser._id}`,
+        `http://localhost:8000/api/v1/subscriptions/c/${profileUser._id}`,
         { userId: user._id },
         { withCredentials: true }
       );
       // Re-fetch subscription after toggling
       const res = await axios.get(
-        `https://youtube-backend-psi.vercel.app/api/v1/subscriptions/u/${profileUser._id}`,
+        `http://localhost:8000/api/v1/subscriptions/u/${profileUser._id}`,
         { withCredentials: true }
       );
       setSubscription(res.data.data || []);

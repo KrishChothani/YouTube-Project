@@ -17,7 +17,7 @@ function AllVideo({ callVideo = "" }) {
      const fetchData = async () => {
        try {
          const res = await axios.get(
-           "https://youtube-backend-psi.vercel.app/api/v1/users/current-user",
+           "http://localhost:8000/api/v1/users/current-user",
            {
              withCredentials: true,
            },
@@ -37,9 +37,9 @@ function AllVideo({ callVideo = "" }) {
        try {
          let res;
          if (callVideo === "watchhistory" && currUser) {
-           res = await axios.get("https://youtube-backend-psi.vercel.app/api/v1/users/history",{withCredentials:true});
+           res = await axios.get("http://localhost:8000/api/v1/users/history",{withCredentials:true});
          } else {
-           res = await axios.get("https://youtube-backend-psi.vercel.app/api/v1/videos",{withCredentials:true});
+           res = await axios.get("http://localhost:8000/api/v1/videos",{withCredentials:true});
          }
 
 
@@ -68,7 +68,7 @@ function AllVideo({ callVideo = "" }) {
      const fetchLikedVideos = async () => {
        try {
          if (callVideo === "likedVideo" && currUser) {
-           const resp = await axios.get("https://youtube-backend-psi.vercel.app/api/v1/likes/video",{withCredentials:true});
+           const resp = await axios.get("http://localhost:8000/api/v1/likes/video",{withCredentials:true});
            const videodata = resp.data.data
              .filter((li) => li.LikedBy === currUser._id && li.video)
              .map((li) => li.videoDetails);
@@ -88,7 +88,7 @@ function AllVideo({ callVideo = "" }) {
      const fetchLikedVideos = async () => {
        try {
          if (callVideo === "" && currUser) {
-           const resp = await axios.get("https://youtube-backend-psi.vercel.app/api/v1/likes/video", {
+           const resp = await axios.get("http://localhost:8000/api/v1/likes/video", {
              withCredentials: true,
            });
            const videodata = resp.data.data;

@@ -36,7 +36,7 @@
     const fetchVideoData = async () => {
       try {
         const res = await axios.get(
-          `https://youtube-backend-psi.vercel.app/api/v1/videos/v/${videoId}`,
+          `http://localhost:8000/api/v1/videos/v/${videoId}`,
           { withCredentials: true }
         );
         setVideoData(res.data.data);
@@ -56,7 +56,7 @@
       const fetchSubscription = async () => {
         try {
           const res = await axios.get(
-            `https://youtube-backend-psi.vercel.app/api/v1/subscriptions/u/${ownerData._id}`,
+            `http://localhost:8000/api/v1/subscriptions/u/${ownerData._id}`,
             { withCredentials: true }
           );
           setSubscription(res.data.data);
@@ -85,7 +85,7 @@
       try {
         const view = await axios({
           method: "PATCH",
-          url: `https://youtube-backend-psi.vercel.app/api/v1/videos/v/${videoId}`,
+          url: `http://localhost:8000/api/v1/videos/v/${videoId}`,
           withCredentials: true,
         });
         setView(view.data.data.data);
@@ -105,7 +105,7 @@
       try {
         const resp = await axios({
           method: "GET",
-          url: `https://youtube-backend-psi.vercel.app/api/v1/likes/video`,
+          url: `http://localhost:8000/api/v1/likes/video`,
           withCredentials: true,
         });
         setLike(resp.data.data);
@@ -144,7 +144,7 @@
       try {
         const res = await axios({
           method: "GET",
-          url: `https://youtube-backend-psi.vercel.app/api/v1/comments/${videoId}`,
+          url: `http://localhost:8000/api/v1/comments/${videoId}`,
           withCredentials: true,
         });
         setCommentData(res.data.data.comments);
@@ -161,7 +161,7 @@
      try {
       const res= await axios({
          method: "POST",
-         url: "https://youtube-backend-psi.vercel.app/api/v1/users/addVideoToWatchHistory",
+         url: "http://localhost:8000/api/v1/users/addVideoToWatchHistory",
          data :{
           videoId : videoId ,
          },
@@ -184,7 +184,7 @@
     try {
       const res = await axios({
         method: "POST",
-        url: `https://youtube-backend-psi.vercel.app/api/v1/subscriptions/c/${ownerData._id}`,
+        url: `http://localhost:8000/api/v1/subscriptions/c/${ownerData._id}`,
         data: {
           userId: `${currentUser._id}`,
         },
@@ -201,7 +201,7 @@
     try {
       const res = await axios({
         method: "POST",
-        url: `https://youtube-backend-psi.vercel.app/api/v1/likes/toggle/v/${videoId}`,
+        url: `http://localhost:8000/api/v1/likes/toggle/v/${videoId}`,
         withCredentials:true
       });
       setToggleLike(res.data.data==1);
@@ -214,7 +214,7 @@
     if(!addComment) return;
     axios({
       method : "POST",
-      url :`https://youtube-backend-psi.vercel.app/api/v1/comments/${videoId}`,
+      url :`http://localhost:8000/api/v1/comments/${videoId}`,
       data :{
         content : addComment
       },

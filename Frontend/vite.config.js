@@ -6,8 +6,8 @@ export default defineConfig({
   base: "./",
   server: {
     proxy: {
-      // '/api/v1' : 'https://youtube-backend-psi.vercel.app'
-      // "/api/v1" : "https://youtube-backend-psi.vercel.app"
+      // '/api/v1' : 'http://localhost:8000'
+      // "/api/v1" : "http://localhost:8000"
     },
   },
   plugins: [react()],

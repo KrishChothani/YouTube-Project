@@ -26,7 +26,7 @@ function MyPlaylistsPage() {
     if (!currentUser) return;
     try {
       const res = await axios.get(
-        `https://youtube-backend-psi.vercel.app/api/v1/playlists/user/${currentUser._id}`,
+        `http://localhost:8000/api/v1/playlists/user/${currentUser._id}`,
         { withCredentials: true }
       );
       setPlaylists(res.data.data);
@@ -41,7 +41,7 @@ function MyPlaylistsPage() {
     e.preventDefault();
     try {
       await axios.post(
-        "https://youtube-backend-psi.vercel.app/api/v1/playlists",
+        "http://localhost:8000/api/v1/playlists",
         formData,
         { withCredentials: true }
       );
@@ -58,7 +58,7 @@ function MyPlaylistsPage() {
     e.preventDefault();
     try {
       await axios.patch(
-        `https://youtube-backend-psi.vercel.app/api/v1/playlists/${editingPlaylist._id}`,
+        `http://localhost:8000/api/v1/playlists/${editingPlaylist._id}`,
         formData,
         { withCredentials: true }
       );
@@ -78,7 +78,7 @@ function MyPlaylistsPage() {
     }
     try {
       await axios.delete(
-        `https://youtube-backend-psi.vercel.app/api/v1/playlists/${playlistId}`,
+        `http://localhost:8000/api/v1/playlists/${playlistId}`,
         { withCredentials: true }
       );
       fetchPlaylists();

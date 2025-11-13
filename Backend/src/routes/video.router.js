@@ -1,11 +1,16 @@
 import { Router } from "express";
-import {  deleteVideo, getAllVideos, getVideoById, publishAVideo, updateVideo,togglePublishStatus, viewUpdate } from "../controllers/video.controller.js";
+import {  deleteVideo, getAllVideos, getVideoById, publishAVideo, publishVideoWithUrls, getUploadSignature, updateVideo,togglePublishStatus, viewUpdate } from "../controllers/video.controller.js";
 import { upload } from '../middlewares/multer.middleware.js';
 import { verifyJWT } from '../middlewares/auth.middleware.js';
 
 const router =  Router();
 router.use(verifyJWT);
 
+// New route for client-side upload (no file upload middleware)
+router.route("/upload-signature").get(getUploadSignature);
+router.route("/publish-with-urls").post(publishVideoWithUrls);
+
+// Original route for server-side upload (backward compatibility)
 router.route("/").post( upload.fields([
                         {
                             name:"videoFile",

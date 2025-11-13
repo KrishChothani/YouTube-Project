@@ -17,7 +17,7 @@ function ChannelPlaylist() {
       try {
         const res = await axios({
           method: "GET",
-          url: `https://youtube-backend-psi.vercel.app/api/v1/users/c/${userName}`,
+          url: `http://localhost:8000/api/v1/users/c/${userName}`,
           withCredentials: true,
         });
         setProfileUser(res.data.data);
@@ -37,7 +37,7 @@ function ChannelPlaylist() {
         try {
           const res = await axios({
             method: "GET",
-            url: `https://youtube-backend-psi.vercel.app/api/v1/playlists/user/${profileUser._id}`,
+            url: `http://localhost:8000/api/v1/playlists/user/${profileUser._id}`,
             withCredentials: true,
           });
           setPlaylistData(res.data.data);
