@@ -2,22 +2,24 @@
   import Header from '../Components/Header/Header';
   import Left_Header from '../Components/Left_Header/Left_Header';
   import VideoDetailRightSidePannel from "../Components/VideoDetailRightSidePannel";
+  import PlaylistPopup from '../Components/PlaylistPopup';
   import axios from 'axios';
   import { useState } from 'react';
   import { useNavigate, useParams } from 'react-router-dom';
   import { useRef } from 'react';
+  import { useSelector } from 'react-redux';
   
 
   function VideoDetailPage() {
   
   const navigate = useNavigate();
   const { videoId } = useParams();
+  const { currentUser } = useSelector((state) => state.user);
   const [videoData, setVideoData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [ownerData, setOwnerData] = useState(null);
   const [subscription, setSubscription] = useState(null);
-  const [user, setUser] = useState(null);
   const [toggleSubscribed, setToggleSubscribed] = useState(0);
   const [toggleLike , setToggleLike] = useState(0)
   const [view , setView] = useState(null)
@@ -26,6 +28,8 @@
   const hasFatch =useRef(false);
   const [commentData, setCommentData] = useState(null)
   const [addComment ,setAddComment]  = useState('');
+  const [showPlaylistPopup, setShowPlaylistPopup] = useState(false);
+  const [refreshComments, setRefreshComments] = useState(0);
 
   // fetch video data
   useEffect(() => {
@@ -44,7 +48,7 @@
       }
     };
     fetchVideoData();
-  }, [videoId , loading , error]); 
+  }, [videoId]); 
 
   // fetch subscription
   useEffect(() => {
@@ -58,40 +62,21 @@
           setSubscription(res.data.data);
         } catch (error) {
           setError(error);
-        } finally {
-          setLoading(false); 
         }
       };
       fetchSubscription();
     }
-  }, [ownerData, loading, error, toggleSubscribed]); 
-
-  // set fetch current user
-  useEffect(() => {
-    const fetchCurrUser = async () => {
-      try {
-        const res = await axios({
-          method: "GET",
-          url: `https://youtube-backend-psi.vercel.app/api/v1/users/current-user`,
-          withCredentials: true,
-        });
-        setUser(res.data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchCurrUser();
-  }, []);
+  }, [ownerData, toggleSubscribed]); 
 
   // set toggle subscribed
   useEffect(() => {
-    if (subscription && user) {
+    if (subscription && currentUser) {
       const isSubscribed = subscription.some(
-        (sub) => sub.subscriber._id === user._id
+        (sub) => sub.subscriber._id === currentUser._id
       );
       setToggleSubscribed(isSubscribed ? 1 : 0);
     }
-  }, [subscription, user]);
+  }, [subscription, currentUser]);
 
   // fetch view
   useEffect(() => {
@@ -130,28 +115,28 @@
       }
     };
     fetchVideolike();
-  }, [videoId , toggleLike]);
+  }, [toggleLike]);
 
   // set  total video liked 
   useEffect(() => {
-    if (like && user ) {
+    if (like && currentUser ) {
       
        const videolikes = like.filter((li) => li.video === videoId).length;
         // console.log(videolikes)
       setTotalVideoLike(videolikes);
       // console.log(totalVideoLike);
     }
-  }, [like, user, videoId]);
+  }, [like, currentUser, videoId]);
 
   // fetch toggle video like
   useEffect(()=>{
-    if(like){
+    if(like && currentUser){
       const isliked = like.some(
-        (li) => li.video === videoId && li.LikedBy === user._id
+        (li) => li.video === videoId && li.LikedBy === currentUser._id
       )
       setToggleLike(isliked ? 1 : 0)
     }
-  },[like])
+  },[like, currentUser, videoId])
 
     // fetch Comment Data
   useEffect(() => {
@@ -163,13 +148,12 @@
           withCredentials: true,
         });
         setCommentData(res.data.data.comments);
-        // console.log(commentData);
       } catch (error) {
         console.log(error);
       }
     };
     fetchCommentData();
-  }, [videoId , addComment, commentData]);
+  }, [videoId, refreshComments]);
 
   // add video to user watch history
   useEffect(()=>{
@@ -196,12 +180,13 @@
 
   // handle toggle subscribed by function
   async function handleToggleSubscribed (){
+    if (!currentUser) return;
     try {
       const res = await axios({
         method: "POST",
         url: `https://youtube-backend-psi.vercel.app/api/v1/subscriptions/c/${ownerData._id}`,
         data: {
-          userId: `${user._id}`,
+          userId: `${currentUser._id}`,
         },
         withCredentials: true,
       });
@@ -236,6 +221,7 @@
       withCredentials:true
     }).then((res)=>{
       setAddComment('');
+      setRefreshComments(prev => prev + 1); // Trigger comment refresh
     })
     .catch((error)=>{
         alert("Add Comment failed. Please check your credentials and try again.");
@@ -315,7 +301,10 @@
                         </button>
                       </div>
                       <div className="relative block">
-                        <button className="peer flex items-center gap-x-2 rounded-lg bg-white px-4 py-1.5 text-black">
+                        <button 
+                          onClick={() => setShowPlaylistPopup(true)}
+                          className="peer flex items-center gap-x-2 rounded-lg bg-white px-4 py-1.5 text-black hover:bg-gray-200"
+                        >
                           <span className="inline-block w-5">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -665,6 +654,14 @@
         </section>
         {/* </div>
         </div> */}
+        
+        {/* Playlist Popup */}
+        {showPlaylistPopup && (
+          <PlaylistPopup 
+            videoId={videoId} 
+            onClose={() => setShowPlaylistPopup(false)} 
+          />
+        )}
       </>
     );
   }

@@ -3,11 +3,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 
 function ChannelPlayListVideo() {
   const navigate = useNavigate();
   const { userName, playlistId } = useParams();
+  const { currentUser } = useSelector((state) => state.user);
   const [playlistData, setPlaylistData] = useState(null);
   const [loadingData, setLoadingData] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -44,7 +46,7 @@ function ChannelPlayListVideo() {
           );
           setSubscription(res.data.data);
         } catch (error) {
-          setError(error);
+          console.error(error);
         } finally {
           setLoading(false);
         }
@@ -52,6 +54,30 @@ function ChannelPlayListVideo() {
       fetchSubscription();
     }
   }, [loading, playlistId, userName, playlistData]);
+
+  const handleRemoveVideo = async (videoId) => {
+    if (!window.confirm("Remove this video from playlist?")) {
+      return;
+    }
+    try {
+      await axios.patch(
+        `https://youtube-backend-psi.vercel.app/api/v1/playlists/remove/${videoId}/${playlistId}`,
+        {},
+        { withCredentials: true }
+      );
+      // Refresh playlist data
+      const res = await axios.get(
+        `https://youtube-backend-psi.vercel.app/api/v1/playlists/${playlistId}`,
+        { withCredentials: true }
+      );
+      setPlaylistData(res.data.data);
+    } catch (error) {
+      console.error("Error removing video:", error);
+      alert("Failed to remove video");
+    }
+  };
+
+  const isOwner = currentUser && playlistData?.owner?._id === currentUser._id;
 
   return (
     <>
@@ -89,7 +115,7 @@ function ChannelPlayListVideo() {
                           {playlistData?.videos
                             ? playlistData.videos.length
                             : 0}
-                           videos
+                           videos
                         </span>
                       </p>
                       <p className="text-sm text-gray-200">
@@ -106,9 +132,9 @@ function ChannelPlayListVideo() {
             </p>
           </div>
           <div className="flex w-full flex-col gap-y-4">
-            {playlistData?.videos ? (
+            {playlistData?.videos && playlistData.videos.length > 0 ? (
               playlistData.videos.map((video, index) => (
-                <div className="border" key={index}>
+                <div className="border rounded-lg p-3" key={index}>
                   <div className="w-full sm:flex gap-x-4">
                     <div className="relative mb-2 w-full sm:w-5/12">
                       <div className="w-full pt-[56%]">
@@ -121,7 +147,7 @@ function ChannelPlayListVideo() {
                             <img
                               src={video.thumbnail}
                               alt={video.title}
-                              className="h-full w-full object-cover"
+                              className="h-full w-full object-cover rounded"
                             />
                           </div>
                         </button>
@@ -140,11 +166,21 @@ function ChannelPlayListVideo() {
                         />
                       </div>
                       <div className="w-full">
-                        <h6 className="mb-1 font-semibold sm:max-w-[75%]">
-                          {video.title}
-                        </h6>
+                        <div className="flex items-start justify-between gap-2">
+                          <h6 className="mb-1 font-semibold flex-1">
+                            {video.title}
+                          </h6>
+                          {isOwner && (
+                            <button
+                              onClick={() => handleRemoveVideo(video._id)}
+                              className="rounded bg-red-600 px-3 py-1 text-sm text-white hover:bg-red-700 shrink-0"
+                            >
+                              Remove
+                            </button>
+                          )}
+                        </div>
                         <p className="text-sm text-gray-200 sm:mt-3">
-                          {video.views} Views ·{" "}
+                          {video.views} Views ·{" "}
                           {(
                             (new Date() - new Date(video.createdAt)) /
                             (1000 * 60 * 60 * 24)
@@ -175,7 +211,7 @@ function ChannelPlayListVideo() {
                 </div>
               ))
             ) : (
-              <h1>no videos available</h1>
+              <h1 className="text-center text-gray-400">No videos available</h1>
             )}
           </div>
         </div>

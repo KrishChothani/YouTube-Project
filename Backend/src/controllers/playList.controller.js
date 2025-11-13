@@ -9,8 +9,8 @@ import { Video } from "../models/video.model.js"
 const createPlaylist = asyncHandler(async (req, res) => {
     const {name, description} = req.body
 
-    if(!name && !description){
-        throw new ApiError(404, "Missing name or description")
+    if(!name || !description){
+        throw new ApiError(400, "Missing name or description")
     }
 
     const playlist = await Playlist.create({
@@ -108,8 +108,8 @@ const addVideoToPlaylist = asyncHandler(async (req, res) => {
     // console.log(req.params);
     
 
-    if(!playlistId && !videoId){
-        throw new ApiError(404, "playlistId and videoId not found")
+    if(!playlistId || !videoId){
+        throw new ApiError(400, "playlistId and videoId not found")
     }
     
         const playlist = await Playlist.findByIdAndUpdate(
@@ -143,8 +143,8 @@ const removeVideoFromPlaylist = asyncHandler(async (req, res) => {
     const { videoId,playlistId} = req.params
     // TODO: remove video from playlist
 
-    if(!playlistId && !videoId){
-        throw new ApiError(404, "Missing playlist and videoid")
+    if(!playlistId || !videoId){
+        throw new ApiError(400, "Missing playlist and videoid")
     }
 
     const updatedPlaylist = await Playlist.findByIdAndUpdate(
@@ -178,7 +178,7 @@ const updatePlaylist = asyncHandler(async (req, res) => {
     const {playlistId} = req.params
     const {name, description} = req.body
 
-    if(!playlistId && !name && !description){
+    if(!playlistId || !name || !description){
         throw new ApiError(400, "Missing playlist or name or description"); 
     }
 
@@ -186,17 +186,20 @@ const updatePlaylist = asyncHandler(async (req, res) => {
         playlistId,
         {
             $set: {
-                name :name,
-                description:description
+                name: name,
+                description: description
             }
-        }
+        },
+        { new: true }
     )
-    updatedPlaylist.save()
+
+    if(!updatedPlaylist){
+        throw new ApiError(404, "Playlist not found");
+    }
 
     return res.status(200).json(
-        new Apiresponse(200, updatedPlaylist, "Update playlist successFully")
+        new Apiresponse(200, updatedPlaylist, "Update playlist successfully")
     )
-    //TODO: update playlist
 })
 
 export {

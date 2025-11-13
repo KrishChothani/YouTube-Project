@@ -1,31 +1,10 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Left_Header() {
   const navigate = useNavigate();
-
-  const [user, setUser] = useState(null);
-  // fetch currrent user
-  useEffect(() => {
-    const fetchcurrUser = async () => {
-      try {
-        const res = await axios({
-          method: "GET",
-          url: "https://youtube-backend-psi.vercel.app/api/v1/users/current-user",
-          withCredentials: true,
-        });
-        // console.log(res.data.data);
-        setUser(res.data.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    
-    fetchcurrUser();
-  
-  }, []);
-  // console.log("User:", user); 
+  const { currentUser } = useSelector((state) => state.user); 
 
   return (
     <>
@@ -106,6 +85,38 @@ function Left_Header() {
               </span>
               <span className="block sm:hidden sm:group-hover:inline lg:inline">
                 History
+              </span>
+            </button>
+          </li>
+          <li className="hidden sm:block">
+            <button
+              className="flex flex-col items-center justify-center border-white py-1 focus:text-[#ae7aff] sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-[#ae7aff] sm:hover:text-black sm:focus:border-[#ae7aff] sm:focus:bg-[#ae7aff] sm:focus:text-black sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4"
+              onClick={() => navigate("/myplaylists")}
+            >
+              <span className="inline-block w-5 shrink-0 sm:group-hover:mr-4 lg:mr-4">
+                <svg
+                  style={{ width: "100%" }}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M3 6h18M3 12h18M3 18h18"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M21 6v12"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </span>
+              <span className="block sm:hidden sm:group-hover:inline lg:inline">
+                My Playlists
               </span>
             </button>
           </li>
@@ -216,7 +227,7 @@ function Left_Header() {
           <li className="hidden sm:block">
             <button
               className="flex flex-col items-center justify-center border-white py-1 focus:text-[#ae7aff] sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-[#ae7aff] sm:hover:text-black sm:focus:border-[#ae7aff] sm:focus:bg-[#ae7aff] sm:focus:text-black sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4"
-              onClick={() => navigate(`/userProfile/${user?.userName}/videos`)}
+              onClick={() => navigate(`/userProfile/${currentUser?.userName}/videos`)}
             >
               <span className="inline-block w-5 shrink-0 sm:group-hover:mr-4 lg:mr-4">
                 <svg
