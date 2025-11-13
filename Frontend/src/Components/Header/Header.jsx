@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom';
 
 function Header() {
     const navigate = useNavigate()
-    // const [healthcheck , useHealthcheck] = useState(0);
     const [login , setLogin]  = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [showMobileSearch, setShowMobileSearch] = useState(false);
 
     
     useEffect(() => {
@@ -27,6 +28,17 @@ function Header() {
 
       fetchData();
     }, []);
+
+    const handleSearch = (e) => {
+      e.preventDefault();
+      if (searchQuery.trim()) {
+        navigate(`/?search=${encodeURIComponent(searchQuery.trim())}`);
+      }
+    };
+
+    const handleSearchInput = (e) => {
+      setSearchQuery(e.target.value);
+    };
 
   return (
     <>
@@ -87,12 +99,15 @@ function Header() {
               </defs>
             </svg>
           </div>
-          <div className="relative mx-auto hidden w-full max-w-md overflow-hidden sm:block">
+          <form onSubmit={handleSearch} className="relative mx-auto hidden w-full max-w-md overflow-hidden sm:block">
             <input
+              type="text"
+              value={searchQuery}
+              onChange={handleSearchInput}
               className="w-full border bg-transparent py-1 pl-8 pr-3 placeholder-white outline-none sm:py-2"
               placeholder="Search"
             />
-            <span className="absolute left-2.5 top-1/2 inline-block -translate-y-1/2">
+            <button type="submit" className="absolute left-2.5 top-1/2 inline-block -translate-y-1/2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -108,9 +123,45 @@ function Header() {
                   d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
                 ></path>
               </svg>
-            </span>
-          </div>
-          <button className="ml-auto sm:hidden">
+            </button>
+          </form>
+          
+          {/* Mobile Search */}
+          {showMobileSearch && (
+            <form onSubmit={handleSearch} className="absolute left-0 right-0 top-full z-50 bg-[#121212] p-4 sm:hidden">
+              <div className="relative">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={handleSearchInput}
+                  className="w-full border bg-transparent py-2 pl-8 pr-3 placeholder-white outline-none"
+                  placeholder="Search"
+                  autoFocus
+                />
+                <button type="submit" className="absolute left-2.5 top-1/2 inline-block -translate-y-1/2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="h-4 w-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </form>
+          )}
+          
+          <button 
+            className="ml-auto sm:hidden"
+            onClick={() => setShowMobileSearch(!showMobileSearch)}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

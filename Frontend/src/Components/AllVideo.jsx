@@ -7,10 +7,15 @@ import { useNavigate, useParams } from "react-router-dom";
 function AllVideo({ callVideo = "" }) {
    const navigate = useNavigate();
    const [videos, setVideos] = useState([]);
+   const [filteredVideos, setFilteredVideos] = useState([]);
    const [loading, setLoading] = useState(true);
    const [error, setError] = useState(null);
    const { userName = "" } = useParams();
    const [currUser, setCurrUser] = useState(null);
+   
+   // Get search query from URL
+   const searchParams = new URLSearchParams(window.location.search);
+   const searchQuery = searchParams.get('search') || '';
 
    // Fetch current user data
    useEffect(() => {
@@ -108,15 +113,39 @@ useEffect(() => {
     setVideos((prevVideos) => prevVideos.filter((video) => video.published));
   }
 });
+
+   // Filter videos based on search query
+   useEffect(() => {
+     if (searchQuery.trim()) {
+       const filtered = videos.filter((video) => {
+         const titleMatch = video.title?.toLowerCase().includes(searchQuery.toLowerCase());
+         const descMatch = video.description?.toLowerCase().includes(searchQuery.toLowerCase());
+         const ownerMatch = video.ownerDetails?.userName?.toLowerCase().includes(searchQuery.toLowerCase());
+         return titleMatch || descMatch || ownerMatch;
+       });
+       setFilteredVideos(filtered);
+     } else {
+       setFilteredVideos(videos);
+     }
+   }, [searchQuery, videos]);
+
    if (loading) return <p>Loading videos...</p>;
    if (error) return <p>Error: {error}</p>;
+
+   const displayVideos = filteredVideos.length > 0 ? filteredVideos : videos;
 
    return (
      <>
        <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
+         {searchQuery && (
+           <div className="p-4 text-gray-300">
+             <p>Search results for: <span className="font-semibold text-white">"{searchQuery}"</span></p>
+             <p className="text-sm">{filteredVideos.length} video(s) found</p>
+           </div>
+         )}
          <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-4 p-4">
-           {videos?.length > 0 ? (
-             videos.map((video, index) => (
+           {displayVideos?.length > 0 ? (
+             displayVideos.map((video, index) => (
                <div className="w-full" key={index}>
                  <div className="relative mb-2 w-full pt-[56%]">
                    <div className="absolute inset-0 flex items-center justify-center">
@@ -176,7 +205,9 @@ useEffect(() => {
                </div>
              ))
            ) : (
-             <p>No videos available.</p>
+             <p className="text-gray-400">
+               {searchQuery ? `No videos found for "${searchQuery}"` : 'No videos available.'}
+             </p>
            )}
          </div>
        </section>
