@@ -32,7 +32,7 @@
 
      axios({
        method: "POST",
-       url: "http://localhost:8000/api/v1/users/register",
+       url: "https://youtube-backend-psi.vercel.app/api/v1/users/register",
        withCredentials:true,
        data: formData,
        headers: {

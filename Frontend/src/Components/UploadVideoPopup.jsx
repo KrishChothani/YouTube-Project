@@ -28,7 +28,7 @@ function UploadVideoPopup() {
 
     axios({
       method: "POST",
-      url: "http://localhost:8000/api/v1/videos/",
+      url: "https://youtube-backend-psi.vercel.app/api/v1/videos/",
       data: formData,
       headers: {
         "Content-Type": "multipart/form-data",

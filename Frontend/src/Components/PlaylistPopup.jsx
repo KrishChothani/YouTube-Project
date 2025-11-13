@@ -19,7 +19,7 @@ function PlaylistPopup({ videoId, onClose }) {
       const fetchPlaylists = async () => {
         try {
           const res = await axios.get(
-            `http://localhost:8000/api/v1/playlists/user/${currentUser._id}`,
+            `https://youtube-backend-psi.vercel.app/api/v1/playlists/user/${currentUser._id}`,
             { withCredentials: true }
           );
           setPlaylists(res.data.data);
@@ -44,14 +44,14 @@ function PlaylistPopup({ videoId, onClose }) {
       if (isInPlaylist) {
         // Remove from playlist
         await axios.patch(
-          `http://localhost:8000/api/v1/playlists/remove/${videoId}/${playlistId}`,
+          `https://youtube-backend-psi.vercel.app/api/v1/playlists/remove/${videoId}/${playlistId}`,
           {},
           { withCredentials: true }
         );
       } else {
         // Add to playlist
         await axios.patch(
-          `http://localhost:8000/api/v1/playlists/add/${videoId}/${playlistId}`,
+          `https://youtube-backend-psi.vercel.app/api/v1/playlists/add/${videoId}/${playlistId}`,
           {},
           { withCredentials: true }
         );
@@ -59,7 +59,7 @@ function PlaylistPopup({ videoId, onClose }) {
       // Refresh playlists
       if (currentUser) {
         const res = await axios.get(
-          `http://localhost:8000/api/v1/playlists/user/${currentUser._id}`,
+          `https://youtube-backend-psi.vercel.app/api/v1/playlists/user/${currentUser._id}`,
           { withCredentials: true }
         );
         setPlaylists(res.data.data);
@@ -81,7 +81,7 @@ function PlaylistPopup({ videoId, onClose }) {
     setCreating(true);
     try {
       const res = await axios.post(
-        "http://localhost:8000/api/v1/playlists",
+        "https://youtube-backend-psi.vercel.app/api/v1/playlists",
         {
           name: newPlaylistName,
           description: newPlaylistDescription,
@@ -92,7 +92,7 @@ function PlaylistPopup({ videoId, onClose }) {
       // Add video to the newly created playlist
       const newPlaylistId = res.data.data._id;
       await axios.patch(
-        `http://localhost:8000/api/v1/playlists/add/${videoId}/${newPlaylistId}`,
+        `https://youtube-backend-psi.vercel.app/api/v1/playlists/add/${videoId}/${newPlaylistId}`,
         {},
         { withCredentials: true }
       );
@@ -100,7 +100,7 @@ function PlaylistPopup({ videoId, onClose }) {
       // Refresh playlists
       if (currentUser) {
         const playlistsRes = await axios.get(
-          `http://localhost:8000/api/v1/playlists/user/${currentUser._id}`,
+          `https://youtube-backend-psi.vercel.app/api/v1/playlists/user/${currentUser._id}`,
           { withCredentials: true }
         );
         setPlaylists(playlistsRes.data.data);

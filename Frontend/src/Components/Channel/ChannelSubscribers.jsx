@@ -17,7 +17,7 @@ function ChannelSubscribers() {
     const fetchCurrUser = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:8000/api/v1/users/current-user`,
+          `https://youtube-backend-psi.vercel.app/api/v1/users/current-user`,
           { withCredentials: true }
         );
         setCurrUser(res.data.data);
@@ -33,7 +33,7 @@ function ChannelSubscribers() {
     const fetchProfileUser = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:8000/api/v1/users/c/${userName}`,
+          `https://youtube-backend-psi.vercel.app/api/v1/users/c/${userName}`,
           { withCredentials: true }
         );
         setProfileUser(res.data.data);
@@ -50,7 +50,7 @@ function ChannelSubscribers() {
       const fetchSubscription = async () => {
         try {
           const res = await axios.get(
-            `http://localhost:8000/api/v1/subscriptions/c/${profileUser._id}`,{withCredentials:true}
+            `https://youtube-backend-psi.vercel.app/api/v1/subscriptions/c/${profileUser._id}`,{withCredentials:true}
           );
           setSubscribedData(res.data.data);
         } catch (error) {
@@ -76,7 +76,7 @@ function ChannelSubscribers() {
 
   async function handleToggleSubscribed(channelId) {
     try {
-      const res = await axios.post(`http://localhost:8000/api/v1/subscriptions/c/${channelId}`, {
+      const res = await axios.post(`https://youtube-backend-psi.vercel.app/api/v1/subscriptions/c/${channelId}`, {
         userId: currUser?._id,
       },{withCredentials:true});
       setToggleSubscribed(res.data.data === 1);

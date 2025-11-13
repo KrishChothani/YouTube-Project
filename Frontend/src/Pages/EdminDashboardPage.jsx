@@ -22,7 +22,7 @@ function EdminDashboardPage() {
    const fetchAdminData = async () => {
      try {
        const res = await axios.get(
-         "http://localhost:8000/api/v1/users/current-user",
+         "https://youtube-backend-psi.vercel.app/api/v1/users/current-user",
          { withCredentials: true }
        );
        setAdmin(res.data.data);
@@ -40,7 +40,7 @@ function EdminDashboardPage() {
  useEffect(() => {
    const fetchVideoData = async () => {
      try {
-       const res = await axios.get("http://localhost:8000/api/v1/videos", {withCredentials:true});
+       const res = await axios.get("https://youtube-backend-psi.vercel.app/api/v1/videos", {withCredentials:true});
        setVideoData(res.data.data.docs);
      } catch (err) {
        setError("Failed to fetch video data");
@@ -80,7 +80,7 @@ function EdminDashboardPage() {
      try {
        if (admin) {
          const res = await axios.get(
-           `http://localhost:8000/api/v1/subscriptions/u/${admin._id}`,
+           `https://youtube-backend-psi.vercel.app/api/v1/subscriptions/u/${admin._id}`,
            { withCredentials: true }
          );
          setSubscription(res.data.data);
@@ -101,7 +101,7 @@ function EdminDashboardPage() {
    const fetchLikedVideos = async () => {
      try {
        if (admin) {
-         const res = await axios.get("http://localhost:8000/api/v1/likes/video", {
+         const res = await axios.get("https://youtube-backend-psi.vercel.app/api/v1/likes/video", {
            withCredentials: true,
          });
          setLikeData(res.data.data);

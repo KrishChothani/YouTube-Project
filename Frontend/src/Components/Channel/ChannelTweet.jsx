@@ -16,7 +16,7 @@ function ChannelTweet() {
     const fetchCurrUser = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:8000/api/v1/users/current-user`,
+          `https://youtube-backend-psi.vercel.app/api/v1/users/current-user`,
           { withCredentials: true }
         );
         setCurrUser(res.data.data);
@@ -32,7 +32,7 @@ function ChannelTweet() {
     const fetchProfileUser = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:8000/api/v1/users/c/${userName}`,
+          `https://youtube-backend-psi.vercel.app/api/v1/users/c/${userName}`,
           { withCredentials: true }
         );
         setProfileUser(res.data.data);
@@ -46,7 +46,7 @@ function ChannelTweet() {
   // Fetch tweet likes
   const fetchLikeData = async () => {
     try {
-      const res = await axios.get(`http://localhost:8000/api/v1/likes/tweet`, {
+      const res = await axios.get(`https://youtube-backend-psi.vercel.app/api/v1/likes/tweet`, {
         withCredentials: true,
       });
       console.log(res.data.data);
@@ -65,7 +65,7 @@ function ChannelTweet() {
     try {
       const res = await axios({
         method: "GET",
-        url: `http://localhost:8000/api/v1/tweets/user/${profileUser._id}`,
+        url: `https://youtube-backend-psi.vercel.app/api/v1/tweets/user/${profileUser._id}`,
         withCredentials: true,
       });
       setTweetData(res.data.data);
@@ -99,7 +99,7 @@ function ChannelTweet() {
     console.log(tweetId);
     try {
       const ress = await axios.post(
-        `http://localhost:8000/api/v1/likes/toggle/t/${tweetId}`,
+        `https://youtube-backend-psi.vercel.app/api/v1/likes/toggle/t/${tweetId}`,
         {},
         { withCredentials: true }
       );
@@ -117,7 +117,7 @@ function ChannelTweet() {
 
     try {
       await axios.post(
-        `http://localhost:8000/api/v1/tweets`,
+        `https://youtube-backend-psi.vercel.app/api/v1/tweets`,
         { content: newTweet },
         { withCredentials: true }
       );
