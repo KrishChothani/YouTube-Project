@@ -34,10 +34,6 @@ export const uploadToCloudinary = async (file, resourceType = 'video', onProgres
     formData.append('timestamp', uploadParams.timestamp);
     formData.append('signature', uploadParams.signature);
     formData.append('folder', uploadParams.folder);
-    
-    if (uploadParams.upload_preset) {
-      formData.append('upload_preset', uploadParams.upload_preset);
-    }
 
     // Step 3: Upload directly to Cloudinary
     const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${uploadParams.cloud_name}/${resourceType}/upload`;
@@ -69,9 +65,13 @@ export const uploadToCloudinary = async (file, resourceType = 'video', onProgres
     };
   } catch (error) {
     console.error('Cloudinary upload error:', error);
+    const errorMessage = error.response?.data?.error?.message 
+      || error.response?.data?.message 
+      || error.message 
+      || 'Upload failed';
     return {
       success: false,
-      error: error.response?.data?.error?.message || error.message || 'Upload failed',
+      error: errorMessage,
     };
   }
 };

@@ -1,13 +1,19 @@
 import React, { useState } from 'react'
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { fetchCurrentUser } from '../store/slices/userSlice';
 
 function Login() {
 
   const navigate = useNavigate()
+  const location = useLocation()
+  const dispatch = useDispatch()
   const [email , setEmail] =useState('')
   const [password , setPassword] = useState('')
-  // const [error , setError] = useState('')
+  
+  // Get the page user was trying to access
+  const from = location.state?.from?.pathname || '/'
 
      const handleEmail = (event) => setEmail(event.target.value);
      const handlePassword = (event) => setPassword(event.target.value);
@@ -27,9 +33,12 @@ function Login() {
       
       withCredentials: true,
     })
-      .then((res) => {
+      .then(async (res) => {
         console.log("successfully login");
-        navigate("/");
+        // Fetch user data after login
+        await dispatch(fetchCurrentUser());
+        // Redirect to the page user was trying to access
+        navigate(from, { replace: true });
       })
       .catch((error) => {
         console.log(email, password);

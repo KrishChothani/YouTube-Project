@@ -36,13 +36,12 @@ const uploadOnCloudinary = async (localFilePath) => {
  */
 const generateSignedUploadParams = (folder = "youtube_video", resourceType = "video") => {
   const timestamp = Math.round(new Date().getTime() / 1000);
-  const uploadPreset = process.env.CLOUDINARY_UPLOAD_PRESET || "youtube_uploads";
   
+  // For signed uploads, we don't need upload_preset
+  // The signature itself authenticates the upload
   const params = {
     timestamp: timestamp,
     folder: folder,
-    resource_type: resourceType,
-    upload_preset: uploadPreset,
   };
 
   // Generate signature

@@ -28,23 +28,40 @@ import WatchHistoryPage from './Pages/WatchHistoryPage.jsx';
 import LikedVideoPage from './Pages/LikedVideoPage.jsx';
 import SupportPage from './Pages/SupportPage.jsx';
 import MyPlaylistsPage from './Pages/MyPlaylistsPage.jsx';
+import ProtectedRoute from './Components/ProtectedRoute.jsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+     element: (
+          <ProtectedRoute>
+            <App />
+          </ProtectedRoute>
+        ),
     children: [
       {
         path: "/",
-        element: <HomePage />,
+        element: (
+          <ProtectedRoute>
+            <HomePage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/video/:videoId",
-        element: <VideoDetailPage />,
+        element: (
+          <ProtectedRoute>
+            <VideoDetailPage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/userProfile/:userName",
-        element: <UserProfile />,
+        element: (
+          <ProtectedRoute>
+            <UserProfile />
+          </ProtectedRoute>
+        ),
         children: [
           {
             path: "videos",
@@ -70,35 +87,67 @@ const router = createBrowserRouter([
       },
       {
         path: "/uploadvideo",
-        element: <UploadVideoPage />,
+        element: (
+          <ProtectedRoute>
+            <UploadVideoPage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/uploadingvideo",
-        element: <UploadingVideoModelPopup />,
+        element: (
+          <ProtectedRoute>
+            <UploadingVideoModelPopup />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/personalInfoEdit",
-        element: <EditPersonalDetailPage />,
+        element: (
+          <ProtectedRoute>
+            <EditPersonalDetailPage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/channelInfoEdit",
-        element: <EditChannelDetailPage />,
+        element: (
+          <ProtectedRoute>
+            <EditChannelDetailPage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/editpassword",
-        element: <EditPasswordPage />,
+        element: (
+          <ProtectedRoute>
+            <EditPasswordPage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/edmindashboard",
-        element: <EdminDashboardPage />,
+        element: (
+          <ProtectedRoute>
+            <EdminDashboardPage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/editevideodetails/:videoId",
-        element: <EditVideoDetailsPopup />,
+        element: (
+          <ProtectedRoute>
+            <EditVideoDetailsPopup />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/deletevideo",
-        element: <DeleteVideoPopup />,
+        element: (
+          <ProtectedRoute>
+            <DeleteVideoPopup />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/privacypolicy",
@@ -110,19 +159,35 @@ const router = createBrowserRouter([
       },
       {
         path: "/user/history",
-        element: <WatchHistoryPage />,
+        element: (
+          <ProtectedRoute>
+            <WatchHistoryPage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/user/likedvideo",
-        element: <LikedVideoPage />,
+        element: (
+          <ProtectedRoute>
+            <LikedVideoPage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/support",
-        element: <SupportPage />,
+        element: (
+          <ProtectedRoute>
+            <SupportPage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/myplaylists",
-        element: <MyPlaylistsPage />,
+        element: (
+          <ProtectedRoute>
+            <MyPlaylistsPage />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
