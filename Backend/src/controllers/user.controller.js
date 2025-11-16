@@ -11,7 +11,7 @@ const generateAccessAndRefreshToken = async (userId) => {
     try {
         const user = await User.findById(userId)
         const accessToken = await user.generateAccessToken()
-        const refreshToken = await user.generateREfreshToken()
+        const refreshToken = await user.generateRefreshToken()
 
         user.refreshToken = refreshToken
         await user.save({ validateBeforeSave: false })
@@ -199,20 +199,20 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
         const options = {
             httpOnly: true,
             secure: true,
-            sameSite: 'Strict', // You might also want to add this for security
+            sameSite: 'None',
         };
 
-        const { accessToken, newrefreshToken } = await generateAccessAndRefreshToken(user._id);
+        const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id);
 
         return res.status(200)
             .cookie("accessToken", accessToken, options)
-            .cookie("refreshToken", newrefreshToken, options)
+            .cookie("refreshToken", refreshToken, options)
             .json(
                 new Apiresponse(
                     200,
                     {
                         accessToken,
-                        refreshToken: newrefreshToken,
+                        refreshToken: refreshToken,
                     },
                     "Access token refreshed successfully"
                 )
