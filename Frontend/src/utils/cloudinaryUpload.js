@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-const API_BASE_URL = 'https://youtube-backend-psi.vercel.app/api/v1';
+import { api } from '../store/slices/userSlice';
 
 /**
  * Upload file directly to Cloudinary from browser
@@ -14,16 +13,12 @@ const API_BASE_URL = 'https://youtube-backend-psi.vercel.app/api/v1';
 export const uploadToCloudinary = async (file, resourceType = 'video', onProgress) => {
   try {
     // Step 1: Get signed upload parameters from backend
-    const signatureResponse = await axios.get(
-      `${API_BASE_URL}/videos/upload-signature`,
-      {
-        params: {
-          folder: 'youtube_video',
-          resourceType: resourceType,
-        },
-        withCredentials: true,
-      }
-    );
+    const signatureResponse = await api.get('/videos/upload-signature', {
+      params: {
+        folder: 'youtube_video',
+        resourceType: resourceType,
+      },
+    });
 
     const uploadParams = signatureResponse.data.data;
 
@@ -127,11 +122,7 @@ export const uploadVideoWithThumbnail = async (
  */
 export const publishVideo = async (videoData) => {
   try {
-    const response = await axios.post(
-      `${API_BASE_URL}/videos/publish-with-urls`,
-      videoData,
-      { withCredentials: true }
-    );
+    const response = await api.post('/videos/publish-with-urls', videoData);
 
     return {
       success: true,

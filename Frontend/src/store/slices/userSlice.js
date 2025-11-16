@@ -3,14 +3,80 @@ import axios from 'axios';
 
 const API_BASE_URL = 'https://youtube-backend-psi.vercel.app/api/v1';
 
+// Create axios instance with credentials
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  withCredentials: true,
+});
+
+// Track if we're currently refreshing the token
+let isRefreshing = false;
+let failedQueue = [];
+
+const processQueue = (error) => {
+  failedQueue.forEach((prom) => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve();
+    }
+  });
+  failedQueue = [];
+};
+
+// Response interceptor for automatic token refresh
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    // If error is 401 and we haven't retried yet
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      
+      // If already refreshing, queue this request
+      if (isRefreshing) {
+        return new Promise((resolve, reject) => {
+          failedQueue.push({ resolve, reject });
+        })
+          .then(() => api(originalRequest))
+          .catch((err) => Promise.reject(err));
+      }
+
+      originalRequest._retry = true;
+      isRefreshing = true;
+
+      try {
+        // Try to refresh the token
+        await axios.post(
+          `${API_BASE_URL}/users/refresh-token`,
+          {},
+          { withCredentials: true }
+        );
+
+        // Token refreshed successfully
+        processQueue(null);
+        isRefreshing = false;
+
+        // Retry the original request
+        return api(originalRequest);
+      } catch (refreshError) {
+        // Refresh failed - clear queue and reject
+        processQueue(refreshError);
+        isRefreshing = false;
+        return Promise.reject(refreshError);
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
+
 // Async thunks for user operations
 export const fetchCurrentUser = createAsyncThunk(
   'user/fetchCurrentUser',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/users/current-user`, {
-        withCredentials: true,
-      });
+      const response = await api.get('/users/current-user');
       return response.data.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch user');
@@ -22,9 +88,7 @@ export const loginUser = createAsyncThunk(
   'user/login',
   async (credentials, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/users/login`, credentials, {
-        withCredentials: true,
-      });
+      const response = await api.post('/users/login', credentials);
       return response.data.data.user;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Login failed');
@@ -36,9 +100,7 @@ export const registerUser = createAsyncThunk(
   'user/register',
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/users/register`, userData, {
-        withCredentials: true,
-      });
+      const response = await api.post('/users/register', userData);
       return response.data.data.user;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Registration failed');
@@ -50,9 +112,7 @@ export const logoutUser = createAsyncThunk(
   'user/logout',
   async (_, { rejectWithValue }) => {
     try {
-      await axios.post(`${API_BASE_URL}/users/logout`, {}, {
-        withCredentials: true,
-      });
+      await api.post('/users/logout');
       return null;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Logout failed');
@@ -64,11 +124,7 @@ export const updateUserProfile = createAsyncThunk(
   'user/updateProfile',
   async (profileData, { rejectWithValue }) => {
     try {
-      const response = await axios.patch(
-        `${API_BASE_URL}/users/update-account`,
-        profileData,
-        { withCredentials: true }
-      );
+      const response = await api.patch('/users/update-account', profileData);
       return response.data.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Update failed');
@@ -80,14 +136,9 @@ export const updateUserAvatar = createAsyncThunk(
   'user/updateAvatar',
   async (formData, { rejectWithValue }) => {
     try {
-      const response = await axios.patch(
-        `${API_BASE_URL}/users/avatar`,
-        formData,
-        {
-          withCredentials: true,
-          headers: { 'Content-Type': 'multipart/form-data' },
-        }
-      );
+      const response = await api.patch('/users/avatar', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
       return response.data.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Avatar update failed');
@@ -99,14 +150,9 @@ export const updateUserCoverImage = createAsyncThunk(
   'user/updateCoverImage',
   async (formData, { rejectWithValue }) => {
     try {
-      const response = await axios.patch(
-        `${API_BASE_URL}/users/cover-image`,
-        formData,
-        {
-          withCredentials: true,
-          headers: { 'Content-Type': 'multipart/form-data' },
-        }
-      );
+      const response = await api.patch('/users/coverImage', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
       return response.data.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Cover image update failed');
@@ -118,11 +164,7 @@ export const changePassword = createAsyncThunk(
   'user/changePassword',
   async (passwordData, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        `${API_BASE_URL}/users/change-password`,
-        passwordData,
-        { withCredentials: true }
-      );
+      const response = await api.post('/users/change-password', passwordData);
       return response.data.message;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Password change failed');
@@ -278,4 +320,5 @@ const userSlice = createSlice({
 });
 
 export const { clearError, clearUser } = userSlice.actions;
+export { api }; // Export api instance for use in other files
 export default userSlice.reducer;

@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
-import axios from 'axios';
+import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { fetchCurrentUser } from '../store/slices/userSlice';
+import { loginUser } from '../store/slices/userSlice';
 
 function Login() {
 
@@ -11,6 +10,7 @@ function Login() {
   const dispatch = useDispatch()
   const [email , setEmail] =useState('')
   const [password , setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
   
   // Get the page user was trying to access
   const from = location.state?.from?.pathname || '/'
@@ -18,33 +18,24 @@ function Login() {
      const handleEmail = (event) => setEmail(event.target.value);
      const handlePassword = (event) => setPassword(event.target.value);
 
-  function login() {
+  const login = async () => {
      if (!email || !password) {
        alert("Email and Password are required");
        return;
      }
-    axios({
-      method: "POST",
-      url: "https://youtube-backend-psi.vercel.app/api/v1/users/login",
-      data: {
-        email: email,
-        password: password,
-      },
-      
-      withCredentials: true,
-    })
-      .then(async (res) => {
-        console.log("successfully login");
-        // Fetch user data after login
-        await dispatch(fetchCurrentUser());
-        // Redirect to the page user was trying to access
-        navigate(from, { replace: true });
-      })
-      .catch((error) => {
-        console.log(email, password);
-        console.error("login error", error);
-        alert("Login failed. Please check your credentials and try again.");
-      });
+     
+     setLoading(true);
+     try {
+       await dispatch(loginUser({ email, password })).unwrap();
+       console.log("Successfully logged in");
+       // Redirect to the page user was trying to access
+       navigate(from, { replace: true });
+     } catch (error) {
+       console.error("Login error:", error);
+       alert(error || "Login failed. Please check your credentials and try again.");
+     } finally {
+       setLoading(false);
+     }
   }
 
 
@@ -132,8 +123,12 @@ function Login() {
             value={password}
             onChange={handlePassword}
           />
-          <button className="bg-[#ae7aff] px-4 py-3 text-black" onClick={login}>
-            Sign in with Email
+          <button 
+            className="bg-[#ae7aff] px-4 py-3 text-black disabled:opacity-50 disabled:cursor-not-allowed" 
+            onClick={login}
+            disabled={loading}
+          >
+            {loading ? 'Signing in...' : 'Sign in with Email'}
           </button>
           <button
             className="bg-[#ae7aff] px-4 py-3 mt-5 text-black"
